@@ -2,10 +2,16 @@
 <resources>
 
     <string name="app_name">Imaginarium Festival</string>
+    <string name="artists_activity">Artistes</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+
+
+<!--  -->
 <!--     contentDescription for ImageButtons -->
+<!--  -->
+
     <string name="mainLogo">Imaginarium</string>
 
     <string name="artistImageButtonDescription">Artistes</string>

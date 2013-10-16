@@ -38,7 +38,7 @@
         android:layout_weight="1" >
 
         <ImageButton
-            android:id="@+id/artists"
+            android:id="@+id/artistsButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -48,7 +48,7 @@
             android:src="@drawable/artistes" />
 
         <ImageButton
-            android:id="@+id/infos"
+            android:id="@+id/infosButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -65,7 +65,7 @@
         android:layout_weight="1" >
 
         <ImageButton
-            android:id="@+id/programmation"
+            android:id="@+id/programmationButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -75,7 +75,7 @@
             android:src="@drawable/programmation" />
 
         <ImageButton
-            android:id="@+id/plan"
+            android:id="@+id/planButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -92,7 +92,7 @@
         android:layout_weight="1" >
 
         <ImageButton
-            android:id="@+id/photos"
+            android:id="@+id/photosButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -102,7 +102,7 @@
             android:src="@drawable/photos" />
 
         <ImageButton
-            android:id="@+id/partners"
+            android:id="@+id/partnersButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
