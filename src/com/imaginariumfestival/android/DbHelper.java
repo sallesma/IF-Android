@@ -47,6 +47,7 @@ public class DbHelper {
 		artists.add(artist3);
 		artists.add(artist4);
 		artists.add(artist5);
+		artists.add(artist6);
 	}
 
 	public List<ArtistModel> getArtists() {

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 
-public class MenuActivity extends Activity {
+public class MainMenuActivity extends Activity {
 	private ImageButton artistsButton = null;
 
 	@Override
@@ -21,7 +21,7 @@ public class MenuActivity extends Activity {
 		artistsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent toArtistsActivity = new Intent(MenuActivity.this, ArtistsActivity.class);
+				Intent toArtistsActivity = new Intent(MainMenuActivity.this, ArtistsActivity.class);
 				startActivity(toArtistsActivity);
 			}
 		});
