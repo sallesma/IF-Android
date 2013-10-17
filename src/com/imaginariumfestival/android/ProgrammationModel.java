@@ -30,4 +30,11 @@ public class ProgrammationModel {
 	public void setHour(String hour) {
 		this.hour = hour;
 	}
+
+	@Override
+	public String toString() {
+		return  stage + " - " + day + " " + hour;
+	}
+	
+	
 }
