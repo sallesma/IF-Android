@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class ArtistsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		DbHelper dbHelper = DbHelper.getInstance();
 		List<ArtistModel> artists = dbHelper.getArtists();
-
-		// Création de la ArrayList qui nous permettra d'alimenter la listView
+		Collections.sort(artists); //TODO:quand on sortira la liste de la db, inutile ?
+		
 		ArrayList<HashMap<String, String>> listItemToDisplay = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> artistItem;
 
@@ -32,17 +33,13 @@ public class ArtistsActivity extends ListActivity {
 			artistItem.put("img", String.valueOf(R.drawable.artist_icon));
 			listItemToDisplay.add(artistItem);
 		}
-
-		// Création d'un SimpleAdapter qui se chargera de mettre les items
-		// présent dans notre list (listItem) dans la vue
-		SimpleAdapter mSchedule = new SimpleAdapter(this.getBaseContext(),
+		
+		SimpleAdapter listAdapter = new SimpleAdapter(this.getBaseContext(),
 				listItemToDisplay, R.layout.artist_list_item, new String[] {
 						"img", "title", "programmation" }, new int[] {
 						R.id.artistListItemIcon, R.id.artistListItemName,
 						R.id.artistListItemProgrammation });
-
-		// On attribut à notre listActivity l'adapter que l'on vient de créer
-		setListAdapter(mSchedule);
+		setListAdapter(listAdapter);
 
 	}
 

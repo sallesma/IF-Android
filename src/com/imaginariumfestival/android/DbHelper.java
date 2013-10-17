@@ -32,12 +32,21 @@ public class DbHelper {
 		ArtistModel artist4 = new ArtistModel("", "Daft Punk",
 				"Daft Punk est un groupe français de musique électronique, originaire de Paris. Actifs depuis 1992, Thomas Bangalter et Guy-Manuel de Homem-Christo, les deux membres, ont allié à leurs sons electro, house et techno des tonalités rock, groove et disco.",
 				prog4);
+		ProgrammationModel prog5 = new ProgrammationModel("Main Stage", "31 mai", "14h");
+		ArtistModel artist5 = new ArtistModel("", "Naive New Beaters",
+				"Naive New Beaters est un groupe originaire de Paris, en France, dont la musique est un mélange d'électronique, de rock et de rap.",
+				prog5);
+		ProgrammationModel prog6 = new ProgrammationModel("Main Stage", "31 mai", "00h");
+		ArtistModel artist6 = new ArtistModel("", "Uppermost",
+				"Behdad Nejatbakhshe, better known by his stage name Uppermost, is a French electronic music producer based in Paris, France.",
+				prog6);
 		
 		artists = new ArrayList<ArtistModel>();
 		artists.add(artist1);
 		artists.add(artist2);
 		artists.add(artist3);
 		artists.add(artist4);
+		artists.add(artist5);
 	}
 
 	public List<ArtistModel> getArtists() {
