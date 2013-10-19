@@ -45,6 +45,7 @@ public class ArtistsActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
+		@SuppressWarnings("unchecked")
 		HashMap<String, String> map = (HashMap<String, String>) getListAdapter().getItem(position);
 		Toast.makeText(this, map.get("title") + " selected", Toast.LENGTH_LONG).show();
 	}

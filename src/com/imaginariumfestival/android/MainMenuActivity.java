@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 public class MainMenuActivity extends Activity {
 	private ImageButton artistsButton = null;
+	private ImageButton photosButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,14 @@ public class MainMenuActivity extends Activity {
 			public void onClick(View v) {
 				Intent toArtistsActivity = new Intent(MainMenuActivity.this, ArtistsActivity.class);
 				startActivity(toArtistsActivity);
+			}
+		});
+		photosButton = (ImageButton) findViewById(R.id.photosButton);
+		photosButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosActivity.class);
+				startActivity(toPhotosActivity);
 			}
 		});
 	}
