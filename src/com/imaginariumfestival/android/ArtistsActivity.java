@@ -2,6 +2,7 @@ package com.imaginariumfestival.android;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 public class ArtistsActivity extends ListActivity {
+	private List<ArtistModel> artists;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,18 @@ public class ArtistsActivity extends ListActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		DbHelper dbHelper = DbHelper.getInstance();
-		List<ArtistModel> artists = dbHelper.getArtists();
-		Collections.sort(artists); //TODO:quand on sortira la liste de la db, inutile ?
+		artists = dbHelper.getArtists();
+		computeListToView(new Comparator<ArtistModel>(){
+			@Override
+			public int compare(ArtistModel lhs, ArtistModel rhs) {
+				return lhs.getName().compareTo(rhs.getName());
+			}
+		});
+
+	}
+
+	private void computeListToView(Comparator<ArtistModel> comparator) {
+		Collections.sort(artists, comparator); //TODO:quand on sortira la liste de la db, inutile ?
 		
 		ArrayList<HashMap<String, String>> listItemToDisplay = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> artistItem;
@@ -44,7 +56,6 @@ public class ArtistsActivity extends ListActivity {
 						R.id.artistListItemIcon, R.id.artistListItemName,
 						R.id.artistListItemProgrammation });
 		setListAdapter(listAdapter);
-
 	}
 
 	@Override
@@ -57,16 +68,35 @@ public class ArtistsActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu, menu);
+		getMenuInflater().inflate(R.menu.menu_artists, menu);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
-
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_type_sort:
+			if (menuItem.getTitle().toString() == getString(R.string.action_type_sort)) {
+				menuItem.setTitle(R.string.action_alpha_sort);
+				computeListToView(new Comparator<ArtistModel>(){
+					@Override
+					public int compare(ArtistModel lhs, ArtistModel rhs) {
+						return lhs.getGenre().compareTo(rhs.getGenre());
+					}
+				});
+				
+			} else {
+				menuItem.setTitle(R.string.action_type_sort);
+				computeListToView(new Comparator<ArtistModel>(){
+					@Override
+					public int compare(ArtistModel lhs, ArtistModel rhs) {
+						return lhs.getName().compareTo(rhs.getName());
+					}
+				});
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(menuItem);

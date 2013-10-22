@@ -1,16 +1,18 @@
 package com.imaginariumfestival.android;
 
-public class ArtistModel implements Comparable<ArtistModel>{
+public class ArtistModel {
 	private String photoUrl;
 	private String name;
+	private String genre;
 	private String description;
 	private ProgrammationModel programmation;
 
-	public ArtistModel(String photoUrl, String name, String description,
+	public ArtistModel(String photoUrl, String name, String genre, String description,
 			ProgrammationModel programmation) {
 		super();
 		this.photoUrl = photoUrl;
 		this.name = name;
+		this.genre = genre;
 		this.description = description;
 		this.programmation = programmation;
 	}
@@ -47,9 +49,11 @@ public class ArtistModel implements Comparable<ArtistModel>{
 		this.photoUrl = photoUrl;
 	}
 
-	@Override
-	public int compareTo(ArtistModel another) {
-		return this.name.compareTo(another.getName());
+	public String getGenre() {
+		return genre;
 	}
 
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 }

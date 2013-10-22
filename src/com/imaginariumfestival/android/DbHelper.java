@@ -17,27 +17,27 @@ public class DbHelper {
 
 	private void populate() {
 		ProgrammationModel prog1 = new ProgrammationModel("Main Stage","31 mai", "22h");
-		ArtistModel artist1 = new ArtistModel("","Justice",
+		ArtistModel artist1 = new ArtistModel("","Justice", "Electro",
 				"Justice est un duo français de synthpop, musique électronique, composé de Gaspard Augé et de Xavier de Rosnay.",
 				prog1);
 		ProgrammationModel prog2 = new ProgrammationModel("Main Stage","31 mai", "20h");
-		ArtistModel artist2 = new ArtistModel("","Manu Chao",
+		ArtistModel artist2 = new ArtistModel("","Manu Chao", "Autre",
 				"Manu Chao (né José-Manuel Thomas Arthur Chao le 21 juin 1961 à Paris1) est un chanteur auteur-compositeur-interprète et musicien français d'origine espagnole et bilingue hispanophone, devenu une figure majeure du rock français et de la musique latine avec son groupe la Mano Negra.",
 				prog2);
 		ProgrammationModel prog3 = new ProgrammationModel("Main Stage","31 mai", "18h");
-		ArtistModel artist3 = new ArtistModel("","Wej",
+		ArtistModel artist3 = new ArtistModel("","Wej", "Electro",
 				"Wej (né MartinBouvier) est un auteur-compositeur étudiant vraiment très sympa.",
 				prog3);
 		ProgrammationModel prog4 = new ProgrammationModel("Main Stage", "31 mai", "16h");
-		ArtistModel artist4 = new ArtistModel("", "Daft Punk",
+		ArtistModel artist4 = new ArtistModel("", "Daft Punk", "Electro",
 				"Daft Punk est un groupe français de musique électronique, originaire de Paris. Actifs depuis 1992, Thomas Bangalter et Guy-Manuel de Homem-Christo, les deux membres, ont allié à leurs sons electro, house et techno des tonalités rock, groove et disco.",
 				prog4);
 		ProgrammationModel prog5 = new ProgrammationModel("Main Stage", "31 mai", "14h");
-		ArtistModel artist5 = new ArtistModel("", "Naive New Beaters",
+		ArtistModel artist5 = new ArtistModel("", "Naive New Beaters", "Pop",
 				"Naive New Beaters est un groupe originaire de Paris, en France, dont la musique est un mélange d'électronique, de rock et de rap.",
 				prog5);
 		ProgrammationModel prog6 = new ProgrammationModel("Main Stage", "31 mai", "00h");
-		ArtistModel artist6 = new ArtistModel("", "Uppermost",
+		ArtistModel artist6 = new ArtistModel("", "Uppermost", "Electro",
 				"Behdad Nejatbakhshe, better known by his stage name Uppermost, is a French electronic music producer based in Paris, France.",
 				prog6);
 		
