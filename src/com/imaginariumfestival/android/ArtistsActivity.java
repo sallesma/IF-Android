@@ -7,7 +7,9 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,6 +20,8 @@ public class ArtistsActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		DbHelper dbHelper = DbHelper.getInstance();
 		List<ArtistModel> artists = dbHelper.getArtists();
 		Collections.sort(artists); //TODO:quand on sortira la liste de la db, inutile ?
@@ -56,4 +60,17 @@ public class ArtistsActivity extends ListActivity {
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		switch (menuItem.getItemId()) {
+
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		default:
+			return super.onOptionsItemSelected(menuItem);
+		}
+	}
+	
 }

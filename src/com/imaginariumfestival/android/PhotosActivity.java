@@ -15,10 +15,11 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -32,7 +33,8 @@ public class PhotosActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 
 		if (checkCameraHardware(PhotosActivity.this)) {
 			setContentView(R.layout.activity_camera);
@@ -134,4 +136,16 @@ public class PhotosActivity extends Activity {
             mCamera = null;
         }
     }
+    
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		switch (menuItem.getItemId()) {
+
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		default:
+			return super.onOptionsItemSelected(menuItem);
+		}
+	}
 }
