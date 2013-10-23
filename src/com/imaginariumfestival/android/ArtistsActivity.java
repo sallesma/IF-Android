@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -14,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 public class ArtistsActivity extends ListActivity {
 	private List<ArtistModel> artists;
@@ -62,8 +62,13 @@ public class ArtistsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		@SuppressWarnings("unchecked")
 		HashMap<String, String> map = (HashMap<String, String>) getListAdapter().getItem(position);
-		Toast.makeText(this, map.get("title") + " selected", Toast.LENGTH_LONG).show();
+		Intent toArtistActivityIntent = new Intent(ArtistsActivity.this,ArtistActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("artist", map.get("title"));
+		toArtistActivityIntent.putExtras(bundle);
+		startActivity(toArtistActivityIntent);
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
