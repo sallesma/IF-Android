@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Date;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -43,7 +46,15 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		String textArtist = getArtistsFromWebService();
 		JSONArray jsonArtists = parseArtists(textArtist);
 		Boolean result  = recordArtists(jsonArtists);
-		return null;
+		
+        if(result == true) {
+            SharedPreferences pref = context.getSharedPreferences("lastSync", 0); // 0 - for private mode
+            Editor editor = pref.edit();
+            Date currentDate = new Date();
+            editor.putLong("lastSync", currentDate.getTime());
+            editor.commit();
+        }
+        return null;
 	}
 
 	@Override

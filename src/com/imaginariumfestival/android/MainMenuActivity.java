@@ -1,8 +1,11 @@
 package com.imaginariumfestival.android;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,8 +24,16 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		if (isNetworkConnected(MainMenuActivity.this)) {
-			BackTask backtask = new BackTask(this);
-			backtask.execute();
+			SharedPreferences pref = getApplicationContext().getSharedPreferences("lastSync", 0); // 0 - for private mode
+	        long millis = pref.getLong("lastSync", 0L);
+	         
+	        Date today = new Date();
+	        long todayms = today.getTime();
+	             
+	        if(todayms - millis > 86400000){
+	            BackTask backtask = new BackTask(this);
+	            backtask.execute();
+	        }
 		}
 
 		artistsButton = (ImageButton) findViewById(R.id.artistsButton);
