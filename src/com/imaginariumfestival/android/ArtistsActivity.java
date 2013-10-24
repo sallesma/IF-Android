@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.imaginariumfestival.android.data.ArtistDataSource;
+
 public class ArtistsActivity extends ListActivity {
 	private List<ArtistModel> artists;
 
@@ -23,9 +25,12 @@ public class ArtistsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		ArtistDataSource datasource = new ArtistDataSource(ArtistsActivity.this);
+		datasource.open();
+		artists = datasource.getAllArtists();
+		datasource.close();
 		
-		DbHelper dbHelper = DbHelper.getInstance();
-		artists = dbHelper.getArtists();
 		computeListToView(new Comparator<ArtistModel>(){
 			@Override
 			public int compare(ArtistModel lhs, ArtistModel rhs) {
@@ -43,16 +48,16 @@ public class ArtistsActivity extends ListActivity {
 
 		for (ArtistModel artist : artists) {
 			artistItem = new HashMap<String, String>();
+			artistItem.put("id", String.valueOf(artist.getId()));
 			artistItem.put("title", artist.getName());
-			artistItem.put("programmation", artist.getProgrammation()
-					.toString());
+			artistItem.put("programmation", artist.getProgrammation().toString());
 			artistItem.put("img", String.valueOf(R.drawable.artist_icon));
 			listItemToDisplay.add(artistItem);
 		}
 		
 		SimpleAdapter listAdapter = new SimpleAdapter(this.getBaseContext(),
 				listItemToDisplay, R.layout.artist_list_item, new String[] {
-						"img", "title", "programmation" }, new int[] {
+						"img", "title", "programmation", "id" }, new int[] {
 						R.id.artistListItemIcon, R.id.artistListItemName,
 						R.id.artistListItemProgrammation });
 		setListAdapter(listAdapter);
@@ -64,7 +69,7 @@ public class ArtistsActivity extends ListActivity {
 		HashMap<String, String> map = (HashMap<String, String>) getListAdapter().getItem(position);
 		Intent toArtistActivityIntent = new Intent(ArtistsActivity.this,ArtistActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putString("artist", map.get("title"));
+		bundle.putString("artistId", map.get("id"));
 		toArtistActivityIntent.putExtras(bundle);
 		startActivity(toArtistActivityIntent);
 	}
@@ -89,7 +94,7 @@ public class ArtistsActivity extends ListActivity {
 				computeListToView(new Comparator<ArtistModel>(){
 					@Override
 					public int compare(ArtistModel lhs, ArtistModel rhs) {
-						return lhs.getGenre().compareTo(rhs.getGenre());
+						return lhs.getStyle().compareTo(rhs.getStyle());
 					}
 				});
 				

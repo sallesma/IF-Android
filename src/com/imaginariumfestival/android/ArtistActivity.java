@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imaginariumfestival.android.data.ArtistDataSource;
+
 public class ArtistActivity extends Activity {
 	private ArtistModel artist;
 
@@ -24,20 +26,21 @@ public class ArtistActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_artist);
 		
-		Bundle  b = this.getIntent().getExtras();
-	    if (!b.containsKey("artist")) {
+		String artistId = (String) getIntent().getSerializableExtra("artistId");
+	    if (artistId == null || artistId.equals("")) {
 	    	Toast.makeText(this, "Impossible d'afficher l'artiste", Toast.LENGTH_LONG).show();
 	    } else {
-	    	String artistName = (String) getIntent().getSerializableExtra("artist");
-	    	getActionBar().setTitle(artistName);
-	    	
-	    	DbHelper dbHelper = DbHelper.getInstance();
-	    	artist = dbHelper.getArtist(artistName);
-	    	
-	    	((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_icon);
-	    	((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getProgrammation().getStage());
-	    	((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getProgrammation().getDay());
-	    	((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getProgrammation().getHour());
+	    	ArtistDataSource datasource = new ArtistDataSource(ArtistActivity.this);
+			datasource.open();
+			artist = datasource.getArtistFromId(Long.parseLong(artistId));
+			datasource.close();
+			
+			getActionBar().setTitle(artist.getName());
+
+			((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_icon);
+	    	((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getScene());
+	    	((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getJour());
+	    	((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getDebut());
 	    	((TextView)findViewById(R.id.artistDescription)).setText(artist.getDescription());
 	    	((TextView)findViewById(R.id.artistDescription)).setMovementMethod(new ScrollingMovementMethod());
 	    	

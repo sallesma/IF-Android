@@ -1,7 +1,9 @@
 package com.imaginariumfestival.android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +19,11 @@ public class MainMenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_menu);
+		
+		if (isNetworkConnected(MainMenuActivity.this)) {
+			BackTask backtask = new BackTask(this);
+			backtask.execute();
+		}
 
 		artistsButton = (ImageButton) findViewById(R.id.artistsButton);
 		artistsButton.setOnClickListener(new View.OnClickListener() {
@@ -42,5 +49,12 @@ public class MainMenuActivity extends Activity {
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
-
+	
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null
+				&& cm.getActiveNetworkInfo().isAvailable() && cm
+				.getActiveNetworkInfo().isConnected());
+	}
 }
