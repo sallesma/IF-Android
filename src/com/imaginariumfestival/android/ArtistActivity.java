@@ -46,24 +46,32 @@ public class ArtistActivity extends Activity {
 	    	
 	    	
 	    	//TODO : mettre plutot une image "no link"
-	    	if (null != artist.getYoutube() && !artist.getYoutube().equals("")) {
-		    	((ImageButton)findViewById(R.id.youtubeIcon)).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(artist.getYoutube()));
-						startActivity(intent);
-					}
-				});
+	    	if (null != artist.getWebsite() && !artist.getWebsite().equals("")) {
+	    		((ImageButton)findViewById(R.id.websiteIcon)).setOnClickListener(new OnClickListener() {
+	    			@Override
+	    			public void onClick(View v) {
+	    				Intent intent = new Intent(Intent.ACTION_VIEW);
+	    				String url = artist.getWebsite();
+	    				if (!url.startsWith("https://") && !url.startsWith("http://")){
+	    					url = "http://" + url;
+	    				}
+	    				intent.setData(Uri.parse(url));
+	    				startActivity(intent);
+	    			}
+	    		});	
 	    	} else {
-	    		((ImageButton)findViewById(R.id.youtubeIcon)).setVisibility(View.INVISIBLE);
+	    		((ImageButton) findViewById(R.id.websiteIcon)).setVisibility(View.INVISIBLE);
 	    	}
 	    	if (null != artist.getFacebook() && !artist.getFacebook().equals("")) {
 		    	((ImageButton)findViewById(R.id.facebookIcon)).setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(artist.getFacebook()));
+						String url = artist.getFacebook();
+						if (!url.startsWith("https://") && !url.startsWith("http://")){
+						    url = "http://" + url;
+						}
+						intent.setData(Uri.parse(url));
 						startActivity(intent);
 					}
 				});
@@ -75,25 +83,33 @@ public class ArtistActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(artist.getTwitter()));
+						String url = artist.getTwitter();
+						if (!url.startsWith("https://") && !url.startsWith("http://")){
+						    url = "http://" + url;
+						}
+						intent.setData(Uri.parse(url));
 						startActivity(intent);
 					}
 				});
 			} else {
 				((ImageButton)findViewById(R.id.twitterIcon)).setVisibility(View.INVISIBLE);
 			}
-		    if (null != artist.getWebsite() && !artist.getWebsite().equals("")) {
-		    	((ImageButton)findViewById(R.id.websiteIcon)).setOnClickListener(new OnClickListener() {
+	    	if (null != artist.getYoutube() && !artist.getYoutube().equals("")) {
+		    	((ImageButton)findViewById(R.id.youtubeIcon)).setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(artist.getWebsite()));
+						String url = artist.getYoutube();
+						if (!url.startsWith("https://") && !url.startsWith("http://")){
+						    url = "http://" + url;
+						}
+						intent.setData(Uri.parse(url));
 						startActivity(intent);
 					}
-				});	
-			} else {
-				((ImageButton) findViewById(R.id.websiteIcon)).setVisibility(View.INVISIBLE);
-			}
+				});
+	    	} else {
+	    		((ImageButton)findViewById(R.id.youtubeIcon)).setVisibility(View.INVISIBLE);
+	    	}
 	    }
 	}
 	
