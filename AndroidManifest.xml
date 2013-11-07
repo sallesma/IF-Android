@@ -44,6 +44,14 @@
             android:parentActivityName="com.imaginariumfestival.android.artists.ArtistsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name="com.imaginariumfestival.android.infos.InfosActivity"
+            android:label="@string/infos_activity"
+            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
         <activity
             android:name="com.imaginariumfestival.android.photos.PhotosActivity"
             android:label="@string/photos_activity"

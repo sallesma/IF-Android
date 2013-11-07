@@ -10,6 +10,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
     
     public static final String TABLE_ARTIST = "artists";
+    public static final String TABLE_INFOS = "infos";
+
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_PICTURE = "picture";
@@ -23,6 +25,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_FACEBOOK = "facebook";
     public static final String COLUMN_TWITTER = "twitter";
     public static final String COLUMN_YOUTUBE = "youtube";
+	public static final String COLUMN_IS_CATEGORY = "isCategory";
+	public static final String COLUMN_CONTENT = "content";
+	public static final String COLUMN_PARENT = "parent";
 
 	public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,12 +49,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				COLUMN_FACEBOOK + " text not null, " +
 				COLUMN_TWITTER + " text not null, " +
 				COLUMN_YOUTUBE + " text not null)");
+		db.execSQL("CREATE TABLE " + TABLE_INFOS + "(" +
+				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				COLUMN_NAME + " text not null, " +
+				COLUMN_PICTURE + " text not null, " +
+				COLUMN_IS_CATEGORY + " INTEGER not null, " +
+				COLUMN_CONTENT + " text not null, " +
+				COLUMN_PARENT + " INTEGER not null )");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if (oldVersion < newVersion ) {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTIST +";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_INFOS +";");
 			onCreate(db);
 		}
 	}

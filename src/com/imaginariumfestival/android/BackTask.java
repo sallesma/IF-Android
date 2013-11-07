@@ -25,10 +25,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.data.ArtistDataSource;
+import com.imaginariumfestival.android.data.InfosDataSource;
 import com.imaginariumfestival.android.data.MySQLiteHelper;
 
 class BackTask extends AsyncTask<Void, Integer, Void> {
-	private Context context;
+	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastSyncWithDistantDatabase";
+	
+	private final String INFOS_WEB_SERVICE_URL = "http://titouanrossier.com/ifM/api/api.php?request=infos";
+	private final String ARTISTS_WEB_SERVICE_URL = "http://titouanrossier.com/ifM/api/api.php?request=artists";
+	private Context context; 
 
 	public BackTask(Context context) {
 		this.context = context;
@@ -43,15 +48,15 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		String textArtist = getArtistsFromWebService();
-		JSONArray jsonArtists = parseArtists(textArtist);
-		Boolean result  = recordArtists(jsonArtists);
+		Boolean isArtistUpdated = getArtistsFromWebService();
+		Boolean isInfoUpdated = getInfosFromWebService();
 		
-        if(result == true) {
-            SharedPreferences pref = context.getSharedPreferences("lastSync", 0); // 0 - for private mode
+		
+        if( isArtistUpdated || isInfoUpdated) {
+            SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_FROM_DISTANT_DATABASE, 0); // 0 - for private mode
             Editor editor = pref.edit();
             Date currentDate = new Date();
-            editor.putLong("lastSync", currentDate.getTime());
+            editor.putLong(LAST_UPDATE_FROM_DISTANT_DATABASE, currentDate.getTime());
             editor.commit();
         }
         return null;
@@ -67,10 +72,10 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				Toast.LENGTH_SHORT).show();
 	}
 	
-	public String getArtistsFromWebService() {
+	private Boolean getArtistsFromWebService() {
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://titouanrossier.com/ifM/api/api.php?request=artists");
+		HttpGet httpGet = new HttpGet(ARTISTS_WEB_SERVICE_URL);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -92,10 +97,13 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return builder.toString();
+		
+		JSONArray jsonArtists = parseArtists(builder.toString());
+		Boolean result  = recordArtists(jsonArtists);
+		return result;
 	}
 	
-	public JSONArray parseArtists(String artists) {
+	private JSONArray parseArtists(String artists) {
 		JSONArray jArray = null;
 		try {
 			jArray = new JSONArray(artists);
@@ -105,7 +113,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		return jArray;
 	}
 	
-	public Boolean recordArtists(JSONArray jsonArtistsArray) {
+	private Boolean recordArtists(JSONArray jsonArtistsArray) {
 		ArtistDataSource datasource = new ArtistDataSource(context);
 		datasource.open();
 		try {
@@ -129,6 +137,73 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				datasource.createArtist(id, name, picture, genre,
 						description, jour, scene, debut, fin, website,
 						facebook, twitter, youtube);
+			}
+			datasource.close();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			datasource.close();
+			return false;
+		}
+	}
+	
+	private Boolean getInfosFromWebService() {
+		StringBuilder builder = new StringBuilder();
+		HttpClient client = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet(INFOS_WEB_SERVICE_URL);
+		try {
+			HttpResponse response = client.execute(httpGet);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					builder.append(line + "\n");
+				}
+			} else {
+				Log.e(MainMenuActivity.class.toString(), "Failed to download file");
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String jsonData = builder.toString();
+		
+		JSONArray jsonInfos = parseInfos(jsonData);
+		Boolean result  = recordInfos(jsonInfos);
+		return result;
+	}
+	
+	private JSONArray parseInfos(String infos) {
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(infos);
+		} catch (JSONException e) {
+			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		}
+		return jArray;
+	}
+	
+	private Boolean recordInfos(JSONArray jsonInfosArray) {
+		InfosDataSource datasource = new InfosDataSource(context);
+		datasource.open();
+		try {
+			for (int i = 0; i < jsonInfosArray.length(); i++) {
+				JSONObject c = jsonInfosArray.getJSONObject(i);
+				
+				Long id = c.getLong(MySQLiteHelper.COLUMN_ID);
+				String name = c.getString(MySQLiteHelper.COLUMN_NAME);
+				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
+				Boolean isCategory = Boolean.valueOf( c.getString(MySQLiteHelper.COLUMN_IS_CATEGORY) );
+				String content = c.getString(MySQLiteHelper.COLUMN_CONTENT);
+				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT) );
+				
+				datasource.createInfo(id, name, picture, isCategory, content, parent);
 			}
 			datasource.close();
 			return true;

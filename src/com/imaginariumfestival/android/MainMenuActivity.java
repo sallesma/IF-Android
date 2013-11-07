@@ -3,6 +3,7 @@ package com.imaginariumfestival.android;
 import java.util.Date;
 
 import com.imaginariumfestival.android.artists.ArtistsActivity;
+import com.imaginariumfestival.android.infos.InfosActivity;
 import com.imaginariumfestival.android.photos.PhotosActivity;
 
 import android.app.Activity;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 
 public class MainMenuActivity extends Activity {
 	private ImageButton artistsButton = null;
+	private ImageButton infosButton = null;
 	private ImageButton photosButton = null;
 
 	@Override
@@ -27,8 +29,8 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		if (isNetworkConnected(MainMenuActivity.this)) {
-			SharedPreferences pref = getApplicationContext().getSharedPreferences("lastSync", 0); // 0 - for private mode
-	        long millis = pref.getLong("lastSync", 0L);
+			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0); // 0 - for private mode
+	        long millis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
 	         
 	        Date today = new Date();
 	        long todayms = today.getTime();
@@ -39,23 +41,9 @@ public class MainMenuActivity extends Activity {
 	        }
 		}
 
-		artistsButton = (ImageButton) findViewById(R.id.artistsButton);
-		artistsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent toArtistsActivity = new Intent(MainMenuActivity.this, ArtistsActivity.class);
-				startActivity(toArtistsActivity);
-			}
-		});
-		photosButton = (ImageButton) findViewById(R.id.photosButton);
-		photosButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosActivity.class);
-				startActivity(toPhotosActivity);
-			}
-		});
+		initialiseButtonsLinks();
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,5 +58,32 @@ public class MainMenuActivity extends Activity {
 		return (cm.getActiveNetworkInfo() != null
 				&& cm.getActiveNetworkInfo().isAvailable() && cm
 				.getActiveNetworkInfo().isConnected());
+	}
+	
+	private void initialiseButtonsLinks() {
+		artistsButton = (ImageButton) findViewById(R.id.artistsButton);
+		artistsButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toArtistsActivity = new Intent(MainMenuActivity.this, ArtistsActivity.class);
+				startActivity(toArtistsActivity);
+			}
+		});
+		infosButton = (ImageButton) findViewById(R.id.infosButton);
+		infosButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toInfosActivity = new Intent(MainMenuActivity.this, InfosActivity.class);
+				startActivity(toInfosActivity);
+			}
+		});
+		photosButton = (ImageButton) findViewById(R.id.photosButton);
+		photosButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosActivity.class);
+				startActivity(toPhotosActivity);
+			}
+		});
 	}
 }
