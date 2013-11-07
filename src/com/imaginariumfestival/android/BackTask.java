@@ -51,7 +51,6 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		Boolean isArtistUpdated = getArtistsFromWebService();
 		Boolean isInfoUpdated = getInfosFromWebService();
 		
-		
         if( isArtistUpdated || isInfoUpdated) {
             SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_FROM_DISTANT_DATABASE, 0); // 0 - for private mode
             Editor editor = pref.edit();
@@ -73,44 +72,16 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private Boolean getArtistsFromWebService() {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(ARTISTS_WEB_SERVICE_URL);
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line + "\n");
-				}
-			} else {
-				Log.e(MainMenuActivity.class.toString(), "Failed to download file");
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String artistsFromDistantDatabase = getDataFromDistantDatabase(ARTISTS_WEB_SERVICE_URL);
 		
-		JSONArray jsonArtists = parseArtists(builder.toString());
-		Boolean result  = recordArtists(jsonArtists);
-		return result;
-	}
-	
-	private JSONArray parseArtists(String artists) {
-		JSONArray jArray = null;
+		JSONArray jsonArtists = null;
 		try {
-			jArray = new JSONArray(artists);
+			jsonArtists = new JSONArray(artistsFromDistantDatabase);
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
-		return jArray;
+		Boolean result  = recordArtists(jsonArtists);
+		return result;
 	}
 	
 	private Boolean recordArtists(JSONArray jsonArtistsArray) {
@@ -148,45 +119,16 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private Boolean getInfosFromWebService() {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(INFOS_WEB_SERVICE_URL);
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line + "\n");
-				}
-			} else {
-				Log.e(MainMenuActivity.class.toString(), "Failed to download file");
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String jsonData = builder.toString();
+		String infosFromDistantDatabase = getDataFromDistantDatabase(INFOS_WEB_SERVICE_URL);
 		
-		JSONArray jsonInfos = parseInfos(jsonData);
-		Boolean result  = recordInfos(jsonInfos);
-		return result;
-	}
-	
-	private JSONArray parseInfos(String infos) {
-		JSONArray jArray = null;
+		JSONArray jsonInfos = null;
 		try {
-			jArray = new JSONArray(infos);
+			jsonInfos = new JSONArray(infosFromDistantDatabase);
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
-		return jArray;
+		Boolean result  = recordInfos(jsonInfos);
+		return result;
 	}
 	
 	private Boolean recordInfos(JSONArray jsonInfosArray) {
@@ -212,5 +154,34 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 			datasource.close();
 			return false;
 		}
+	}
+	
+	private String getDataFromDistantDatabase(String URL) {
+		StringBuilder builder = new StringBuilder();
+		HttpClient client = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet(URL);
+		try {
+			HttpResponse response = client.execute(httpGet);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					builder.append(line + "\n");
+				}
+			} else {
+				Log.e(MainMenuActivity.class.toString(), "Failed to download file");
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return builder.toString();
 	}
 }
