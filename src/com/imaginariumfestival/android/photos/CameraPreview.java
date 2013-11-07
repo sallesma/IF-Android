@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android;
+package com.imaginariumfestival.android.photos;
 
 import java.io.IOException;
 

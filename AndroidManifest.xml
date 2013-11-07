@@ -8,8 +8,8 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
-    <uses-permission android:name="android.permission.INTERNET" /> 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -33,22 +33,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ArtistsActivity"
+            android:name="com.imaginariumfestival.android.artists.ArtistsActivity"
             android:label="@string/artists_activity"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity" >
+            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ArtistActivity"
+            android:name="com.imaginariumfestival.android.artists.ArtistActivity"
             android:label="@string/artist_activity"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.imaginariumfestival.android.ArtistsActivity" >
+            android:parentActivityName="com.imaginariumfestival.android.artists.ArtistsActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".PhotosActivity"
+            android:name="com.imaginariumfestival.android.photos.PhotosActivity"
             android:label="@string/photos_activity"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity" >
+            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

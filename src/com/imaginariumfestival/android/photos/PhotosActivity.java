@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android;
+package com.imaginariumfestival.android.photos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+
+import com.imaginariumfestival.android.R;
 
 
 //TODO : problème quand on ouvre une autre appli puis qu'on revient sur l'appareil photo

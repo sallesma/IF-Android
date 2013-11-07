@@ -126,8 +126,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				String twitter = c.getString(MySQLiteHelper.COLUMN_TWITTER);
 				String youtube = c.getString(MySQLiteHelper.COLUMN_YOUTUBE);
 
-				ArtistModel artist = null;
-				artist = datasource.createArtist(id, name, picture, genre,
+				datasource.createArtist(id, name, picture, genre,
 						description, jour, scene, debut, fin, website,
 						facebook, twitter, youtube);
 			}

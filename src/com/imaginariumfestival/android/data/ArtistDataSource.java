@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.imaginariumfestival.android.ArtistModel;
+import com.imaginariumfestival.android.artists.ArtistModel;
 
 public class ArtistDataSource {
 	// Database fields

@@ -2,6 +2,9 @@ package com.imaginariumfestival.android;
 
 import java.util.Date;
 
+import com.imaginariumfestival.android.artists.ArtistsActivity;
+import com.imaginariumfestival.android.photos.PhotosActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

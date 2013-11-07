@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android;
+package com.imaginariumfestival.android.artists;
 
 public class ArtistModel {
 	private long id;

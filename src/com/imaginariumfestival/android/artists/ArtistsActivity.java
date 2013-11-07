@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android;
+package com.imaginariumfestival.android.artists;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.data.ArtistDataSource;
 
 public class ArtistsActivity extends ListActivity {
