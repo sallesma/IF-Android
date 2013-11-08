@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -21,12 +22,16 @@ import com.imaginariumfestival.android.data.InfosDataSource;
 
 public class InfosActivity extends ListActivity {
 	private List<InfoModel> infos;
+	private Stack<Long> CategoryIdPathFromRoot;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
+		CategoryIdPathFromRoot = new Stack<Long>();
+		CategoryIdPathFromRoot.push((long) 0);
+		
 		InfosDataSource datasource = new InfosDataSource(InfosActivity.this);
 		datasource.open();
 		infos = datasource.getAllInfos();
@@ -74,7 +79,9 @@ public class InfosActivity extends ListActivity {
 		@SuppressWarnings("unchecked")
 		HashMap<String, String> mapItem = (HashMap<String, String>) getListAdapter().getItem(position);
 		if ( Boolean.valueOf(mapItem.get("isCategory")) ) {
-			computeListToView(Long.valueOf( mapItem.get("id") ));
+			Long selectedId = Long.valueOf( mapItem.get("id") );
+			CategoryIdPathFromRoot.push(selectedId);
+			computeListToView( selectedId );
 		} else {
 			Toast.makeText(InfosActivity.this, "Quand l'activité existera ;)", Toast.LENGTH_SHORT).show();
 //			Intent toInfoActivityIntent = new Intent(InfosActivity.this, InfosActivity.class);
@@ -97,7 +104,12 @@ public class InfosActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			if ( CategoryIdPathFromRoot.peek() == 0 ) {
+				NavUtils.navigateUpFromSameTask(this);
+			} else {
+				CategoryIdPathFromRoot.pop();
+				computeListToView( CategoryIdPathFromRoot.peek() );
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(menuItem);
