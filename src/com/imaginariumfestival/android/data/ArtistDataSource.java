@@ -55,6 +55,7 @@ public class ArtistDataSource {
         }
         else {
             ContentValues values = new ContentValues();
+            values.put(MySQLiteHelper.COLUMN_ID, id);
             values.put(MySQLiteHelper.COLUMN_NAME, name);
             values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
             values.put(MySQLiteHelper.COLUMN_STYLE, style);
