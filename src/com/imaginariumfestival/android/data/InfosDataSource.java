@@ -36,7 +36,7 @@ public class InfosDataSource {
     }
     
 	public InfoModel createInfo(long id, String name, String picture,
-			Boolean isCategory, String content, long parent) {
+			String isCategory, String content, long parent) {
 		Boolean exist = existInfoWithId(id);
  
         if(exist == true){
@@ -46,6 +46,7 @@ public class InfosDataSource {
         }
         else {
             ContentValues values = new ContentValues();
+            values.put(MySQLiteHelper.COLUMN_ID, id);
             values.put(MySQLiteHelper.COLUMN_NAME, name);
             values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
             values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
@@ -65,7 +66,7 @@ public class InfosDataSource {
 	
 	public InfoModel updateiInfo(Long id, InfoModel info){
         ContentValues values = new ContentValues();
- 
+        
         values.put(MySQLiteHelper.COLUMN_NAME, info.getName());
         values.put(MySQLiteHelper.COLUMN_PICTURE, info.getPicture());
         values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, info.getIsCategory());
@@ -139,7 +140,11 @@ public class InfosDataSource {
         info.setId(cursor.getInt(0));
         info.setName(cursor.getString(1));
         info.setPicture(cursor.getString(2));
-        info.setIsCategory ( Boolean.valueOf( cursor.getString(3) ) );
+        if (cursor.getString(3).equals("1")) {
+        	info.setIsCategory ( true );
+        } else {
+        	info.setIsCategory ( false );
+        }
         info.setContent(cursor.getString(4));
         info.setParent(cursor.getLong(5));
         return info;
