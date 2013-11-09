@@ -46,7 +46,6 @@ public class PhotosActivity extends Activity {
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
 
-			// Add a listener to the Capture button
 			Button captureButton = (Button) findViewById(R.id.button_capture);
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -77,18 +76,17 @@ public class PhotosActivity extends Activity {
 	public static Camera getCameraInstance() {
 		Camera c = null;
 		try {
-			c = Camera.open(); // attempt to get a Camera instance
+			c = Camera.open();
 		} catch (Exception e) {
-			// Camera is not available (in use or does not exist)
+			
 		}
-		return c; // returns null if camera is unavailable
+		return c;
 	}
 	
 	private PictureCallback mPicture = new PictureCallback() {
 
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
-
 	        File pictureFile = getOutputMediaFile();
 	        if (pictureFile == null){
 	            Log.d("DEBUG", "Error creating media file, check storage permissions: ");
@@ -109,7 +107,6 @@ public class PhotosActivity extends Activity {
 	
 	/** Create a File for saving the image */
     private File getOutputMediaFile(){
- 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                   Environment.DIRECTORY_PICTURES), "Imaginarium Festival Pictures");
  
@@ -134,15 +131,27 @@ public class PhotosActivity extends Activity {
     protected void onPause() {
         super.onPause();
         if (mCamera != null){
-            mCamera.release();        // release the camera for other applications
+        	mCamera.setPreviewCallback(null);
+        	mPreview.getHolder().removeCallback(mPreview);
+        	mCamera.release();        // release the camera for other applications
             mCamera = null;
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCamera == null){
+        	mCamera = getCameraInstance();
+        	mPreview = new CameraPreview(this, mCamera);
+        	FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+			preview.addView(mPreview);
         }
     }
     
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
-
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
