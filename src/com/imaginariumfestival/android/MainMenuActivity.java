@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.imaginariumfestival.android.artists.ArtistsActivity;
 import com.imaginariumfestival.android.infos.InfosActivity;
-import com.imaginariumfestival.android.photos.PhotosActivity;
+import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -81,7 +81,7 @@ public class MainMenuActivity extends Activity {
 		photosButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosActivity.class);
+				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
 				startActivity(toPhotosActivity);
 			}
 		});

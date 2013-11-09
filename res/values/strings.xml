@@ -5,7 +5,8 @@
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
     <string name="infos_activity">Infos</string>
-    <string name="photos_activity">Photos</string>
+    <string name="photos_taking_activity">Photos</string>
+    <string name="photos_validating_activity">Photos</string>
     <string name="action_settings">Settings</string>
 
     <!--  -->
@@ -54,5 +55,10 @@
     <!-- Photo Activity-->
     <!--  -->
     <string name="camera_take">Prendre</string>
+    <string name="picture_taken">Photo prise</string>
+
+    <string name="send_facebook">Partager sur facebook</string>
+    <string name="send_twitter">Twitter</string>
+    <string name="send_mail">Envoyer par mail</string>
 
 </resources>

@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -25,9 +26,7 @@ import android.widget.FrameLayout;
 
 import com.imaginariumfestival.android.R;
 
-
-//TODO : problème quand on ouvre une autre appli puis qu'on revient sur l'appareil photo
-public class PhotosActivity extends Activity {
+public class PhotosTakingActivity extends Activity {
 
 	private Camera mCamera;
 	private CameraPreview mPreview;
@@ -38,7 +37,7 @@ public class PhotosActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 
-		if (checkCameraHardware(PhotosActivity.this)) {
+		if (checkCameraHardware(PhotosTakingActivity.this)) {
 			setContentView(R.layout.activity_camera);
 
 			mCamera = getCameraInstance();
@@ -52,6 +51,7 @@ public class PhotosActivity extends Activity {
 				public void onClick(View v) {
 					// get an image from the camera
 					mCamera.takePicture(null, null, mPicture);
+					
 				}
 			});
 		}
@@ -87,6 +87,7 @@ public class PhotosActivity extends Activity {
 
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
+			
 	        File pictureFile = getOutputMediaFile();
 	        if (pictureFile == null){
 	            Log.d("DEBUG", "Error creating media file, check storage permissions: ");
@@ -102,7 +103,10 @@ public class PhotosActivity extends Activity {
 	        } catch (IOException e) {
 	            Log.d("DEBUG", "Error accessing file: " + e.getMessage());
 	        }
+	        
+	        goToValidationActivity(pictureFile.getAbsolutePath());
 	    }
+
 	};
 	
 	/** Create a File for saving the image */
@@ -126,6 +130,13 @@ public class PhotosActivity extends Activity {
         return mediaFile;
     }
     
+    private void goToValidationActivity(String pictureFilePath) {
+    	Intent toPictureValidatingActivityIntent = new Intent(PhotosTakingActivity.this, PhotosValidatingActivity.class);
+    	Bundle bundle = new Bundle();
+    	bundle.putString("picturePath", pictureFilePath);
+    	toPictureValidatingActivityIntent.putExtras(bundle);
+    	startActivity(toPictureValidatingActivityIntent);
+    }
     
     @Override
     protected void onPause() {

@@ -53,9 +53,15 @@
         </activity>
         
         <activity
-            android:name="com.imaginariumfestival.android.photos.PhotosActivity"
-            android:label="@string/photos_activity"
+            android:name="com.imaginariumfestival.android.photos.PhotosTakingActivity"
+            android:label="@string/photos_taking_activity"
             android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.imaginariumfestival.android.photos.PhotosValidatingActivity"
+            android:label="@string/photos_validating_activity"
+            android:parentActivityName="com.imaginariumfestival.android.photos.PhotosTakingActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>
