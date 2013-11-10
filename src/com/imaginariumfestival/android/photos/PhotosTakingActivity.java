@@ -40,7 +40,8 @@ public class PhotosTakingActivity extends Activity {
 		if (checkCameraHardware(PhotosTakingActivity.this)) {
 			setContentView(R.layout.activity_camera);
 
-			mCamera = getCameraInstance();
+			mCamera = setUpCameraInstance();
+			
 			mPreview = new CameraPreview(this, mCamera);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
@@ -73,14 +74,18 @@ public class PhotosTakingActivity extends Activity {
 		}
 	}
 
-	public static Camera getCameraInstance() {
-		Camera c = null;
+	public static Camera setUpCameraInstance() {
+		Camera camera = null;
 		try {
-			c = Camera.open();
+			camera = Camera.open();
+			
+			Camera.Parameters params = camera.getParameters();
+			params.set("rotation", 90);
+			camera.setParameters(params);
 		} catch (Exception e) {
 			
 		}
-		return c;
+		return camera;
 	}
 	
 	private PictureCallback mPicture = new PictureCallback() {
@@ -153,7 +158,7 @@ public class PhotosTakingActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (mCamera == null){
-        	mCamera = getCameraInstance();
+        	mCamera = setUpCameraInstance();
         	mPreview = new CameraPreview(this, mCamera);
         	FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);

@@ -63,6 +63,7 @@
     <string name="camera_take">Prendre</string>
     <string name="picture_taken">Photo prise</string>
 
+    <string name="whatToDo">Que faire avec cette photo ?</string>
     <string name="send_facebook">Partager sur facebook</string>
     <string name="send_twitter">Twitter</string>
     <string name="send_mail">Envoyer par mail</string>
