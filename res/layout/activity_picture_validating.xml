@@ -6,45 +6,19 @@
 
     <ImageView
         android:id="@+id/picture_taken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/picture_taken"
+        android:scaleType="centerInside" />
+
+    <Button
+        android:id="@+id/button_share"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
-    <TextView
-        android:id="@+id/whatToDo"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/whatToDo"
-        android:textColor="#444444"
+        android:text="@string/share"
         android:textSize="17sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button_send_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/send_facebook" />
-        <Button
-            android:id="@+id/button_send_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/send_twitter" />
-        <Button
-            android:id="@+id/button_send_mail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/send_mail" />
-
-    </LinearLayout>
 
 </LinearLayout>

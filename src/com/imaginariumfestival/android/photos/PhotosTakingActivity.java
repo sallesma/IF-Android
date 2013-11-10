@@ -38,7 +38,7 @@ public class PhotosTakingActivity extends Activity {
 		
 
 		if (checkCameraHardware(PhotosTakingActivity.this)) {
-			setContentView(R.layout.activity_camera);
+			setContentView(R.layout.activity_picture_taking);
 
 			mCamera = setUpCameraInstance();
 			
