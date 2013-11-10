@@ -21,7 +21,7 @@ public class InfosDataSource {
 			MySQLiteHelper.COLUMN_PICTURE,
 			MySQLiteHelper.COLUMN_IS_CATEGORY, 
 			MySQLiteHelper.COLUMN_CONTENT,
-			MySQLiteHelper.COLUMN_PARENT };
+			MySQLiteHelper.COLUMN_PARENT_ID };
  
     public InfosDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -51,7 +51,7 @@ public class InfosDataSource {
             values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
             values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
             values.put(MySQLiteHelper.COLUMN_CONTENT, content);
-            values.put(MySQLiteHelper.COLUMN_PARENT, parent);
+            values.put(MySQLiteHelper.COLUMN_PARENT_ID, parent);
             long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_INFOS, null,
                     values);
             Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS,
@@ -71,7 +71,7 @@ public class InfosDataSource {
         values.put(MySQLiteHelper.COLUMN_PICTURE, info.getPicture());
         values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, info.getIsCategory());
         values.put(MySQLiteHelper.COLUMN_CONTENT, info.getContent());
-        values.put(MySQLiteHelper.COLUMN_PARENT, info.getParent());
+        values.put(MySQLiteHelper.COLUMN_PARENT_ID, info.getParentId());
  
         database.update(MySQLiteHelper.TABLE_INFOS, values, MySQLiteHelper.COLUMN_ID + " = " +info.getId(), null);
  
@@ -81,16 +81,6 @@ public class InfosDataSource {
 	public InfoModel getInfoFromId(long id) {
 		Cursor c = database.query(MySQLiteHelper.TABLE_INFOS, allColumns,
 				MySQLiteHelper.COLUMN_ID + " = \"" + id + "\"", null, null,
-				null, null);
-		c.moveToFirst();
-		InfoModel info = cursorToInfos(c);
-		c.close();
-		return info;
-	}
-	
-	public InfoModel getInfoFromName(String name) {
-		Cursor c = database.query(MySQLiteHelper.TABLE_INFOS, allColumns,
-				MySQLiteHelper.COLUMN_NAME + " = \"" + name + "\"", null, null,
 				null, null);
 		c.moveToFirst();
 		InfoModel info = cursorToInfos(c);
@@ -137,16 +127,20 @@ public class InfosDataSource {
 	
 	private InfoModel cursorToInfos(Cursor cursor) {
         InfoModel info = new InfoModel();
-        info.setId(cursor.getInt(0));
-        info.setName(cursor.getString(1));
-        info.setPicture(cursor.getString(2));
-        if (cursor.getString(3).equals("1")) {
-        	info.setIsCategory ( true );
+        if  ( cursor.getCount() > 0 ) {
+        	info.setId(cursor.getInt(0));
+	        info.setName(cursor.getString(1));
+	        info.setPicture(cursor.getString(2));
+	        if (cursor.getString(3).equals("1")) {
+	        	info.setIsCategory ( true );
+	        } else {
+	        	info.setIsCategory ( false );
+	        }
+	        info.setContent(cursor.getString(4));
+	        info.setParentId(cursor.getLong(5));
+	        return info;
         } else {
-        	info.setIsCategory ( false );
+        	return null;
         }
-        info.setContent(cursor.getString(4));
-        info.setParent(cursor.getLong(5));
-        return info;
     }
 }

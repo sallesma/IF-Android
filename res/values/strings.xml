@@ -5,6 +5,7 @@
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
     <string name="infos_activity">Infos</string>
+    <string name="info_activity">Info</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
     <string name="action_settings">Settings</string>
@@ -23,7 +24,7 @@
 
     
     <!--  -->
-    <!-- contentDescription for ArtistsActivity -->
+    <!-- ArtistsActivity -->
     <!--  -->
     <string name="action_alpha_sort">Tri alphabétique</string>
     <string name="action_type_sort">Tri par genre</string>
@@ -31,7 +32,6 @@
     <!--  -->
     <!-- contentDescription for artistListItem -->
     <!--  -->
-
     <string name="artistListItemIcon">Icone Artiste</string>
     <string name="artistListItemName">Nom Artiste</string>
     <string name="artistListItemProgrammation">Programmation Artiste</string>
@@ -51,6 +51,12 @@
     <string name="infoListItemIcon">Info</string>
     <string name="infoCategoryListItemIcon">Catégorie</string>
 
+    <!--  -->
+    <!-- InfoActivity -->
+    <!--  -->
+    <string name="action_type_see_on_map">Voir sur la carte</string>
+    <string name="category">Catégorie : </string>
+    
     <!--  -->
     <!-- Photo Activity-->
     <!--  -->

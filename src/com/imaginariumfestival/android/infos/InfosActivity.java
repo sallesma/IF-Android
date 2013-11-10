@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Stack;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.data.InfosDataSource;
@@ -57,7 +57,7 @@ public class InfosActivity extends ListActivity {
 		HashMap<String, String> infoItem;
 
 		for (InfoModel info : infos) {
-			if (info.getParent() == parentId) {
+			if (info.getParentId() == parentId) {
 				infoItem = new HashMap<String, String>();
 				infoItem.put("id", String.valueOf(info.getId()));
 				infoItem.put("title", info.getName());
@@ -83,12 +83,11 @@ public class InfosActivity extends ListActivity {
 			CategoryIdPathFromRoot.push(selectedId);
 			computeListToView( selectedId );
 		} else {
-			Toast.makeText(InfosActivity.this, "Quand l'activité existera ;)", Toast.LENGTH_SHORT).show();
-//			Intent toInfoActivityIntent = new Intent(InfosActivity.this, InfosActivity.class);
-//			Bundle bundle = new Bundle();
-//			bundle.putString("infoId", mapItem.get("id"));
-//			toInfoActivityIntent.putExtras(bundle);
-//			startActivity(toInfoActivityIntent);
+			Intent toInfoActivityIntent = new Intent(InfosActivity.this, InfoActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("infoId", mapItem.get("id"));
+			toInfoActivityIntent.putExtras(bundle);
+			startActivity(toInfoActivityIntent);
 		}
 	}
 	

@@ -27,7 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_YOUTUBE = "youtube";
 	public static final String COLUMN_IS_CATEGORY = "isCategory";
 	public static final String COLUMN_CONTENT = "content";
-	public static final String COLUMN_PARENT = "parent";
+	public static final String COLUMN_PARENT_ID = "parent";
 
 	public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +55,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				COLUMN_PICTURE + " text not null, " +
 				COLUMN_IS_CATEGORY + " INTEGER not null, " +
 				COLUMN_CONTENT + " text not null, " +
-				COLUMN_PARENT + " INTEGER not null )");
+				COLUMN_PARENT_ID + " INTEGER not null )");
 	}
 
 	@Override

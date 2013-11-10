@@ -6,7 +6,7 @@ public class InfoModel {
 	private String picture;
 	private Boolean isCategory;
 	private String content;
-	private long parent;
+	private long parentId;
 	
 	public InfoModel() {
 		super();
@@ -15,7 +15,7 @@ public class InfoModel {
 		this.picture = "";
 		this.isCategory = false;
 		this.content = "";
-		this.parent = 0;
+		this.parentId = 0;
 	}
 
 	public InfoModel(long id, String name, String picture, Boolean isCategory,
@@ -26,7 +26,7 @@ public class InfoModel {
 		this.picture = picture;
 		this.isCategory = isCategory;
 		this.content = content;
-		this.parent = parent;
+		this.parentId = parent;
 	}
 
 	public long getId() {
@@ -69,12 +69,12 @@ public class InfoModel {
 		this.content = content;
 	}
 
-	public long getParent() {
-		return parent;
+	public long getParentId() {
+		return parentId;
 	}
 
-	public void setParent(long parent) {
-		this.parent = parent;
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
 	}
 
 	@Override

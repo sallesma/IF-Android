@@ -32,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="com.imaginariumfestival.android.artists.ArtistsActivity"
             android:label="@string/artists_activity"
@@ -51,6 +52,13 @@
             android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.imaginariumfestival.android.infos.InfoActivity"
+            android:label="@string/info_activity"
+            android:parentActivityName="com.imaginariumfestival.android.infos.InfosActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
         
         <activity
             android:name="com.imaginariumfestival.android.photos.PhotosTakingActivity"

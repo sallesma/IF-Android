@@ -7,8 +7,8 @@
         android:title="@string/action_settings"/>
 
     <item
-        android:id="@+id/action_type_sort"
+        android:id="@+id/action_type_see_on_map"
         android:showAsAction="ifRoom"
-        android:title="@string/action_type_sort"/>
+        android:title="@string/action_type_see_on_map"/>
 
 </menu>

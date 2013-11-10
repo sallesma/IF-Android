@@ -143,7 +143,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
 				String isCategory = c.getString(MySQLiteHelper.COLUMN_IS_CATEGORY);
 				String content = c.getString(MySQLiteHelper.COLUMN_CONTENT);
-				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT) );
+				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT_ID) );
 				
 				datasource.createInfo(id, name, picture, isCategory, content, parent);
 			}
