@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
@@ -93,6 +94,9 @@ public class PhotosTakingActivity extends Activity {
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
 			
+	    	PhotoManager photoManager = new PhotoManager(getResources());
+	    	Bitmap filteredPicture = photoManager.computePhotoWithfilter(data);
+			
 	        File pictureFile = getOutputMediaFile();
 	        if (pictureFile == null){
 	            Log.d("DEBUG", "Error creating media file, check storage permissions: ");
@@ -101,7 +105,9 @@ public class PhotosTakingActivity extends Activity {
 
 	        try {
 	            FileOutputStream fos = new FileOutputStream(pictureFile);
-	            fos.write(data);
+	            if (fos != null) {
+	            	filteredPicture.compress(Bitmap.CompressFormat.PNG, 90, fos);
+	            }
 	            fos.close();
 	        } catch (FileNotFoundException e) {
 	            Log.d("DEBUG", "File not found: " + e.getMessage());
@@ -111,37 +117,8 @@ public class PhotosTakingActivity extends Activity {
 	        
 	        goToValidationActivity(pictureFile.getAbsolutePath());
 	    }
-
 	};
-	
-	/** Create a File for saving the image */
-    private File getOutputMediaFile(){
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                  Environment.DIRECTORY_PICTURES), "Imaginarium Festival Pictures");
- 
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("Imaginarium Festival Pictures", "failed to create directory");
-                return null;
-            }
-        }
- 
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
-        File mediaFile;
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-            "IMG_IF_"+ timeStamp + ".jpg");
- 
-        return mediaFile;
-    }
-    
-    private void goToValidationActivity(String pictureFilePath) {
-    	Intent toPictureValidatingActivityIntent = new Intent(PhotosTakingActivity.this, PhotosValidatingActivity.class);
-    	Bundle bundle = new Bundle();
-    	bundle.putString("picturePath", pictureFilePath);
-    	toPictureValidatingActivityIntent.putExtras(bundle);
-    	startActivity(toPictureValidatingActivityIntent);
-    }
+
     
     @Override
     protected void onPause() {
@@ -174,5 +151,31 @@ public class PhotosTakingActivity extends Activity {
 		default:
 			return super.onOptionsItemSelected(menuItem);
 		}
+	}
+	
+	private File getOutputMediaFile(){
+	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+	              Environment.DIRECTORY_PICTURES), "Imaginarium Festival Pictures");
+	
+	    if (! mediaStorageDir.exists()){
+	        if (! mediaStorageDir.mkdirs()){
+	            Log.d("Imaginarium Festival Pictures", "failed to create directory");
+	            return null;
+	        }
+	    }
+	
+	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
+	    File mediaFile;
+	    mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_IF_"+ timeStamp + ".jpg");
+	
+	    return mediaFile;
+	}
+
+	private void goToValidationActivity(String pictureFilePath) {
+		Intent toPictureValidatingActivityIntent = new Intent(PhotosTakingActivity.this, PhotosValidatingActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("picturePath", pictureFilePath);
+		toPictureValidatingActivityIntent.putExtras(bundle);
+		startActivity(toPictureValidatingActivityIntent);
 	}
 }
