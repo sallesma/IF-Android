@@ -29,7 +29,7 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		if (isNetworkConnected(MainMenuActivity.this)) {
-			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0); // 0 - for private mode
+			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
 	        long millis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
 	         
 	        Date today = new Date();

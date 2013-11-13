@@ -52,7 +52,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		Boolean isInfoUpdated = getInfosFromWebService();
 		
         if( isArtistUpdated || isInfoUpdated) {
-            SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_FROM_DISTANT_DATABASE, 0); // 0 - for private mode
+            SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
             Editor editor = pref.edit();
             Date currentDate = new Date();
             editor.putLong(LAST_UPDATE_FROM_DISTANT_DATABASE, currentDate.getTime());
