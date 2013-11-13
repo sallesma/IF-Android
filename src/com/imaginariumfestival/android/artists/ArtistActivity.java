@@ -78,13 +78,16 @@ public class ArtistActivity extends Activity {
 			((ImageButton)findViewById(R.id.websiteIcon)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
 					String url = artist.getWebsite();
 					if (!url.startsWith("https://") && !url.startsWith("http://")){
 						url = "http://" + url;
 					}
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
+					Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("weblink", url);
+					bundle.putString("artistName", artist.getName());
+					toWebViewIntent.putExtras(bundle);
+					startActivity(toWebViewIntent);
 				}
 			});	
 		} else {

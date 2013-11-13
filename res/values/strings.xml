@@ -4,6 +4,7 @@
     <string name="app_name">Imaginarium Festival</string>
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
+    <string name="artist_web_view_activity">Artiste</string>
     <string name="infos_activity">Infos</string>
     <string name="info_activity">Info</string>
     <string name="photos_taking_activity">Photos</string>
@@ -44,6 +45,11 @@
     <string name="youtubeIcon">Lien vers Youtube</string>
     <string name="twitterIcon">Lien vers Twitter</string>
     <string name="webIcon">Lien vers site web</string>
+    
+    <!--  -->
+    <!-- ArtistWebView -->
+    <!--  -->
+    <string name="loading">Chargement...</string>
     
     <!--  -->
     <!-- contentDescription for infoListItem -->
