@@ -18,13 +18,16 @@ public class InfoModel {
 		this.parentId = 0;
 	}
 
-	public InfoModel(long id, String name, String picture, Boolean isCategory,
+	public InfoModel(long id, String name, String picture, String isCategory,
 			String content, long parentId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.picture = picture;
-		this.isCategory = isCategory;
+		if (Boolean.valueOf(isCategory) || isCategory.equals("1"))
+			this.isCategory = true;
+		else
+			this.isCategory = false;
 		this.content = content;
 		this.parentId = parentId;
 	}

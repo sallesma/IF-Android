@@ -40,7 +40,7 @@ public class InfosDataSource {
 		Boolean exist = existInfoWithId(id);
  
         if(exist == true){
-            InfoModel newValuesInfo = new InfoModel(id, name, picture, Boolean.valueOf(isCategory), content, parentId);
+            InfoModel newValuesInfo = new InfoModel(id, name, picture, isCategory, content, parentId);
             InfoModel updatedInfo = updateInfo(id, newValuesInfo);
             return updatedInfo;
         }
