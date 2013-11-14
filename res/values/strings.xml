@@ -34,8 +34,6 @@
     <!-- contentDescription for artistListItem -->
     <!--  -->
     <string name="artistListItemIcon">Icone Artiste</string>
-    <string name="artistListItemName">Nom Artiste</string>
-    <string name="artistListItemProgrammation">Programmation Artiste</string>
     
     <!--  -->
     <!-- contentDescription for ArtistActivity -->
@@ -55,7 +53,6 @@
     <!-- contentDescription for infoListItem -->
     <!--  -->
     <string name="infoListItemIcon">Info</string>
-    <string name="infoCategoryListItemIcon">Catégorie</string>
 
     <!--  -->
     <!-- InfoActivity -->

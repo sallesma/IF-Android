@@ -2,7 +2,6 @@ package com.imaginariumfestival.android.artists;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -66,89 +65,32 @@ public class ArtistActivity extends Activity {
 		((TextView)findViewById(R.id.artistDescription)).setText(artist.getDescription());
 		((TextView)findViewById(R.id.artistDescription)).setMovementMethod(new ScrollingMovementMethod());
 		
-		//TODO : mettre plutot une image "no link" dans ces méthodes
-		updateWebsiteLink();
-		updateFacebookLink();
-		updateTwitterLink();
-		updateYoutubeLink();
+		updateLink(artist.getWebsite(), R.id.websiteIcon);
+		updateLink(artist.getFacebook(), R.id.facebookIcon);
+		updateLink(artist.getTwitter(), R.id.twitterIcon);
+		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 	}
 
-	private void updateWebsiteLink() {
-		if (null != artist.getWebsite() && !artist.getWebsite().equals("")) {
-			((ImageButton)findViewById(R.id.websiteIcon)).setOnClickListener(new OnClickListener() {
+	private void updateLink(final String url, final int viewId) {
+		if (null != url && !url.equals("")) {
+			((ImageButton)findViewById(viewId)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String url = artist.getWebsite();
+					String finalUrl = url;
 					if (!url.startsWith("https://") && !url.startsWith("http://")){
-						url = "http://" + url;
+						finalUrl = "http://" + url;
 					}
 					Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
 					Bundle bundle = new Bundle();
-					bundle.putString("weblink", url);
+					bundle.putString("weblink", finalUrl);
 					bundle.putString("artistName", artist.getName());
 					toWebViewIntent.putExtras(bundle);
 					startActivity(toWebViewIntent);
 				}
 			});	
 		} else {
-			((ImageButton) findViewById(R.id.websiteIcon)).setVisibility(View.INVISIBLE);
-		}
-	}
-
-	private void updateFacebookLink() {
-		if (null != artist.getFacebook() && !artist.getFacebook().equals("")) {
-			((ImageButton)findViewById(R.id.facebookIcon)).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					String url = artist.getFacebook();
-					if (!url.startsWith("https://") && !url.startsWith("http://")){
-					    url = "http://" + url;
-					}
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			});
-		} else {
-			((ImageButton)findViewById(R.id.facebookIcon)).setVisibility(View.INVISIBLE);
-		}
-	}
-
-	private void updateTwitterLink() {
-		if (null != artist.getTwitter() && !artist.getTwitter().equals("")) {
-			((ImageButton)findViewById(R.id.twitterIcon)).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					String url = artist.getTwitter();
-					if (!url.startsWith("https://") && !url.startsWith("http://")){
-						url = "http://" + url;
-					}
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			});
-		} else {
-			((ImageButton)findViewById(R.id.twitterIcon)).setVisibility(View.INVISIBLE);
-		}
-	}
-	
-	private void updateYoutubeLink() {
-		if (null != artist.getYoutube() && !artist.getYoutube().equals("")) {
-			((ImageButton)findViewById(R.id.youtubeIcon)).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					String url = artist.getYoutube();
-					if (!url.startsWith("https://") && !url.startsWith("http://")){
-						url = "http://" + url;
-					}
-					intent.setData(Uri.parse(url));
-					startActivity(intent);
-				}
-			});
-		} else {
-			((ImageButton)findViewById(R.id.youtubeIcon)).setVisibility(View.INVISIBLE);
+			//TODO : mettre plutot une image "no link"
+			((ImageButton) findViewById(viewId)).setVisibility(View.INVISIBLE);
 		}
 	}
 }
