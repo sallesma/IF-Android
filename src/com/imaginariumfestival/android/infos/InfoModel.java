@@ -19,14 +19,14 @@ public class InfoModel {
 	}
 
 	public InfoModel(long id, String name, String picture, Boolean isCategory,
-			String content, long parent) {
+			String content, long parentId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.picture = picture;
 		this.isCategory = isCategory;
 		this.content = content;
-		this.parentId = parent;
+		this.parentId = parentId;
 	}
 
 	public long getId() {

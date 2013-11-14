@@ -36,12 +36,12 @@ public class InfosDataSource {
     }
     
 	public InfoModel createInfo(long id, String name, String picture,
-			String isCategory, String content, long parent) {
+			String isCategory, String content, long parentId) {
 		Boolean exist = existInfoWithId(id);
  
         if(exist == true){
-            InfoModel existingInfo = getInfoFromId(id);
-            InfoModel updatedInfo = updateiInfo(id, existingInfo);
+            InfoModel newValuesInfo = new InfoModel(id, name, picture, Boolean.valueOf(isCategory), content, parentId);
+            InfoModel updatedInfo = updateInfo(id, newValuesInfo);
             return updatedInfo;
         }
         else {
@@ -51,7 +51,7 @@ public class InfosDataSource {
             values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
             values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
             values.put(MySQLiteHelper.COLUMN_CONTENT, content);
-            values.put(MySQLiteHelper.COLUMN_PARENT_ID, parent);
+            values.put(MySQLiteHelper.COLUMN_PARENT_ID, parentId);
             long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_INFOS, null,
                     values);
             Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS,
@@ -64,7 +64,7 @@ public class InfosDataSource {
         }
     }
 	
-	public InfoModel updateiInfo(Long id, InfoModel info){
+	public InfoModel updateInfo(Long id, InfoModel info){
         ContentValues values = new ContentValues();
         
         values.put(MySQLiteHelper.COLUMN_NAME, info.getName());
