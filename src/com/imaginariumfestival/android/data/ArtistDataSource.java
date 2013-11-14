@@ -49,8 +49,10 @@ public class ArtistDataSource {
 		Boolean exist = existArtistWithId(id);
  
         if(exist == true){
-            ArtistModel existArtist = getArtistFromId(id);
-            ArtistModel updatedArtist = updateArtist(id, existArtist);
+			ArtistModel newValuesArtist = new ArtistModel(id, name, picture,
+					style, description, stage, day, beginHour, endHour,
+					website, facebook, twitter, youtube);
+            ArtistModel updatedArtist = updateArtist(id, newValuesArtist);
             return updatedArtist;
         }
         else {
@@ -86,11 +88,11 @@ public class ArtistDataSource {
         values.put(MySQLiteHelper.COLUMN_NAME, artist.getName());
         values.put(MySQLiteHelper.COLUMN_STYLE, artist.getStyle());
         values.put(MySQLiteHelper.COLUMN_DESCRIPTION, artist.getDescription());
-        values.put(MySQLiteHelper.COLUMN_PICTURE, artist.getPhotoUrl());
-        values.put(MySQLiteHelper.COLUMN_DAY, artist.getJour());
-        values.put(MySQLiteHelper.COLUMN_STAGE, artist.getScene());
-        values.put(MySQLiteHelper.COLUMN_BEGIN_HOUR, artist.getDebut());
-        values.put(MySQLiteHelper.COLUMN_END_HOUR, artist.getFin());
+        values.put(MySQLiteHelper.COLUMN_PICTURE, artist.getPicture());
+        values.put(MySQLiteHelper.COLUMN_DAY, artist.getDay());
+        values.put(MySQLiteHelper.COLUMN_STAGE, artist.getStage());
+        values.put(MySQLiteHelper.COLUMN_BEGIN_HOUR, artist.getBeginHour());
+        values.put(MySQLiteHelper.COLUMN_END_HOUR, artist.getEndHour());
         values.put(MySQLiteHelper.COLUMN_WEBSITE, artist.getWebsite());
         values.put(MySQLiteHelper.COLUMN_FACEBOOK, artist.getFacebook());
         values.put(MySQLiteHelper.COLUMN_TWITTER, artist.getTwitter());
@@ -162,13 +164,13 @@ public class ArtistDataSource {
         ArtistModel artist = new ArtistModel();
         artist.setId(cursor.getInt(0));
         artist.setName(cursor.getString(1));
-        artist.setPhotoUrl(cursor.getString(2));
+        artist.setPicture(cursor.getString(2));
         artist.setStyle(cursor.getString(3));
         artist.setDescription(cursor.getString(4));
-        artist.setJour(cursor.getString(5));
-        artist.setScene(cursor.getString(6));
-        artist.setDebut(cursor.getString(7));
-        artist.setFin(cursor.getString(8));
+        artist.setDay(cursor.getString(5));
+        artist.setStage(cursor.getString(6));
+        artist.setBeginHour(cursor.getString(7));
+        artist.setEndHour(cursor.getString(8));
         artist.setWebsite(cursor.getString(9));
         artist.setFacebook(cursor.getString(10));
         artist.setTwitter(cursor.getString(11));

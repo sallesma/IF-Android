@@ -59,9 +59,9 @@ public class ArtistActivity extends Activity {
 	private void fillViewWithArtistData() {
 		getActionBar().setTitle(artist.getName());
 		((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_icon);
-		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getScene());
-		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getJour());
-		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getDebut());
+		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
+		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
+		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour());
 		((TextView)findViewById(R.id.artistDescription)).setText(artist.getDescription());
 		((TextView)findViewById(R.id.artistDescription)).setMovementMethod(new ScrollingMovementMethod());
 		

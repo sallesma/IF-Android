@@ -3,32 +3,32 @@ package com.imaginariumfestival.android.artists;
 public class ArtistModel {
 	private long id;
 	private String name;
-	private String photoUrl;
+	private String picture;
 	private String style;
 	private String description;
-	private String scene;
-	private String jour;
-	private String debut;
-	private String fin;
+	private String stage;
+	private String day;
+	private String beginHour;
+	private String endHour;
 	private String website;
 	private String youtube;
 	private String facebook;
 	private String twitter;
 
-	public ArtistModel(long id, String photoUrl, String name, String style,
-			String description, String youtube, String facebook,
-			String twitter, String website, String jour, String debut,
-			String fin, String scene) {
+	public ArtistModel(long id, String name, String picture, String style,
+			String description, String stage, String day, String beginHour,
+			String endHour, String website, String facebook,
+			String twitter, String youtube) {
 		super();
 		this.id = id;
-		this.photoUrl = photoUrl;
 		this.name = name;
+		this.picture = picture;
 		this.style = style;
 		this.description = description;
-		this.jour = jour;
-		this.scene = scene;
-		this.debut = debut;
-		this.fin = fin;
+		this.stage = stage;
+		this.day = day;
+		this.beginHour = beginHour;
+		this.endHour = endHour;
 		this.website = website;
 		this.youtube = youtube;
 		this.facebook = facebook;
@@ -37,14 +37,14 @@ public class ArtistModel {
 	
 	public ArtistModel() {
 		this.id = 0;
-		this.photoUrl = "";
+		this.picture = "";
 		this.name = "";
 		this.style = "";
 		this.description = "";
-		this.jour = "";
-		this.scene = "";
-		this.debut = "";
-		this.fin = "";
+		this.day = "";
+		this.stage = "";
+		this.beginHour = "";
+		this.endHour = "";
 		this.website = "";
 		this.youtube = "";
 		this.facebook = "";
@@ -52,7 +52,7 @@ public class ArtistModel {
 	}
 
 	public String getProgrammation(){
-		return  scene + " - " + jour + " " + debut;
+		return  stage + " - " + day + " " + beginHour;
 	}
 	
 	public long getId() {
@@ -79,44 +79,44 @@ public class ArtistModel {
 		this.description = description;
 	}
 
-	public String getScene() {
-		return scene;
+	public String getStage() {
+		return stage;
 	}
 
-	public void setScene(String scene) {
-		this.scene = scene;
+	public void setStage(String stage) {
+		this.stage = stage;
 	}
 
-	public String getJour() {
-		return jour;
+	public String getDay() {
+		return day;
 	}
 
-	public void setJour(String jour) {
-		this.jour = jour;
+	public void setDay(String day) {
+		this.day = day;
 	}
 
-	public String getDebut() {
-		return debut;
+	public String getBeginHour() {
+		return beginHour;
 	}
 
-	public void setDebut(String debut) {
-		this.debut = debut;
+	public void setBeginHour(String beginHour) {
+		this.beginHour = beginHour;
 	}
 
-	public String getFin() {
-		return fin;
+	public String getEndHour() {
+		return endHour;
 	}
 
-	public void setFin(String fin) {
-		this.fin = fin;
+	public void setEndHour(String endhour) {
+		this.endHour = endhour;
 	}
 
-	public String getPhotoUrl() {
-		return photoUrl;
+	public String getPicture() {
+		return picture;
 	}
 
-	public void setPhotoUrl(String photoUrl) {
-		this.photoUrl = photoUrl;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	public String getStyle() {
