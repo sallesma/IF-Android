@@ -29,10 +29,18 @@ import com.imaginariumfestival.android.data.InfosDataSource;
 import com.imaginariumfestival.android.data.MySQLiteHelper;
 
 class BackTask extends AsyncTask<Void, Integer, Void> {
-	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastSyncWithDistantDatabase";
+	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastUpdateFromDistantDatabase";
 	
-	private final String INFOS_WEB_SERVICE_URL = "http://titouanrossier.com/ifM/api/api.php?request=infos";
-	private final String ARTISTS_WEB_SERVICE_URL = "http://titouanrossier.com/ifM/api/api.php?request=artists";
+	public final static String LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE = "lastArtistUpdateFromDistantDatabase";
+	public final static String LAST_INFO_UPDATE_FROM_DISTANT_DATABASE = "lastInfoUpdateFromDistantDatabase";
+	public final static String LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE = "lastNewsUpdateFromDistantDatabase";
+	public final static String LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE = "lastFilterUpdateFromDistantDatabase";
+	
+	private final String BASE_URL = "http://titouanrossier.com/ifM/";
+	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=artists";
+	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=infos";
+	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=news";
+	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=filters";
 	private Context context; 
 
 	public BackTask(Context context) {
@@ -48,16 +56,8 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		Boolean isArtistUpdated = getArtistsFromWebService();
-		Boolean isInfoUpdated = getInfosFromWebService();
-		
-        if( isArtistUpdated || isInfoUpdated) {
-            SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
-            Editor editor = pref.edit();
-            Date currentDate = new Date();
-            editor.putLong(LAST_UPDATE_FROM_DISTANT_DATABASE, currentDate.getTime());
-            editor.commit();
-        }
+		getArtistsFromWebService();
+		getInfosFromWebService();
         return null;
 	}
 
@@ -71,8 +71,11 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				Toast.LENGTH_SHORT).show();
 	}
 	
-	private Boolean getArtistsFromWebService() {
-		String artistsFromDistantDatabase = getDataFromDistantDatabase(ARTISTS_WEB_SERVICE_URL);
+	private void getArtistsFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final long lastRetrieve = pref.getLong(BackTask.LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE, 0L);
+		final String url = ARTISTS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String artistsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		JSONArray jsonArtists = null;
 		try {
@@ -80,9 +83,13 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		} catch (JSONException e) {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
+		
 		Boolean result  = recordArtists(jsonArtists);
-		return result;
+		if (result) {
+			updateLastUpdateFromDatabase(LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE);
+		}
 	}
+
 	
 	private Boolean recordArtists(JSONArray jsonArtistsArray) {
 		ArtistDataSource datasource = new ArtistDataSource(context);
@@ -118,8 +125,11 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 	}
 	
-	private Boolean getInfosFromWebService() {
-		String infosFromDistantDatabase = getDataFromDistantDatabase(INFOS_WEB_SERVICE_URL);
+	private void getInfosFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_INFO_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final long lastRetrieve = pref.getLong(BackTask.LAST_INFO_UPDATE_FROM_DISTANT_DATABASE, 0L);
+		final String url = INFOS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String infosFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		JSONArray jsonInfos = null;
 		try {
@@ -128,7 +138,9 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
 		Boolean result  = recordInfos(jsonInfos);
-		return result;
+		if (result) {
+			updateLastUpdateFromDatabase(LAST_INFO_UPDATE_FROM_DISTANT_DATABASE);
+		}
 	}
 	
 	private Boolean recordInfos(JSONArray jsonInfosArray) {
@@ -184,4 +196,14 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		
 		return builder.toString();
 	}
+	
+	private void updateLastUpdateFromDatabase(final String prefToUpdate) {
+		Date currentDate = new Date();
+
+		SharedPreferences pref = context.getSharedPreferences(prefToUpdate, Context.MODE_PRIVATE);
+		Editor editor = pref.edit();
+		editor.putLong(prefToUpdate, currentDate.getTime());
+		editor.commit();
+	}
 }
+

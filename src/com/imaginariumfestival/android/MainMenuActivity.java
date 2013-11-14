@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,10 +35,16 @@ public class MainMenuActivity extends Activity {
 	         
 	        Date today = new Date();
 	        long todayms = today.getTime();
-	             
-	        if(todayms - millis > 86400000){
+	        
+	        final int updateEvery10Min = 600000;
+	        if(todayms - millis > updateEvery10Min) {
 	            BackTask backtask = new BackTask(this);
 	            backtask.execute();
+	            
+	            Date currentDate = new Date();
+	    		Editor globalEditor = pref.edit();
+	    		globalEditor.putLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, currentDate.getTime());
+	    		globalEditor.commit();
 	        }
 		}
 
