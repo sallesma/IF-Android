@@ -59,7 +59,7 @@ public class MainMenuActivity extends Activity {
 		return true;
 	}
 	
-	public static boolean isNetworkConnected(Context context) {
+	private boolean isNetworkConnected(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return (cm.getActiveNetworkInfo() != null
