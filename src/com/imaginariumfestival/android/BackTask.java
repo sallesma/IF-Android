@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.imaginariumfestival.android.data.ArtistDataSource;
 import com.imaginariumfestival.android.data.InfosDataSource;
 import com.imaginariumfestival.android.data.MySQLiteHelper;
+import com.imaginariumfestival.android.data.NewsDataSource;
 
 class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastUpdateFromDistantDatabase";
@@ -58,6 +59,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 	protected Void doInBackground(Void... params) {
 		getArtistsFromWebService();
 		getInfosFromWebService();
+		getNewsFromWebService();
         return null;
 	}
 
@@ -160,6 +162,51 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT_ID) );
 				
 				datasource.insertInfo(id, name, picture, isCategory, content, parent);
+			}
+			datasource.close();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			datasource.close();
+			return false;
+		}
+	}
+	
+	private void getNewsFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final long lastRetrieve = pref.getLong(BackTask.LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE, 0L);
+		final String url = NEWS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String newsFromDistantDatabase = getDataFromDistantDatabase(url);
+		
+		JSONArray jsonNews = new JSONArray();
+		try {
+			jsonNews = new JSONArray(newsFromDistantDatabase);
+		} catch (JSONException e) {
+			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		}
+		
+		Boolean result  = recordNews(jsonNews);
+		if (result) {
+			updateLastUpdateFromDatabase(LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE);
+		}
+	}
+
+	
+	private Boolean recordNews(JSONArray jsonNewsArray) {
+		NewsDataSource datasource = new NewsDataSource(context);
+		datasource.open();
+		try {
+			datasource.deleteAllNews();
+			for (int i = 0; i < jsonNewsArray.length(); i++) {
+				JSONObject c = jsonNewsArray.getJSONObject(i);
+
+				Long id = c.getLong(MySQLiteHelper.COLUMN_ID);
+				String title = c.getString(MySQLiteHelper.COLUMN_TITLE);
+				String content = c.getString(MySQLiteHelper.COLUMN_CONTENT);
+				String date = c.getString(MySQLiteHelper.COLUMN_DATE);
+
+
+				datasource.insertNews(id, title, content, date);
 			}
 			datasource.close();
 			return true;
