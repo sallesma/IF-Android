@@ -34,6 +34,7 @@ public class MainMenuActivityTest extends
 		assertTrue(artistsButton.hasOnClickListeners());
 		assertTrue(infosButton.hasOnClickListeners());
 		assertTrue(photosButton.hasOnClickListeners());
+		assertTrue(mActivity.findViewById(android.R.id.content) != null);
 	}
 	
 	public void testArtistLink() {

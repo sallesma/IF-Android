@@ -22,15 +22,15 @@ import com.imaginariumfestival.android.data.InfosDataSource;
 
 public class InfosActivity extends ListActivity {
 	private List<InfoModel> infos;
-	private Stack<Long> CategoryIdPathFromRoot;
+	private Stack<Long> categoryIdPathFromRoot;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		CategoryIdPathFromRoot = new Stack<Long>();
-		CategoryIdPathFromRoot.push((long) 0);
+		categoryIdPathFromRoot = new Stack<Long>();
+		categoryIdPathFromRoot.push((long) 0);
 		
 		InfosDataSource datasource = new InfosDataSource(InfosActivity.this);
 		datasource.open();
@@ -80,7 +80,7 @@ public class InfosActivity extends ListActivity {
 		HashMap<String, String> mapItem = (HashMap<String, String>) getListAdapter().getItem(position);
 		if ( Boolean.valueOf(mapItem.get("isCategory")) ) {
 			Long selectedId = Long.valueOf( mapItem.get("id") );
-			CategoryIdPathFromRoot.push(selectedId);
+			categoryIdPathFromRoot.push(selectedId);
 			computeListToView( selectedId );
 		} else {
 			Intent toInfoActivityIntent = new Intent(InfosActivity.this, InfoActivity.class);
@@ -91,10 +91,8 @@ public class InfosActivity extends ListActivity {
 		}
 	}
 	
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
@@ -103,11 +101,11 @@ public class InfosActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
 		case android.R.id.home:
-			if ( CategoryIdPathFromRoot.peek() == 0 ) {
+			if ( categoryIdPathFromRoot.peek() == 0 ) {
 				NavUtils.navigateUpFromSameTask(this);
 			} else {
-				CategoryIdPathFromRoot.pop();
-				computeListToView( CategoryIdPathFromRoot.peek() );
+				categoryIdPathFromRoot.pop();
+				computeListToView( categoryIdPathFromRoot.peek() );
 			}
 			return true;
 		default:
