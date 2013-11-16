@@ -77,7 +77,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		final String url = ARTISTS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
 		String artistsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
-		JSONArray jsonArtists = null;
+		JSONArray jsonArtists = new JSONArray();
 		try {
 			jsonArtists = new JSONArray(artistsFromDistantDatabase);
 		} catch (JSONException e) {
@@ -95,6 +95,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		ArtistDataSource datasource = new ArtistDataSource(context);
 		datasource.open();
 		try {
+			datasource.deleteAllArtists();
 			for (int i = 0; i < jsonArtistsArray.length(); i++) {
 				JSONObject c = jsonArtistsArray.getJSONObject(i);
 
@@ -112,7 +113,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				String twitter = c.getString(MySQLiteHelper.COLUMN_TWITTER);
 				String youtube = c.getString(MySQLiteHelper.COLUMN_YOUTUBE);
 
-				datasource.createArtist(id, name, picture, genre,
+				datasource.insertArtist(id, name, picture, genre,
 						description, jour, scene, debut, fin, website,
 						facebook, twitter, youtube);
 			}
@@ -131,7 +132,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		final String url = INFOS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
 		String infosFromDistantDatabase = getDataFromDistantDatabase(url);
 		
-		JSONArray jsonInfos = null;
+		JSONArray jsonInfos = new JSONArray();
 		try {
 			jsonInfos = new JSONArray(infosFromDistantDatabase);
 		} catch (JSONException e) {
@@ -147,6 +148,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		InfosDataSource datasource = new InfosDataSource(context);
 		datasource.open();
 		try {
+			datasource.deleteAllInfos();
 			for (int i = 0; i < jsonInfosArray.length(); i++) {
 				JSONObject c = jsonInfosArray.getJSONObject(i);
 				
@@ -157,7 +159,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 				String content = c.getString(MySQLiteHelper.COLUMN_CONTENT);
 				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT_ID) );
 				
-				datasource.createInfo(id, name, picture, isCategory, content, parent);
+				datasource.insertInfo(id, name, picture, isCategory, content, parent);
 			}
 			datasource.close();
 			return true;
