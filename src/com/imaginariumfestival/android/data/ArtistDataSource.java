@@ -42,44 +42,34 @@ public class ArtistDataSource {
         dbHelper.close();
     }
     
-	public ArtistModel createArtist(long id, String name, String picture,
+	public ArtistModel insertArtist(long id, String name, String picture,
 			String style, String description, String day, String stage,
 			String beginHour, String endHour, String website, String facebook,
 			String twitter, String youtube) {
-		Boolean exist = existArtistWithId(id);
  
-        if(exist == true){
-			ArtistModel newValuesArtist = new ArtistModel(id, name, picture,
-					style, description, stage, day, beginHour, endHour,
-					website, facebook, twitter, youtube);
-            ArtistModel updatedArtist = updateArtist(id, newValuesArtist);
-            return updatedArtist;
-        }
-        else {
-            ContentValues values = new ContentValues();
-            values.put(MySQLiteHelper.COLUMN_ID, id);
-            values.put(MySQLiteHelper.COLUMN_NAME, name);
-            values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
-            values.put(MySQLiteHelper.COLUMN_STYLE, style);
-            values.put(MySQLiteHelper.COLUMN_DESCRIPTION, description);
-            values.put(MySQLiteHelper.COLUMN_DAY, day);
-            values.put(MySQLiteHelper.COLUMN_STAGE, stage);
-            values.put(MySQLiteHelper.COLUMN_BEGIN_HOUR, beginHour);
-            values.put(MySQLiteHelper.COLUMN_END_HOUR, endHour);
-            values.put(MySQLiteHelper.COLUMN_WEBSITE, website);
-            values.put(MySQLiteHelper.COLUMN_FACEBOOK, facebook);
-            values.put(MySQLiteHelper.COLUMN_TWITTER, twitter);
-            values.put(MySQLiteHelper.COLUMN_YOUTUBE, youtube);
-            long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_ARTIST, null,
-                    values);
-            Cursor cursor = database.query(MySQLiteHelper.TABLE_ARTIST,
-                    allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                    null, null, null);
-            cursor.moveToFirst();
-            ArtistModel newArtist = cursorToArtist(cursor);
-            cursor.close();
-            return newArtist;
-        }
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_ID, id);
+		values.put(MySQLiteHelper.COLUMN_NAME, name);
+		values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
+		values.put(MySQLiteHelper.COLUMN_STYLE, style);
+		values.put(MySQLiteHelper.COLUMN_DESCRIPTION, description);
+		values.put(MySQLiteHelper.COLUMN_DAY, day);
+		values.put(MySQLiteHelper.COLUMN_STAGE, stage);
+		values.put(MySQLiteHelper.COLUMN_BEGIN_HOUR, beginHour);
+		values.put(MySQLiteHelper.COLUMN_END_HOUR, endHour);
+		values.put(MySQLiteHelper.COLUMN_WEBSITE, website);
+		values.put(MySQLiteHelper.COLUMN_FACEBOOK, facebook);
+		values.put(MySQLiteHelper.COLUMN_TWITTER, twitter);
+		values.put(MySQLiteHelper.COLUMN_YOUTUBE, youtube);
+		long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_ARTIST,
+				null, values);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_ARTIST, allColumns,
+				MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null,
+				null);
+		cursor.moveToFirst();
+		ArtistModel newArtist = cursorToArtist(cursor);
+		cursor.close();
+		return newArtist;
     }
 	
 	public ArtistModel updateArtist(Long id, ArtistModel artist){
@@ -142,23 +132,13 @@ public class ArtistDataSource {
 	
 	public void deleteArtist(ArtistModel artist) {
         long id = artist.getId();
-        System.out.println("Contact deleted with id: " + id);
         database.delete(MySQLiteHelper.TABLE_ARTIST, MySQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
-	
-	public Boolean existArtistWithId(long id) {
-		Cursor c = database.query(MySQLiteHelper.TABLE_ARTIST, allColumns,
-				MySQLiteHelper.COLUMN_ID + " = \"" + id + "\"", null, null,
-				null, null);
-		if (c.getCount() > 0) {
-			c.close();
-			return true;
-		} else {
-			c.close();
-			return false;
-		}
-    }
+
+	public void deleteAllArtists() {
+		database.delete(MySQLiteHelper.TABLE_ARTIST, null, null);
+	}
 	
 	private ArtistModel cursorToArtist(Cursor cursor) {
         ArtistModel artist = new ArtistModel();

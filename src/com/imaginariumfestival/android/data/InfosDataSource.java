@@ -35,33 +35,25 @@ public class InfosDataSource {
         dbHelper.close();
     }
     
-	public InfoModel createInfo(long id, String name, String picture,
+	public InfoModel insertInfo(long id, String name, String picture,
 			String isCategory, String content, long parentId) {
-		Boolean exist = existInfoWithId(id);
- 
-        if(exist == true){
-            InfoModel newValuesInfo = new InfoModel(id, name, picture, isCategory, content, parentId);
-            InfoModel updatedInfo = updateInfo(id, newValuesInfo);
-            return updatedInfo;
-        }
-        else {
-            ContentValues values = new ContentValues();
-            values.put(MySQLiteHelper.COLUMN_ID, id);
-            values.put(MySQLiteHelper.COLUMN_NAME, name);
-            values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
-            values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
-            values.put(MySQLiteHelper.COLUMN_CONTENT, content);
-            values.put(MySQLiteHelper.COLUMN_PARENT_ID, parentId);
-            long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_INFOS, null,
-                    values);
-            Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS,
-                    allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                    null, null, null);
-            cursor.moveToFirst();
-            InfoModel newInfo = cursorToInfos(cursor);
-            cursor.close();
-            return newInfo;
-        }
+
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_ID, id);
+		values.put(MySQLiteHelper.COLUMN_NAME, name);
+		values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
+		values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
+		values.put(MySQLiteHelper.COLUMN_CONTENT, content);
+		values.put(MySQLiteHelper.COLUMN_PARENT_ID, parentId);
+		long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_INFOS,
+				null, values);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS, allColumns,
+				MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null,
+				null);
+		cursor.moveToFirst();
+		InfoModel newInfo = cursorToInfos(cursor);
+		cursor.close();
+		return newInfo;
     }
 	
 	public InfoModel updateInfo(Long id, InfoModel info){
@@ -107,23 +99,13 @@ public class InfosDataSource {
 	
 	public void deleteInfo(InfoModel info) {
         long id = info.getId();
-        System.out.println("Info deleted with id: " + id);
         database.delete(MySQLiteHelper.TABLE_INFOS, MySQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 	
-	public Boolean existInfoWithId(long id) {
-		Cursor c = database.query(MySQLiteHelper.TABLE_INFOS, allColumns,
-				MySQLiteHelper.COLUMN_ID + " = \"" + id + "\"", null, null,
-				null, null);
-		if (c.getCount() > 0) {
-			c.close();
-			return true;
-		} else {
-			c.close();
-			return false;
-		}
-    }
+	public void deleteAllInfos() {
+		database.delete(MySQLiteHelper.TABLE_INFOS, null, null);
+	}
 	
 	private InfoModel cursorToInfos(Cursor cursor) {
         InfoModel info = new InfoModel();
