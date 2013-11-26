@@ -52,7 +52,8 @@ public class ArtistsActivity extends ListActivity {
 			artistItem.put("id", String.valueOf(artist.getId()));
 			artistItem.put("title", artist.getName());
 			artistItem.put("programmation", artist.getProgrammation().toString());
-			artistItem.put("img", String.valueOf(R.drawable.artist_icon));
+			artistItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
+			
 			listItemToDisplay.add(artistItem);
 		}
 		

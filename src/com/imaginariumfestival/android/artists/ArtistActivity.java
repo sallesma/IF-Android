@@ -1,7 +1,10 @@
 package com.imaginariumfestival.android.artists;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -58,7 +61,7 @@ public class ArtistActivity extends Activity {
 
 	private void fillViewWithArtistData() {
 		getActionBar().setTitle(artist.getName());
-		((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_icon);
+		
 		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
 		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour());
@@ -69,6 +72,14 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getFacebook(), R.id.facebookIcon);
 		updateLink(artist.getTwitter(), R.id.twitterIcon);
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
+
+		File filePath = getFileStreamPath(artist.getName());
+		Drawable picture = Drawable.createFromPath(filePath.toString());
+		if (picture != null) {
+			((ImageView)findViewById(R.id.artist_icon)).setImageDrawable(picture);
+		} else {
+			((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_empty_icon);
+		}
 	}
 
 	private void updateLink(final String url, final int viewId) {

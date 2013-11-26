@@ -61,7 +61,7 @@ public class InfosActivity extends ListActivity {
 				infoItem = new HashMap<String, String>();
 				infoItem.put("id", String.valueOf(info.getId()));
 				infoItem.put("title", info.getName());
-				infoItem.put("img", String.valueOf(R.drawable.artist_icon));
+				infoItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
 				infoItem.put("isCategory", String.valueOf(info.getIsCategory()));
 				listItemToDisplay.add(infoItem);
 			}

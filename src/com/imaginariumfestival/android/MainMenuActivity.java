@@ -3,6 +3,7 @@ package com.imaginariumfestival.android;
 import java.util.Date;
 
 import com.imaginariumfestival.android.artists.ArtistsActivity;
+import com.imaginariumfestival.android.data.BackTask;
 import com.imaginariumfestival.android.infos.InfosActivity;
 import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 
