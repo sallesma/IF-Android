@@ -46,6 +46,10 @@ public class PhotosTakingActivity extends Activity {
 			mPreview = new CameraPreview(this, mCamera);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
+			
+//			ImageView filterImageView = new ImageView(this);
+//			filterImageView.setImageResource(R.drawable.ic_launcher);
+//			preview.addView(filterImageView);
 
 			Button captureButton = (Button) findViewById(R.id.button_capture);
 			captureButton.setOnClickListener(new View.OnClickListener() {

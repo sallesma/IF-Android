@@ -32,13 +32,13 @@ public class MainMenuActivity extends Activity {
 		
 		if (isNetworkConnected(MainMenuActivity.this)) {
 			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
-	        long millis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
+	        long lastUpdateMillis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
 	         
-	        Date today = new Date();
-	        long todayms = today.getTime();
+	        Date now = new Date();
+	        long nowMillis = now.getTime();
 	        
 	        final int updateEvery10Min = 600000;
-	        if(todayms - millis > updateEvery10Min) {
+	        if(nowMillis - lastUpdateMillis > updateEvery10Min) {
 	            BackTask backtask = new BackTask(this);
 	            backtask.execute();
 	            
