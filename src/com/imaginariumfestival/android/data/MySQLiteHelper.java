@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
     
     public static final String TABLE_ARTIST = "artists";
     public static final String TABLE_INFOS = "infos";

@@ -1,11 +1,18 @@
-package com.imaginariumfestival.android;
+package com.imaginariumfestival.android.data;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,16 +28,15 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.imaginariumfestival.android.data.ArtistDataSource;
-import com.imaginariumfestival.android.data.InfosDataSource;
-import com.imaginariumfestival.android.data.MySQLiteHelper;
-import com.imaginariumfestival.android.data.NewsDataSource;
+import com.imaginariumfestival.android.MainMenuActivity;
 
-class BackTask extends AsyncTask<Void, Integer, Void> {
+public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastUpdateFromDistantDatabase";
 	
 	public final static String LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE = "lastArtistUpdateFromDistantDatabase";
@@ -38,7 +44,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE = "lastNewsUpdateFromDistantDatabase";
 	public final static String LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE = "lastFilterUpdateFromDistantDatabase";
 	
-	private final String BASE_URL = "http://titouanrossier.com/ifM/";
+	private final String BASE_URL = "http://titouanrossier.com/if/";
 	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=artists";
 	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=infos";
 	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=news";
@@ -61,6 +67,7 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		getArtistsFromWebService();
 		getInfosFromWebService();
 		getNewsFromWebService();
+		updatePicturesFromRemoteServer();
         return null;
 	}
 
@@ -80,14 +87,17 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		final String url = ARTISTS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
 		String artistsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
-		JSONArray jsonArtists = new JSONArray();
-		try {
-			jsonArtists = new JSONArray(artistsFromDistantDatabase);
-		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		Boolean result = false;
+		if (artistsFromDistantDatabase != null && artistsFromDistantDatabase != "") {
+			JSONArray jsonArtists = new JSONArray();
+			try {
+				jsonArtists = new JSONArray(artistsFromDistantDatabase);
+				result = recordArtists(jsonArtists);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing data " + e.toString());
+			}
 		}
 		
-		Boolean result  = recordArtists(jsonArtists);
 		if (result) {
 			updateLastUpdateFromDatabase(LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE);
 		}
@@ -134,13 +144,17 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		final String url = INFOS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
 		String infosFromDistantDatabase = getDataFromDistantDatabase(url);
 		
-		JSONArray jsonInfos = new JSONArray();
-		try {
-			jsonInfos = new JSONArray(infosFromDistantDatabase);
-		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		Boolean result = false;
+		if (infosFromDistantDatabase != null && infosFromDistantDatabase != "") {
+			JSONArray jsonInfos = new JSONArray();
+			try {
+				jsonInfos = new JSONArray(infosFromDistantDatabase);
+				result = recordInfos(jsonInfos);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing data " + e.toString());
+			}
 		}
-		Boolean result  = recordInfos(jsonInfos);
+
 		if (result) {
 			updateLastUpdateFromDatabase(LAST_INFO_UPDATE_FROM_DISTANT_DATABASE);
 		}
@@ -178,14 +192,17 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		final String url = NEWS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
 		String newsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
-		JSONArray jsonNews = new JSONArray();
-		try {
-			jsonNews = new JSONArray(newsFromDistantDatabase);
-		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
+		Boolean result = false;
+		if (newsFromDistantDatabase != null && newsFromDistantDatabase != "") {
+			JSONArray jsonNews = new JSONArray();
+			try {
+				jsonNews = new JSONArray(newsFromDistantDatabase);
+				result = recordNews(jsonNews);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing data " + e.toString());
+			}
 		}
 		
-		Boolean result  = recordNews(jsonNews);
 		if (result) {
 			updateLastUpdateFromDatabase(LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE);
 		}
@@ -254,6 +271,51 @@ class BackTask extends AsyncTask<Void, Integer, Void> {
 		Editor editor = pref.edit();
 		editor.putString(prefToUpdate, formattedDate);
 		editor.commit();
+	}
+
+	private void updatePicturesFromRemoteServer() {
+		Map<String, String> urlList = new HashMap<String, String>();
+		
+		ArtistDataSource artistDataSource = new ArtistDataSource(context);
+		artistDataSource.open();
+		urlList.putAll(artistDataSource.getAllArtistPictures());
+		artistDataSource.close();
+		
+		InfosDataSource infosDataSource = new InfosDataSource(context);
+		infosDataSource.open();
+		urlList.putAll(infosDataSource.getAllInfosPictures());
+		infosDataSource.close();
+		
+		for (Entry<String, String> entry : urlList.entrySet()) {
+			if (entry != null
+					&& Arrays.asList(context.fileList()).contains(entry.getKey())
+					&& entry.getValue() != null
+					&& !entry.getValue().equals("")) {
+				Bitmap bitmap = getBitmap(entry.getValue());
+				
+			    try {
+		            FileOutputStream fos = context.openFileOutput(entry.getKey(), Context.MODE_PRIVATE);
+	
+		            if (fos != null && bitmap != null) {
+		            	bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+		            }
+		            fos.close();
+		        } catch (FileNotFoundException e) {
+		            Log.d("DEBUG", "File not found: " + e.getMessage());
+		        } catch (IOException e) {
+		            Log.d("DEBUG", "Error accessing file: " + e.getMessage());
+		        }
+			}
+		}
+	}
+	
+	public Bitmap getBitmap(String bitmapUrl) {
+		try {
+			URL url = new URL(bitmapUrl);
+			return BitmapFactory.decodeStream(url.openConnection().getInputStream());
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 }
 

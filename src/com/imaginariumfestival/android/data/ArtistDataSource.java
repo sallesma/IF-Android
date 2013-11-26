@@ -1,7 +1,9 @@
 package com.imaginariumfestival.android.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -128,6 +130,25 @@ public class ArtistDataSource {
 
 		cursor.close();
 		return artists;
+	}
+	
+	public Map<String, String> getAllArtistPictures() {
+		Map<String, String> picturesUrl = new HashMap<String, String>();
+		
+		String[] columns = {MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_PICTURE};
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_ARTIST,
+				columns, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			String artistName = cursor.getString(0);
+			String artistPicture = cursor.getString(1);
+			picturesUrl.put(artistName, artistPicture);
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		return picturesUrl;
 	}
 	
 	public void deleteArtist(ArtistModel artist) {

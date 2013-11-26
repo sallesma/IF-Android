@@ -1,7 +1,9 @@
 package com.imaginariumfestival.android.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -95,6 +97,25 @@ public class InfosDataSource {
 
 		cursor.close();
 		return infos;
+	}
+	
+	public Map<String, String> getAllInfosPictures() {
+		Map<String, String> picturesUrl = new HashMap<String, String>();
+		
+		String[] columns = {MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_PICTURE};
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS,
+				columns, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			String name = cursor.getString(0);
+			String picture = cursor.getString(1);
+			picturesUrl.put(name, picture);
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		return picturesUrl;
 	}
 	
 	public void deleteInfo(InfoModel info) {
