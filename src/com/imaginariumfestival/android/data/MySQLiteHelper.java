@@ -7,11 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     
     public static final String TABLE_ARTIST = "artists";
     public static final String TABLE_INFOS = "infos";
     public static final String TABLE_NEWS = "news";
+    public static final String TABLE_FILTERS = "filters";
 
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
@@ -64,6 +65,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				COLUMN_TITLE + " text not null, " +
 				COLUMN_CONTENT + " text not null, " +
 				COLUMN_DATE + " text not null )");
+		db.execSQL("CREATE TABLE " + TABLE_FILTERS + "(" +
+				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				COLUMN_PICTURE + " text not null)");
 	}
 
 	@Override
@@ -72,6 +76,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTIST +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_INFOS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS +";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILTERS +";");
 			onCreate(db);
 		}
 	}

@@ -82,6 +82,6 @@ public class InfoModel {
 
 	@Override
 	public String toString() {
-		return "ArtistModel [name=" + name + " - isCategory=" + isCategory + "]";
+		return "InfoModel [name=" + name + " - isCategory=" + isCategory + "]";
 	}
 }

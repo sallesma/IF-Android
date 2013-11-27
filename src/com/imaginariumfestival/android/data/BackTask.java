@@ -66,6 +66,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		getArtistsFromWebService();
 		getInfosFromWebService();
 		getNewsFromWebService();
+		getFiltersFromWebService();
         return null;
 	}
 
@@ -233,6 +234,51 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 	}
 	
+	private void getFiltersFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final String lastRetrieve = pref.getString(BackTask.LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE, "");
+		final String url = FILTERS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String filtersFromDistantDatabase = getDataFromDistantDatabase(url);
+		
+		Boolean result = false;
+		if (filtersFromDistantDatabase != null && filtersFromDistantDatabase != "") {
+			JSONArray jsonFilters = new JSONArray();
+			try {
+				jsonFilters = new JSONArray(filtersFromDistantDatabase);
+				result = recordFilters(jsonFilters);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing data " + e.toString());
+			}
+		}
+		
+		if (result) {
+			updatePicturesFromRemoteServer(MySQLiteHelper.TABLE_FILTERS);
+			updateLastUpdateFromDatabase(LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE);
+		}
+	}
+	
+	private Boolean recordFilters(JSONArray jsonFiltersArray) {
+		FiltersDataSource datasource = new FiltersDataSource(context);
+		datasource.open();
+		try {
+			datasource.deleteAllFilters();
+			for (int i = 0; i < jsonFiltersArray.length(); i++) {
+				JSONObject c = jsonFiltersArray.getJSONObject(i);
+
+				Long id = c.getLong(MySQLiteHelper.COLUMN_ID);
+				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
+
+				datasource.insertFilter(id, picture);
+			}
+			datasource.close();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			datasource.close();
+			return false;
+		}
+	}
+	
 	private String getDataFromDistantDatabase(String URL) {
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
@@ -286,6 +332,11 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 			infosDataSource.open();
 			urlList.putAll(infosDataSource.getAllInfosPictures());
 			infosDataSource.close();
+		} else if (tableName.equals(MySQLiteHelper.TABLE_FILTERS)) {
+			FiltersDataSource filtersDataSource = new FiltersDataSource(context);
+			filtersDataSource.open();
+			urlList.putAll(filtersDataSource.getAllFilterPictures());
+			filtersDataSource.close();
 		}
 
 		
