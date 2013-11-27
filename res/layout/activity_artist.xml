@@ -64,9 +64,7 @@
         android:padding="10dp"
         android:layout_weight="1"
         android:textColor="#444444"
-        
         android:scrollbars = "vertical"
-        
          />
 
     <LinearLayout

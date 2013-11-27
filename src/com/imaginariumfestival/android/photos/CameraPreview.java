@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,10 +18,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         mHolder = getHolder();
         mHolder.addCallback(this);
-    }
-    
-    public CameraPreview(Context context, AttributeSet attributes, int defStyle ) {
-    	super(context, attributes, defStyle);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {

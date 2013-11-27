@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
@@ -22,44 +24,86 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.data.FiltersDataSource;
 
 public class PhotosTakingActivity extends Activity {
 
 	private Camera mCamera;
 	private CameraPreview mPreview;
+	private List<FilterModel> filters;
+	private FilterModel chosenFilter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
-
 		if (checkCameraHardware(PhotosTakingActivity.this)) {
+			FiltersDataSource datasource = new FiltersDataSource(PhotosTakingActivity.this);
+			datasource.open();
+			filters = datasource.getAllFilters();
+			datasource.close();
+			
 			setContentView(R.layout.activity_picture_taking);
 
+			LinearLayout filtersLayout = (LinearLayout) findViewById(R.id.filtersChoice);
+			for (FilterModel filter : filters) {
+				File filePath = getFileStreamPath( String.valueOf(filter.getId()) );
+				Drawable picture = Drawable.createFromPath(filePath.toString());
+				ImageView filterView = new ImageView(PhotosTakingActivity.this);
+				if (picture != null) {
+					filterView.setImageDrawable(picture);
+				} else {
+					filterView.setImageResource(R.drawable.artist_empty_icon);
+				}
+				filterView.setContentDescription(String.valueOf(filter.getId()));
+				filterView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						FiltersDataSource filtersDataSource = new FiltersDataSource(PhotosTakingActivity.this);
+						filtersDataSource.open();
+
+						Long id = Long.parseLong( (String) ((ImageView) v).getContentDescription() );
+						chosenFilter = filtersDataSource.getFilterFromId( id );
+						filtersDataSource.close();
+						
+						File filePath = getFileStreamPath( String.valueOf(chosenFilter.getId()) );
+						Drawable picture = Drawable.createFromPath(filePath.toString());
+						
+						ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
+						filterImagePreview.setImageDrawable(picture);
+						((FrameLayout) findViewById(R.id.camera_preview)).addView(filterImagePreview);
+					}
+				});
+				
+				filterView.setLayoutParams(new FrameLayout.LayoutParams(200,200));
+				filtersLayout.addView(filterView);
+			}
+			
 			mCamera = setUpCameraInstance();
 			
 			mPreview = new CameraPreview(this, mCamera);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
 			
-//			ImageView filterImageView = new ImageView(this);
-//			filterImageView.setImageResource(R.drawable.ic_launcher);
-//			preview.addView(filterImageView);
 
 			Button captureButton = (Button) findViewById(R.id.button_capture);
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// get an image from the camera
 					mCamera.takePicture(null, null, mPicture);
-					
 				}
 			});
+		} else {
+			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !", Toast.LENGTH_LONG).show();
 		}
 	}
 
