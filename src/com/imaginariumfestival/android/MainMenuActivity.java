@@ -38,7 +38,7 @@ public class MainMenuActivity extends Activity {
 	        long nowMillis = now.getTime();
 	        
 	        final int updateEvery10Min = 600000;
-	        if(nowMillis - lastUpdateMillis > updateEvery10Min) {
+//	        if(nowMillis - lastUpdateMillis > updateEvery10Min) {
 	            BackTask backtask = new BackTask(this);
 	            backtask.execute();
 	            
@@ -46,7 +46,7 @@ public class MainMenuActivity extends Activity {
 	    		Editor globalEditor = pref.edit();
 	    		globalEditor.putLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, currentDate.getTime());
 	    		globalEditor.commit();
-	        }
+//	        }
 		}
 
 		initialiseButtonsLinks();
