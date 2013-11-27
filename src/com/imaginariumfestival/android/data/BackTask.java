@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +67,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		getArtistsFromWebService();
 		getInfosFromWebService();
 		getNewsFromWebService();
+		updatePicturesFromRemoteServer();
         return null;
 	}
 
@@ -97,7 +99,6 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 		
 		if (result) {
-			updatePicturesFromRemoteServer(MySQLiteHelper.TABLE_ARTIST);
 			updateLastUpdateFromDatabase(LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE);
 		}
 	}
@@ -155,7 +156,6 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 
 		if (result) {
-			updatePicturesFromRemoteServer(MySQLiteHelper.TABLE_INFOS);
 			updateLastUpdateFromDatabase(LAST_INFO_UPDATE_FROM_DISTANT_DATABASE);
 		}
 	}
@@ -273,25 +273,26 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		editor.commit();
 	}
 
-	private void updatePicturesFromRemoteServer( String tableName ) {
+	private void updatePicturesFromRemoteServer() {
 		Map<String, String> urlList = new HashMap<String, String>();
 		
-		if (tableName.equals(MySQLiteHelper.TABLE_ARTIST)) {
-			ArtistDataSource artistDataSource = new ArtistDataSource(context);
-			artistDataSource.open();
-			urlList.putAll(artistDataSource.getAllArtistPictures());
-			artistDataSource.close();
-		} else if (tableName.equals(MySQLiteHelper.TABLE_INFOS)) {
-			InfosDataSource infosDataSource = new InfosDataSource(context);
-			infosDataSource.open();
-			urlList.putAll(infosDataSource.getAllInfosPictures());
-			infosDataSource.close();
-		}
+		ArtistDataSource artistDataSource = new ArtistDataSource(context);
+		artistDataSource.open();
+		urlList.putAll(artistDataSource.getAllArtistPictures());
+		artistDataSource.close();
+		
+		InfosDataSource infosDataSource = new InfosDataSource(context);
+		infosDataSource.open();
+		urlList.putAll(infosDataSource.getAllInfosPictures());
+		infosDataSource.close();
 		
 		for (Entry<String, String> entry : urlList.entrySet()) {
-			if (entry != null && entry.getValue() != null && !entry.getValue().equals("")) {
+			if (entry != null
+					&& Arrays.asList(context.fileList()).contains(entry.getKey())
+					&& entry.getValue() != null
+					&& !entry.getValue().equals("")) {
 				Bitmap bitmap = getBitmap(entry.getValue());
-
+				
 			    try {
 		            FileOutputStream fos = context.openFileOutput(entry.getKey(), Context.MODE_PRIVATE);
 	
