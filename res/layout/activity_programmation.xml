@@ -45,7 +45,8 @@
         android:scrollbars="horizontal" >
 
         <RelativeLayout
-            android:layout_width="1000dp"
+		    android:id="@+id/main_stage_layout"
+            android:layout_width="720dp"
             android:layout_height="150dp"
             android:background="#444444" >
         </RelativeLayout>
@@ -68,7 +69,8 @@
         android:scrollbars="horizontal" >
     
 		<RelativeLayout 
-	        android:layout_width="1000dp"
+		    android:id="@+id/second_stage_layout"
+	        android:layout_width="720dp"
 	        android:layout_height="150dp"
 	        android:background="#444444" >
 	    </RelativeLayout>

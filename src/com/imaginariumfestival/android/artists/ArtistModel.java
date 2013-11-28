@@ -1,6 +1,12 @@
 package com.imaginariumfestival.android.artists;
 
 public class ArtistModel {
+	public static final String FRIDAY = "friday";
+	public static final String SATURDAY = "saturday";
+
+	public static final String MAIN_STAGE = "principale";
+	public static final String SECOND_STAGE = "chapiteau";
+	
 	private long id;
 	private String name;
 	private String picture;
