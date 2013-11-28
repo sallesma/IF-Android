@@ -67,6 +67,13 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <activity
+            android:name="com.imaginariumfestival.android.programmation.ProgrammationActivity"
+            android:label="@string/programmation_activity"
+            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
         
         <activity
             android:name="com.imaginariumfestival.android.photos.PhotosTakingActivity"

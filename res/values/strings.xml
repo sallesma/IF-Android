@@ -7,6 +7,7 @@
     <string name="artist_web_view_activity">Artiste</string>
     <string name="infos_activity">Infos</string>
     <string name="info_activity">Info</string>
+    <string name="programmation_activity">Programmation</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
     <string name="action_settings">Settings</string>
@@ -59,6 +60,14 @@
     <!--  -->
     <string name="action_type_see_on_map">Voir sur la carte</string>
     <string name="category">Catégorie : </string>
+    
+    <!--  -->
+    <!-- Programmation Activity-->
+    <!--  -->
+    <string name="button_friday">Vendredi</string>
+    <string name="button_saturday">Samedi</string>
+    <string name="main_stage">Scène principale</string>
+    <string name="second_stage">Scène secondaire</string>
     
     <!--  -->
     <!-- Photo Activity-->

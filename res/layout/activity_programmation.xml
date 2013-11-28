@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ArtistLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProgrammationActivity" >
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <Button
+            android:id="@+id/button_friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/button_friday" />
+        
+        <Button
+            android:id="@+id/button_saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/button_saturday" />
+        
+    </LinearLayout>
+    
+    <TextView
+            android:id="@+id/main_stage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_stage"
+            android:gravity="center"
+            android:textColor="#444444"
+            android:background="#dddddd"
+            android:textSize="20sp"
+            android:padding="5dp" />
+    
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="1000dp"
+            android:layout_height="150dp"
+            android:background="#444444" >
+        </RelativeLayout>
+    </HorizontalScrollView>
+    
+    <TextView
+            android:id="@+id/second_stage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/second_stage"
+            android:gravity="center"
+            android:textColor="#444444"
+            android:background="#dddddd"
+            android:textSize="20sp"
+            android:padding="5dp" />
+    
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal" >
+    
+		<RelativeLayout 
+	        android:layout_width="1000dp"
+	        android:layout_height="150dp"
+	        android:background="#444444" >
+	    </RelativeLayout>
+    </HorizontalScrollView>
+    
+</LinearLayout>
