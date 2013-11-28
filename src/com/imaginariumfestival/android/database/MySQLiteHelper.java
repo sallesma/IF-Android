@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android.data;
+package com.imaginariumfestival.android.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

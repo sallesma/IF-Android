@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.artists.ArtistModel;
-import com.imaginariumfestival.android.data.ArtistDataSource;
+import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ProgrammationActivity extends Activity {
 	private List<ArtistModel> artists;

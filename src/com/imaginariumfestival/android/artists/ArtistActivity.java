@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
-import com.imaginariumfestival.android.data.ArtistDataSource;
+import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ArtistActivity extends Activity {
 	private ArtistModel artist;

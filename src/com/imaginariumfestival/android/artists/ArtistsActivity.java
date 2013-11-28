@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.imaginariumfestival.android.R;
-import com.imaginariumfestival.android.data.ArtistDataSource;
+import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ArtistsActivity extends ListActivity {
 	private List<ArtistModel> artists;

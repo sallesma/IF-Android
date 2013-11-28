@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
-import com.imaginariumfestival.android.data.InfosDataSource;
+import com.imaginariumfestival.android.database.InfosDataSource;
 
 public class InfoActivity extends Activity {
 	private static final String DEFAULT_CATEGORY_NAME = "Aucune";

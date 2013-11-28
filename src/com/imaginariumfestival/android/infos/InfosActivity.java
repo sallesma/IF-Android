@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.imaginariumfestival.android.R;
-import com.imaginariumfestival.android.data.InfosDataSource;
+import com.imaginariumfestival.android.database.InfosDataSource;
 
 public class InfosActivity extends ListActivity {
 	private List<InfoModel> infos;

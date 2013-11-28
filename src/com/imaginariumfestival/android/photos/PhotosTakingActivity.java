@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
-import com.imaginariumfestival.android.data.FiltersDataSource;
+import com.imaginariumfestival.android.database.FiltersDataSource;
 
 public class PhotosTakingActivity extends Activity {
 

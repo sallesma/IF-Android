@@ -1,4 +1,4 @@
-package com.imaginariumfestival.android.data;
+package com.imaginariumfestival.android.database;
 
 import java.util.ArrayList;
 import java.util.List;
