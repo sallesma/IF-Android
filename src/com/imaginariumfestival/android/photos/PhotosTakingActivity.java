@@ -39,7 +39,7 @@ public class PhotosTakingActivity extends Activity {
 	private Camera mCamera;
 	private CameraPreview mPreview;
 	private List<FilterModel> filters;
-	private FilterModel chosenFilter;
+	private FilterModel chosenFilter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,9 @@ public class PhotosTakingActivity extends Activity {
 						
 						ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
 						filterImagePreview.setImageDrawable(picture);
-						((FrameLayout) findViewById(R.id.camera_preview)).addView(filterImagePreview);
+						
+						FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+						preview.addView(filterImagePreview);
 					}
 				});
 				
@@ -138,12 +140,11 @@ public class PhotosTakingActivity extends Activity {
 	}
 	
 	private PictureCallback mPicture = new PictureCallback() {
-
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
 			
-	    	PhotoManager photoManager = new PhotoManager(getResources());
-	    	Bitmap filteredPicture = photoManager.computePhotoWithfilter(data);
+	    	PhotoManager photoManager = new PhotoManager(getResources(), PhotosTakingActivity.this);
+	    	Bitmap filteredPicture = photoManager.computePhotoWithfilter(data, chosenFilter);
 			
 	        File pictureFile = getOutputMediaFile();
 	        if (pictureFile == null){
@@ -154,7 +155,7 @@ public class PhotosTakingActivity extends Activity {
 	        try {
 	            FileOutputStream fos = new FileOutputStream(pictureFile);
 	            if (fos != null) {
-	            	filteredPicture.compress(Bitmap.CompressFormat.PNG, 90, fos);
+	            	filteredPicture.compress(Bitmap.CompressFormat.PNG, 100, fos);
 	            }
 	            fos.close();
 	        } catch (FileNotFoundException e) {
