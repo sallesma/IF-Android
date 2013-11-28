@@ -71,7 +71,8 @@
             android:name="com.imaginariumfestival.android.programmation.ProgrammationActivity"
             android:label="@string/programmation_activity"
             android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" >
         </activity>
         
         

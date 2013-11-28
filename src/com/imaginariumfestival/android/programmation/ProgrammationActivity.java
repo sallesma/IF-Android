@@ -5,10 +5,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.artists.ArtistActivity;
 import com.imaginariumfestival.android.artists.ArtistModel;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 
@@ -54,6 +57,18 @@ public class ProgrammationActivity extends Activity {
 		stageLayout.addView(view);
 		
 		((LinearLayout)view).setX( getOffsetFromStringHour(artist.getBeginHour()) );
+		
+		view.setContentDescription( String.valueOf(artist.getId()) );
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toArtistActivityIntent = new Intent(ProgrammationActivity.this, ArtistActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("artistId", (String) view.getContentDescription());
+				toArtistActivityIntent.putExtras(bundle);
+				startActivity(toArtistActivityIntent);
+			}
+		});
 	}
 
 	private int getOffsetFromStringHour(String beginHour) {
