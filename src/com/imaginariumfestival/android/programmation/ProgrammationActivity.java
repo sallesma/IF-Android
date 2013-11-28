@@ -1,6 +1,9 @@
 package com.imaginariumfestival.android.programmation;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,11 +27,16 @@ import com.imaginariumfestival.android.artists.ArtistModel;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ProgrammationActivity extends Activity {
+	private static final String FIRST_DAY = "vendredi";
+	private static final String SECOND_DAY = "samedi";
+	private static final String SEPARATION_BETWEEN_DAYS = "31/05/2014 05:00";
 	private static final int STARTING_HOUR = 15;
 	private static final int HOURS_IN_DAY = 24;
 	private static final int MINUTES_IN_HOUR = 60;
 	
 	private List<ArtistModel> artists;
+	private RelativeLayout mainStageLayout;
+	private RelativeLayout secondStageLayout;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +49,48 @@ public class ProgrammationActivity extends Activity {
 		artists = artistDataSource.getAllArtists();
 		artistDataSource.close();
 		
-		for (ArtistModel artist : artists) {
-			displayProgrammationOnScreen(artist);
+		mainStageLayout = ((RelativeLayout)findViewById(R.id.main_stage_layout));
+		secondStageLayout = ((RelativeLayout)findViewById(R.id.second_stage_layout));
+		
+		Button firstDayButton = ((Button)findViewById(R.id.button_first_day));
+		firstDayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mainStageLayout.removeAllViews();
+				secondStageLayout.removeAllViews();
+				for (ArtistModel artist : artists) {
+					if (artist.getDay().equals(FIRST_DAY))
+					displayProgrammationOnScreen(artist);
+				}
+			}
+		});
+
+		Button secondDayButton = ((Button)findViewById(R.id.button_second_day));
+		secondDayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mainStageLayout.removeAllViews();
+				secondStageLayout.removeAllViews();
+				for (ArtistModel artist : artists) {
+					if (artist.getDay().equals(SECOND_DAY))
+						displayProgrammationOnScreen(artist);
+				}
+			}
+		});
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Date date = new Date();
+		try {
+			date = simpleDateFormat.parse(SEPARATION_BETWEEN_DAYS);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		long now = new Date().getTime();
+		if (now - date.getTime() < 0) {
+			firstDayButton.callOnClick();
+		} else {
+			secondDayButton.callOnClick();
 		}
 	}
 
@@ -57,9 +106,9 @@ public class ProgrammationActivity extends Activity {
 
 		final String stage = artist.getStage();
 		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
-			((RelativeLayout)findViewById(R.id.main_stage_layout)).addView(view, params);
+			mainStageLayout.addView(view, params);
 		} else if ( stage.equals(ArtistModel.SECOND_STAGE) ) {
-			((RelativeLayout)findViewById(R.id.second_stage_layout)).addView(view, params);			
+			secondStageLayout.addView(view, params);			
 		}
 		
 		view.setContentDescription( String.valueOf(artist.getId()) );

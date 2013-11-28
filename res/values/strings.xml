@@ -64,8 +64,8 @@
     <!--  -->
     <!-- Programmation Activity-->
     <!--  -->
-    <string name="button_friday">Vendredi</string>
-    <string name="button_saturday">Samedi</string>
+    <string name="button_first_day">Vendredi</string>
+    <string name="button_second_day">Samedi</string>
     <string name="main_stage">Scène principale</string>
     <string name="second_stage">Scène secondaire</string>
     <string name="programmation_icon">Programmation</string>
