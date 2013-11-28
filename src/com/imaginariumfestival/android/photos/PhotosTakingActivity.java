@@ -146,7 +146,7 @@ public class PhotosTakingActivity extends Activity {
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
 			
-	    	PhotoManager photoManager = new PhotoManager(getResources(), PhotosTakingActivity.this);
+	    	PhotoManager photoManager = new PhotoManager(PhotosTakingActivity.this);
 	    	Bitmap filteredPicture = photoManager.computePhotoWithfilter(data, chosenFilter);
 			
 	        File pictureFile = getOutputMediaFile();

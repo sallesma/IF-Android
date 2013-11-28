@@ -3,7 +3,6 @@ package com.imaginariumfestival.android.photos;
 import java.io.File;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,11 +11,9 @@ import android.graphics.Matrix;
 public class PhotoManager {
 	private static final int REQUIRED_PICTURE_WIDTH = 600;
 	private static final int REQUIRED_PICTURE_HEIGHT = 600;
-	private Resources resources;
 	private Context context;
 	
-	public PhotoManager(Resources resources, Context context) {
-		this.resources = resources;
+	public PhotoManager(Context context) {
 		this.context = context;
 	}
 
@@ -26,7 +23,6 @@ public class PhotoManager {
 		if (filter != null) {
 			File filePath = context.getFileStreamPath( String.valueOf(filter.getId()) );
 			Bitmap overlay = BitmapFactory.decodeFile(filePath.getAbsolutePath());
-//			Bitmap overlay = BitmapFactory.decodeResource(resources, R.drawable.ic_launcher);
 	
 			Canvas canvas = new Canvas(photo);
 			canvas.drawBitmap(overlay, new Matrix(), null);
