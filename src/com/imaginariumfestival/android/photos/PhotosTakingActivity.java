@@ -40,6 +40,7 @@ public class PhotosTakingActivity extends Activity {
 	private CameraPreview mPreview;
 	private List<FilterModel> filters;
 	private FilterModel chosenFilter = null;
+	private ImageView activePreviewFilter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,9 @@ public class PhotosTakingActivity extends Activity {
 						filterImagePreview.setImageDrawable(picture);
 						
 						FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-						preview.addView(filterImagePreview);
+						preview.removeView(activePreviewFilter);
+						activePreviewFilter = filterImagePreview;
+						preview.addView(filterImagePreview);						
 					}
 				});
 				
