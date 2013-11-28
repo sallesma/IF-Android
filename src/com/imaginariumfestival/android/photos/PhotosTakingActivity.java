@@ -89,7 +89,7 @@ public class PhotosTakingActivity extends Activity {
 					}
 				});
 				
-				filterView.setLayoutParams(new FrameLayout.LayoutParams(200,200));
+				filterView.setLayoutParams(new FrameLayout.LayoutParams(100,100));
 				filtersLayout.addView(filterView);
 			}
 			

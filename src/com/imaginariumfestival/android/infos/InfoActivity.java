@@ -1,6 +1,9 @@
 package com.imaginariumfestival.android.infos;
 
+import java.io.File;
+
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -61,7 +64,14 @@ public class InfoActivity extends Activity {
 	private void fillViewWithInfoData() {
 		getActionBar().setTitle(info.getName());
 		
-		((ImageView)findViewById(R.id.infoPicture)).setImageResource(R.drawable.artist_empty_icon);
+		
+		File filePath = getFileStreamPath(info.getName());
+		Drawable picture = Drawable.createFromPath(filePath.toString());
+		if (picture != null) {
+			((ImageView)findViewById(R.id.infoPicture)).setImageDrawable(picture);
+		} else {
+			((ImageView)findViewById(R.id.infoPicture)).setImageResource(R.drawable.artist_empty_icon);
+		}
 		
 		if ( parent != null) {
 			((TextView)findViewById(R.id.infoCategoryName)).setText(parent.getName());
