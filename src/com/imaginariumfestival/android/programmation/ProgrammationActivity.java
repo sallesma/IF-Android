@@ -23,6 +23,10 @@ import com.imaginariumfestival.android.artists.ArtistModel;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ProgrammationActivity extends Activity {
+	private static final int STARTING_HOUR = 15;
+	private static final int HOURS_IN_DAY = 24;
+	private static final int MINUTES_IN_HOUR = 60;
+	
 	private List<ArtistModel> artists;
 	
 	@Override
@@ -47,16 +51,16 @@ public class ProgrammationActivity extends Activity {
 		
 		fillChildrenData(artist, view);
 		
-		final String stage = artist.getStage();
-		RelativeLayout stageLayout = null;
-		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
-			stageLayout = ((RelativeLayout)findViewById(R.id.main_stage_layout));
-		} else if ( stage.equals(ArtistModel.SECOND_STAGE) ) {
-			stageLayout = ((RelativeLayout)findViewById(R.id.second_stage_layout));			
-		}
-		stageLayout.addView(view);
-		
 		((LinearLayout)view).setX( getOffsetFromStringHour(artist.getBeginHour()) );
+		int width = getOffsetFromStringHour(artist.getEndHour()) - getOffsetFromStringHour(artist.getBeginHour());
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
+
+		final String stage = artist.getStage();
+		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
+			((RelativeLayout)findViewById(R.id.main_stage_layout)).addView(view, params);
+		} else if ( stage.equals(ArtistModel.SECOND_STAGE) ) {
+			((RelativeLayout)findViewById(R.id.second_stage_layout)).addView(view, params);			
+		}
 		
 		view.setContentDescription( String.valueOf(artist.getId()) );
 		view.setOnClickListener(new OnClickListener() {
@@ -72,9 +76,11 @@ public class ProgrammationActivity extends Activity {
 	}
 
 	private int getOffsetFromStringHour(String beginHour) {
-		int hours = Integer.parseInt( (String) beginHour.subSequence(0, 1) );
-		int minutes = Integer.parseInt( (String) beginHour.subSequence(3, 4) );
-		return (hours*60) + minutes;
+		int hours = Integer.parseInt( (String) beginHour.subSequence(0, 2) );
+		if (hours < 9) //after midnight is considered as the same day
+			hours = hours + HOURS_IN_DAY;
+		int minutes = Integer.parseInt( (String) beginHour.subSequence(3, 5) );
+		return (( hours - STARTING_HOUR )*MINUTES_IN_HOUR) + minutes;
 	}
 
 	private void fillChildrenData(final ArtistModel artist, final View view) {
