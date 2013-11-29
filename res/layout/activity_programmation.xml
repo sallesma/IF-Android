@@ -50,7 +50,7 @@
 
         <RelativeLayout
 		    android:id="@+id/main_stage_layout"
-            android:layout_width="780dp"
+            android:layout_width="1560px"
             android:layout_height="150dp"
             android:background="#666666"
             android:paddingTop="10dp"
@@ -76,7 +76,7 @@
     
 		<RelativeLayout 
 		    android:id="@+id/second_stage_layout"
-	        android:layout_width="780dp"
+	        android:layout_width="1560px"
 	        android:layout_height="150dp"
 	        android:background="#666666"
             android:paddingTop="10dp"

@@ -33,6 +33,7 @@ public class ProgrammationActivity extends Activity {
 	private static final int STARTING_HOUR = 15;
 	private static final int HOURS_IN_DAY = 24;
 	private static final int MINUTES_IN_HOUR = 60;
+	private static final int SIZE_COEFFICIENT = 2;
 	
 	private List<ArtistModel> artists;
 	private RelativeLayout mainStageLayout;
@@ -129,7 +130,7 @@ public class ProgrammationActivity extends Activity {
 		if (hours < 9) //after midnight is considered as the same day
 			hours = hours + HOURS_IN_DAY;
 		int minutes = Integer.parseInt( (String) beginHour.subSequence(3, 5) );
-		return (( hours - STARTING_HOUR )*MINUTES_IN_HOUR) + minutes;
+		return ( (( hours - STARTING_HOUR )*MINUTES_IN_HOUR) + minutes ) * SIZE_COEFFICIENT;
 	}
 
 	private void fillChildrenData(final ArtistModel artist, final View view) {
