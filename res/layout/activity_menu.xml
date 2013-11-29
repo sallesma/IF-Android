@@ -75,7 +75,7 @@
             android:src="@drawable/programmation" />
 
         <ImageButton
-            android:id="@+id/planButton"
+            android:id="@+id/mapButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

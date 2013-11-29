@@ -2,12 +2,6 @@ package com.imaginariumfestival.android;
 
 import java.util.Date;
 
-import com.imaginariumfestival.android.artists.ArtistsActivity;
-import com.imaginariumfestival.android.database.BackTask;
-import com.imaginariumfestival.android.infos.InfosActivity;
-import com.imaginariumfestival.android.photos.PhotosTakingActivity;
-import com.imaginariumfestival.android.programmation.ProgrammationActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,11 +14,19 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 
+import com.imaginariumfestival.android.artists.ArtistsActivity;
+import com.imaginariumfestival.android.database.BackTask;
+import com.imaginariumfestival.android.infos.InfosActivity;
+import com.imaginariumfestival.android.map.MapActivity;
+import com.imaginariumfestival.android.photos.PhotosTakingActivity;
+import com.imaginariumfestival.android.programmation.ProgrammationActivity;
+
 public class MainMenuActivity extends Activity {
 	private ImageButton artistsButton = null;
 	private ImageButton infosButton = null;
 	private ImageButton photosButton = null;
 	private ImageButton programmationButton = null;
+	private ImageButton mapButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,20 +89,28 @@ public class MainMenuActivity extends Activity {
 				startActivity(toInfosActivity);
 			}
 		});
-		photosButton = (ImageButton) findViewById(R.id.photosButton);
-		photosButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
-				startActivity(toPhotosActivity);
-			}
-		});
 		programmationButton= (ImageButton) findViewById(R.id.programmationButton);
 		programmationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent toProgrammationActivity = new Intent(MainMenuActivity.this, ProgrammationActivity.class);
 				startActivity(toProgrammationActivity);
+			}
+		});
+		mapButton= (ImageButton) findViewById(R.id.mapButton);
+		mapButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toMapActivity = new Intent(MainMenuActivity.this, MapActivity.class);
+				startActivity(toMapActivity);
+			}
+		});
+		photosButton = (ImageButton) findViewById(R.id.photosButton);
+		photosButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
+				startActivity(toPhotosActivity);
 			}
 		});
 	}
