@@ -31,6 +31,20 @@ public class MapActivity extends Activity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_type_filter:
+			return true;
+		case R.id.action_type_filter_bar:
+			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action_type_filter_food:
+			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action_type_filter_stage:
+			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action_type_filter_asso:
+			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action_type_filter_security:
 			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
 			return true;
 		default:
