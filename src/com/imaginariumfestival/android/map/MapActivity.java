@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
@@ -16,6 +18,14 @@ public class MapActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_map);
+	}
+	
+	public void showPopup() {
+		ImageView mainLayout = (ImageView)findViewById(R.id.map_anchor);
+	    PopupMenu popupMenu = new PopupMenu(this, mainLayout);
+	    
+	    popupMenu.getMenuInflater().inflate(R.menu.menu_map_advanced, popupMenu.getMenu());
+	    popupMenu.show();
 	}
 	
 	@Override
@@ -31,6 +41,7 @@ public class MapActivity extends Activity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_type_filter:
+			showPopup();
 			return true;
 		case R.id.action_type_filter_bar:
 			Toast.makeText(MapActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
