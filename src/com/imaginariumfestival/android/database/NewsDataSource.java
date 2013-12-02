@@ -84,6 +84,15 @@ public class NewsDataSource {
 		return news;
 	}
 	
+	public NewsModel getLastNews() {
+		Cursor c = database.query(MySQLiteHelper.TABLE_NEWS, allColumns, null, null, null,
+				null, MySQLiteHelper.COLUMN_DATE + " DESC");
+		c.moveToFirst();
+		NewsModel news = cursorToNews(c);
+		c.close();
+		return news;
+	}
+	
 	public List<NewsModel> getAllNews() {
 		List<NewsModel> allNews = new ArrayList<NewsModel>();
 

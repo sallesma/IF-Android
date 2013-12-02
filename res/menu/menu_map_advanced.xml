@@ -3,27 +3,22 @@
     <group android:checkableBehavior="all" >
         <item
             android:id="@+id/action_type_filter_food"
-            android:checkable="true"
             android:showAsAction="ifRoom"
             android:title="@string/action_type_filter_food"/>
         <item
             android:id="@+id/action_type_filter_bar"
-            android:checkable="true"
             android:showAsAction="ifRoom"
             android:title="@string/action_type_filter_bar"/>
         <item
             android:id="@+id/action_type_filter_stage"
-            android:checkable="true"
             android:showAsAction="ifRoom"
             android:title="@string/action_type_filter_stage"/>
         <item
             android:id="@+id/action_type_filter_asso"
-            android:checkable="true"
             android:showAsAction="ifRoom"
             android:title="@string/action_type_filter_asso"/>
         <item
             android:id="@+id/action_type_filter_security"
-            android:checkable="true"
             android:showAsAction="ifRoom"
             android:title="@string/action_type_filter_security"/>
     </group>

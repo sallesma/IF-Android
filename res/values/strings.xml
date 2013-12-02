@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Imaginarium Festival</string>
+    <string name="app_name">Imaginarium</string>
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
     <string name="artist_web_view_activity">Artiste</string>
@@ -25,6 +25,12 @@
     <string name="photosImageButtonDescription">Photos</string>
     <string name="partnersImageButtonDescription">Partenaires</string>
 
+    <!--  -->
+    <!-- News -->
+    <!--  -->
+    <string name="news">News</string>
+    
+    
     
     <!--  -->
     <!-- ArtistsActivity -->

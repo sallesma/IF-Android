@@ -9,15 +9,19 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.imaginariumfestival.android.artists.ArtistsActivity;
 import com.imaginariumfestival.android.database.BackTask;
+import com.imaginariumfestival.android.database.NewsDataSource;
 import com.imaginariumfestival.android.infos.InfosActivity;
 import com.imaginariumfestival.android.map.MapActivity;
+import com.imaginariumfestival.android.news.NewsModel;
 import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 import com.imaginariumfestival.android.programmation.ProgrammationActivity;
 
@@ -54,14 +58,22 @@ public class MainMenuActivity extends Activity {
 		}
 
 		initialiseButtonsLinks();
+		addNewsView();
 	}
 
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu, menu);
-		return true;
+	private void addNewsView() {
+		RelativeLayout footerLayout = (RelativeLayout) findViewById(R.id.main_activity_footer);
+		
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View newsView = inflater.inflate(R.layout.news_view, null);
+		footerLayout.addView(newsView);
+		
+		NewsDataSource newsDataSource = new NewsDataSource(this);
+		newsDataSource.open();
+		NewsModel news = newsDataSource.getLastNews();
+		newsDataSource.close();
+		((TextView)findViewById(R.id.news_content)).setText(news.getContent());
 	}
 	
 	private boolean isNetworkConnected(Context context) {

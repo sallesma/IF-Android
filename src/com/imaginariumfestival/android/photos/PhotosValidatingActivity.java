@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,13 +39,6 @@ public class PhotosValidatingActivity extends Activity {
 	    setUpShareButton();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu, menu);
-		return true;
-	}
-	
 	private void setUpShareButton() {
 		Button shareButton = (Button) findViewById(R.id.button_share);
 		shareButton.setOnClickListener(new View.OnClickListener() {
