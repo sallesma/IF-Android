@@ -1,5 +1,6 @@
 package com.imaginariumfestival.android.infos;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,8 +61,15 @@ public class InfosActivity extends ListActivity {
 				infoItem = new HashMap<String, String>();
 				infoItem.put("id", String.valueOf(info.getId()));
 				infoItem.put("title", info.getName());
-				infoItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
 				infoItem.put("isCategory", String.valueOf(info.getIsCategory()));
+				
+				File filePath = getFileStreamPath(info.getName());
+				if (filePath != null) {
+					infoItem.put("img", String.valueOf(filePath));
+				} else {
+					infoItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
+				}
+
 				listItemToDisplay.add(infoItem);
 			}
 		}

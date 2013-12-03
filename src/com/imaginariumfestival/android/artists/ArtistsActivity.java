@@ -1,5 +1,6 @@
 package com.imaginariumfestival.android.artists;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,7 +53,13 @@ public class ArtistsActivity extends ListActivity {
 			artistItem.put("id", String.valueOf(artist.getId()));
 			artistItem.put("title", artist.getName());
 			artistItem.put("programmation", artist.getProgrammation().toString());
-			artistItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
+			
+			File filePath = getFileStreamPath(artist.getName());
+			if (filePath != null) {
+				artistItem.put("img", String.valueOf(filePath));
+			} else {
+				artistItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
+			}
 			
 			listItemToDisplay.add(artistItem);
 		}
@@ -79,7 +86,6 @@ public class ArtistsActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_artists, menu);
 		return true;
 	}
