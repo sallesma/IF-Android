@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.ArtistDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ArtistActivity extends Activity {
 	private ArtistModel artist;
@@ -65,7 +66,8 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getTwitter(), R.id.twitterIcon);
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 
-		File filePath = getFileStreamPath(artist.getName());
+		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
+		
 		Drawable picture = Drawable.createFromPath(filePath.toString());
 		if (picture != null) {
 			((ImageView)findViewById(R.id.artist_icon)).setImageDrawable(picture);

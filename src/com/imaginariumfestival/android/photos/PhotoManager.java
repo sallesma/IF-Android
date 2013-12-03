@@ -2,6 +2,8 @@ package com.imaginariumfestival.android.photos;
 
 import java.io.File;
 
+import com.imaginariumfestival.android.database.MySQLiteHelper;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +23,8 @@ public class PhotoManager {
 		Bitmap photo = decodeBitmapFromData(pictureTaken);
 		
 		if (filter != null) {
-			File filePath = context.getFileStreamPath( String.valueOf(filter.getId()) );
+			File filePath = new File(context.getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + filter.getId());
+			
 			Bitmap overlay = BitmapFactory.decodeFile(filePath.getAbsolutePath());
 	
 			Canvas canvas = new Canvas(photo);

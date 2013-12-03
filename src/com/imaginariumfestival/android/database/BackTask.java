@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.database;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -339,14 +340,15 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 			filtersDataSource.close();
 		}
 
+		String path = context.getFilesDir() + "/" + tableName + "/";
+		new File(path).mkdirs();
 		
 		for (Entry<String, String> entry : urlList.entrySet()) {
 			if (entry != null && entry.getValue() != null && !entry.getValue().equals("")) {
 				Bitmap bitmap = getBitmap(entry.getValue());
 				
-			    try {
-		            FileOutputStream fos = context.openFileOutput(entry.getKey(), Context.MODE_PRIVATE);
-	
+				try {
+			    	FileOutputStream fos = new FileOutputStream(path + entry.getKey(),false);
 		            if (fos != null && bitmap != null) {
 		            	bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		            }

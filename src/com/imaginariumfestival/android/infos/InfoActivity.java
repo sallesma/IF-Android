@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.InfosDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class InfoActivity extends Activity {
 	private static final String DEFAULT_CATEGORY_NAME = "Aucune";
@@ -64,8 +65,7 @@ public class InfoActivity extends Activity {
 	private void fillViewWithInfoData() {
 		getActionBar().setTitle(info.getName());
 		
-		
-		File filePath = getFileStreamPath(info.getName());
+		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName());
 		Drawable picture = Drawable.createFromPath(filePath.toString());
 		if (picture != null) {
 			((ImageView)findViewById(R.id.infoPicture)).setImageDrawable(picture);

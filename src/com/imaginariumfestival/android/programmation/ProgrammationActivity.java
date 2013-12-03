@@ -25,6 +25,7 @@ import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.artists.ArtistActivity;
 import com.imaginariumfestival.android.artists.ArtistModel;
 import com.imaginariumfestival.android.database.ArtistDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ProgrammationActivity extends Activity {
 	private static final String FIRST_DAY = "vendredi";
@@ -139,7 +140,7 @@ public class ProgrammationActivity extends Activity {
 			View child = ((ViewGroup) view).getChildAt(i);
 			
 			if (child.getId() == R.id.programmation_icon ) {
-				File filePath = getFileStreamPath(artist.getName());
+				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
 				Drawable picture = Drawable.createFromPath(filePath.toString());
 				if (picture != null) {
 					((ImageView) child).setImageDrawable(picture);

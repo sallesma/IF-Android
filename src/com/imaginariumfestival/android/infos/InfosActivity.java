@@ -19,6 +19,7 @@ import android.widget.SimpleAdapter;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.InfosDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class InfosActivity extends ListActivity {
 	private List<InfoModel> infos;
@@ -63,11 +64,9 @@ public class InfosActivity extends ListActivity {
 				infoItem.put("title", info.getName());
 				infoItem.put("isCategory", String.valueOf(info.getIsCategory()));
 				
-				File filePath = getFileStreamPath(info.getName());
+				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName());
 				if (filePath != null) {
 					infoItem.put("img", String.valueOf(filePath));
-				} else {
-					infoItem.put("img", String.valueOf(R.drawable.artist_empty_icon));
 				}
 
 				listItemToDisplay.add(infoItem);

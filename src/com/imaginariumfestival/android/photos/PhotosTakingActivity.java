@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.FiltersDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class PhotosTakingActivity extends Activity {
 
@@ -56,7 +57,8 @@ public class PhotosTakingActivity extends Activity {
 
 			LinearLayout filtersLayout = (LinearLayout) findViewById(R.id.filtersChoice);
 			for (FilterModel filter : filters) {
-				File filePath = getFileStreamPath( String.valueOf(filter.getId()) );
+				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(filter.getId()));
+				
 				Drawable picture = Drawable.createFromPath(filePath.toString());
 				ImageView filterView = new ImageView(PhotosTakingActivity.this);
 				if (picture != null) {
@@ -75,7 +77,7 @@ public class PhotosTakingActivity extends Activity {
 						chosenFilter = filtersDataSource.getFilterFromId( id );
 						filtersDataSource.close();
 						
-						File filePath = getFileStreamPath( String.valueOf(chosenFilter.getId()) );
+						File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(chosenFilter.getId()));
 						Drawable picture = Drawable.createFromPath(filePath.toString());
 						
 						ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
