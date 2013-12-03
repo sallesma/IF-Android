@@ -63,17 +63,20 @@ public class MainMenuActivity extends Activity {
 
 
 	private void addNewsView() {
-		RelativeLayout footerLayout = (RelativeLayout) findViewById(R.id.main_activity_footer);
-		
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View newsView = inflater.inflate(R.layout.news_view, null);
-		footerLayout.addView(newsView);
-		
 		NewsDataSource newsDataSource = new NewsDataSource(this);
 		newsDataSource.open();
 		NewsModel news = newsDataSource.getLastNews();
 		newsDataSource.close();
-		((TextView)findViewById(R.id.news_content)).setText(news.getContent());
+		
+		if (news != null) {
+			RelativeLayout footerLayout = (RelativeLayout) findViewById(R.id.main_activity_footer);
+			
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final View newsView = inflater.inflate(R.layout.news_view, null);
+			footerLayout.addView(newsView);
+
+			((TextView)findViewById(R.id.news_content)).setText(news.getContent());
+		}
 	}
 	
 	private boolean isNetworkConnected(Context context) {
