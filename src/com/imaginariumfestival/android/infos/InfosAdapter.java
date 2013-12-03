@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.infos;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,10 +35,17 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 					return -1;
 				else if ( !lhs.getIsCategory() && rhs.getIsCategory() )
 					return 1;
-				else
-					return lhs.getName().toUpperCase().compareTo(rhs.getName().toUpperCase());
+				else {
+					String firstName = Normalizer.normalize(lhs.getName().toUpperCase(), Normalizer.Form.NFD);
+					firstName = firstName.replaceAll("[^\\p{ASCII}]", "");
+					
+					String secondName = Normalizer.normalize(rhs.getName().toUpperCase(), Normalizer.Form.NFD);
+					secondName = secondName.replaceAll("[^\\p{ASCII}]", "");
+					
+					return firstName.compareTo(secondName);
+				}
 			}
-    	});
+		});
     	this.infos = new ArrayList<InfoModel>();
     	for (InfoModel info : infos) {
     		if (info.getParentId() == parentId) {

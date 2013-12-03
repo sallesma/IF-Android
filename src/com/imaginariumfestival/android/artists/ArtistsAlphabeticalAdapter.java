@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.artists;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +34,13 @@ public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIn
     	Collections.sort(artists, new Comparator<ArtistModel>(){
 			@Override
 			public int compare(ArtistModel lhs, ArtistModel rhs) {
-				return lhs.getName().toUpperCase().compareTo(rhs.getName().toUpperCase());
+				String firstName = Normalizer.normalize(lhs.getName().toUpperCase(), Normalizer.Form.NFD);
+				firstName = firstName.replaceAll("[^\\p{ASCII}]", "");
+				
+				String secondName = Normalizer.normalize(rhs.getName().toUpperCase(), Normalizer.Form.NFD);
+				secondName = secondName.replaceAll("[^\\p{ASCII}]", "");
+				
+				return firstName.compareTo(secondName);
 			}
     	});
         this.artists = artists;

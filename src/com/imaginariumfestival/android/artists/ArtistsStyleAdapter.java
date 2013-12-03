@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.artists;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +34,11 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
     	Collections.sort(artists, new Comparator<ArtistModel>(){
 			@Override
 			public int compare(ArtistModel lhs, ArtistModel rhs) {
-				return lhs.getStyle().toUpperCase().compareTo(rhs.getStyle().toUpperCase());
+				String firstStyle = computeWithoutAccent(lhs.getStyle().toUpperCase());
+				
+				String secondStyle = computeWithoutAccent(rhs.getStyle().toUpperCase());
+				
+				return firstStyle.compareTo(secondStyle);
 			}
     	});
         this.artists = artists;
@@ -62,11 +67,11 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 		LinearLayout header = (LinearLayout) view.findViewById(R.id.artist_section);
 		
 		ArtistModel artist = artists.get(position);
-		String firstLabel = artist.getStyle();
+		String firstLabel = computeWithoutAccent( artist.getStyle().toUpperCase() );
 		if (position == 0) {
 			setSection(header, artist.getStyle());
 		} else {
-			String preLabel = artists.get(position - 1).getStyle();
+			String preLabel = computeWithoutAccent( artists.get(position - 1).getStyle().toUpperCase());
 			if ( !firstLabel.equals(preLabel) ) {
 				setSection(header, artist.getStyle());
 			} else {
@@ -139,4 +144,9 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 		return null;
 	}
 
+	private String computeWithoutAccent(String string) {
+		String firstStyle = Normalizer.normalize(string, Normalizer.Form.NFD);
+		firstStyle = firstStyle.replaceAll("[^\\p{ASCII}]", "");
+		return firstStyle;
+	}
 }
