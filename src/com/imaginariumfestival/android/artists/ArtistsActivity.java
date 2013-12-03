@@ -1,27 +1,19 @@
 package com.imaginariumfestival.android.artists;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.ListActivity;
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.ArtistDataSource;
-import com.imaginariumfestival.android.database.MySQLiteHelper;
 
-public class ArtistsActivity extends ListActivity {
+public class ArtistsActivity extends Activity {
 	private List<ArtistModel> artists;
 
 	@Override
@@ -34,54 +26,15 @@ public class ArtistsActivity extends ListActivity {
 		artists = datasource.getAllArtists();
 		datasource.close();
 		
-		computeListToView(new Comparator<ArtistModel>(){
-			@Override
-			public int compare(ArtistModel lhs, ArtistModel rhs) {
-				return lhs.getName().compareTo(rhs.getName());
-			}
-		});
-
+		computeListToView( new ArtistsAlphabeticalAdapter(this, artists) );
 	}
 
-	private void computeListToView(Comparator<ArtistModel> comparator) {
-		Collections.sort(artists, comparator); //TODO:quand on sortira la liste de la db, inutile ?
-		
-		ArrayList<HashMap<String, String>> listItemToDisplay = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String> artistItem;
-
-		for (ArtistModel artist : artists) {
-			artistItem = new HashMap<String, String>();
-			artistItem.put("id", String.valueOf(artist.getId()));
-			artistItem.put("title", artist.getName());
-			artistItem.put("programmation", artist.getProgrammation().toString());
-			
-			File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
-			if (filePath != null) {
-				artistItem.put("img", String.valueOf(filePath));
-			}
-			
-			listItemToDisplay.add(artistItem);
-		}
-		
-		SimpleAdapter listAdapter = new SimpleAdapter(this.getBaseContext(),
-				listItemToDisplay, R.layout.artist_list_item, new String[] {
-						"img", "title", "programmation", "id" }, new int[] {
-						R.id.artistListItemIcon, R.id.artistListItemName,
-						R.id.artistListItemProgrammation });
-		setListAdapter(listAdapter);
+	private void computeListToView(ListAdapter adapter) {
+		setContentView(R.layout.activity_artists);
+		ListView list = (ListView) findViewById(R.id.artistsList);
+		list.removeAllViewsInLayout();
+		list.setAdapter(adapter);
 	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		@SuppressWarnings("unchecked")
-		HashMap<String, String> map = (HashMap<String, String>) getListAdapter().getItem(position);
-		Intent toArtistActivityIntent = new Intent(ArtistsActivity.this,ArtistActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putString("artistId", map.get("id"));
-		toArtistActivityIntent.putExtras(bundle);
-		startActivity(toArtistActivityIntent);
-	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,21 +51,11 @@ public class ArtistsActivity extends ListActivity {
 		case R.id.action_type_sort:
 			if (menuItem.getTitle().toString() == getString(R.string.action_type_sort)) {
 				menuItem.setTitle(R.string.action_alpha_sort);
-				computeListToView(new Comparator<ArtistModel>(){
-					@Override
-					public int compare(ArtistModel lhs, ArtistModel rhs) {
-						return lhs.getStyle().compareTo(rhs.getStyle());
-					}
-				});
+				computeListToView( new ArtistsStyleAdapter(this, artists) );
 				
 			} else {
 				menuItem.setTitle(R.string.action_type_sort);
-				computeListToView(new Comparator<ArtistModel>(){
-					@Override
-					public int compare(ArtistModel lhs, ArtistModel rhs) {
-						return lhs.getName().compareTo(rhs.getName());
-					}
-				});
+				computeListToView( new ArtistsAlphabeticalAdapter(this, artists) );
 			}
 			return true;
 		default:
