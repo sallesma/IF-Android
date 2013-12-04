@@ -95,6 +95,13 @@
             android:parentActivityName="com.imaginariumfestival.android.photos.PhotosTakingActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name="com.imaginariumfestival.android.partners.PartnersActivity"
+            android:label="@string/partner_activity"
+            android:parentActivityName="com.imaginariumfestival.android.MainMenuActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

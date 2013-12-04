@@ -22,15 +22,11 @@ import com.imaginariumfestival.android.database.NewsDataSource;
 import com.imaginariumfestival.android.infos.InfosActivity;
 import com.imaginariumfestival.android.map.MapActivity;
 import com.imaginariumfestival.android.news.NewsModel;
+import com.imaginariumfestival.android.partners.PartnersActivity;
 import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 import com.imaginariumfestival.android.programmation.ProgrammationActivity;
 
 public class MainMenuActivity extends Activity {
-	private ImageButton artistsButton = null;
-	private ImageButton infosButton = null;
-	private ImageButton photosButton = null;
-	private ImageButton programmationButton = null;
-	private ImageButton mapButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +84,7 @@ public class MainMenuActivity extends Activity {
 	}
 	
 	private void initialiseButtonsLinks() {
-		artistsButton = (ImageButton) findViewById(R.id.artistsButton);
+		ImageButton artistsButton = (ImageButton) findViewById(R.id.artistsButton);
 		artistsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,7 +92,7 @@ public class MainMenuActivity extends Activity {
 				startActivity(toArtistsActivity);
 			}
 		});
-		infosButton = (ImageButton) findViewById(R.id.infosButton);
+		ImageButton infosButton = (ImageButton) findViewById(R.id.infosButton);
 		infosButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -104,7 +100,7 @@ public class MainMenuActivity extends Activity {
 				startActivity(toInfosActivity);
 			}
 		});
-		programmationButton= (ImageButton) findViewById(R.id.programmationButton);
+		ImageButton programmationButton= (ImageButton) findViewById(R.id.programmationButton);
 		programmationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -112,7 +108,7 @@ public class MainMenuActivity extends Activity {
 				startActivity(toProgrammationActivity);
 			}
 		});
-		mapButton= (ImageButton) findViewById(R.id.mapButton);
+		ImageButton mapButton= (ImageButton) findViewById(R.id.mapButton);
 		mapButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -120,12 +116,20 @@ public class MainMenuActivity extends Activity {
 				startActivity(toMapActivity);
 			}
 		});
-		photosButton = (ImageButton) findViewById(R.id.photosButton);
+		ImageButton photosButton = (ImageButton) findViewById(R.id.photosButton);
 		photosButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
 				startActivity(toPhotosActivity);
+			}
+		});
+		ImageButton partnersButton = (ImageButton) findViewById(R.id.partnersButton);
+		partnersButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toPartnersActivity = new Intent(MainMenuActivity.this, PartnersActivity.class);
+				startActivity(toPartnersActivity);
 			}
 		});
 	}

@@ -13,6 +13,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_INFOS = "infos";
     public static final String TABLE_NEWS = "news";
     public static final String TABLE_FILTERS = "filters";
+    public static final String TABLE_PARTNERS = "partners";
 
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
@@ -68,6 +69,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + TABLE_FILTERS + "(" +
 				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				COLUMN_PICTURE + " text not null)");
+		db.execSQL("CREATE TABLE " + TABLE_PARTNERS + "(" +
+				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				COLUMN_NAME + " text not null, " +
+				COLUMN_WEBSITE + " text not null, " +
+				COLUMN_PICTURE + " text not null)");
 	}
 
 	@Override
@@ -77,6 +83,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_INFOS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILTERS +";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTNERS +";");
 			onCreate(db);
 		}
 	}

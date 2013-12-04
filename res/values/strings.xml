@@ -11,7 +11,7 @@
     <string name="map_activity">Plan intéractif</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
-    <string name="action_settings">Settings</string>
+    <string name="partner_activity">Partenaires</string>
 
     <!--  -->
     <!-- contentDescription for MainMenuImageButtons -->
@@ -95,6 +95,11 @@
     <string name="camera_take">Prendre</string>
     <string name="picture_taken">Photo prise</string>
     <string name="share">Partager</string>
+    
+    <!--  -->
+    <!-- Partners Activity-->
+    <!--  -->
+    <string name="partner_icon">logo partenaire</string>
 
 
 </resources>
