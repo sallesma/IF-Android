@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -47,7 +46,7 @@ public class PhotosTakingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		if (checkCameraHardware(PhotosTakingActivity.this)) {
+		if ( getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA) ) {
 			FiltersDataSource datasource = new FiltersDataSource(PhotosTakingActivity.this);
 			datasource.open();
 			filters = datasource.getAllFilters();
@@ -57,41 +56,7 @@ public class PhotosTakingActivity extends Activity {
 
 			LinearLayout filtersLayout = (LinearLayout) findViewById(R.id.filtersChoice);
 			for (FilterModel filter : filters) {
-				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(filter.getId()));
-				
-				Drawable picture = Drawable.createFromPath(filePath.toString());
-				ImageView filterView = new ImageView(PhotosTakingActivity.this);
-				if (picture != null) {
-					filterView.setImageDrawable(picture);
-				} else {
-					filterView.setImageResource(R.drawable.artist_empty_icon);
-				}
-				filterView.setContentDescription(String.valueOf(filter.getId()));
-				filterView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						FiltersDataSource filtersDataSource = new FiltersDataSource(PhotosTakingActivity.this);
-						filtersDataSource.open();
-
-						Long id = Long.parseLong( (String) ((ImageView) v).getContentDescription() );
-						chosenFilter = filtersDataSource.getFilterFromId( id );
-						filtersDataSource.close();
-						
-						File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(chosenFilter.getId()));
-						Drawable picture = Drawable.createFromPath(filePath.toString());
-						
-						ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
-						filterImagePreview.setImageDrawable(picture);
-						
-						FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-						preview.removeView(activePreviewFilter);
-						activePreviewFilter = filterImagePreview;
-						preview.addView(filterImagePreview);						
-					}
-				});
-				
-				filterView.setLayoutParams(new FrameLayout.LayoutParams(100,100));
-				filtersLayout.addView(filterView);
+				addFilterToFilterBarLayout(filtersLayout, filter);
 			}
 			
 			mCamera = setUpCameraInstance();
@@ -100,7 +65,6 @@ public class PhotosTakingActivity extends Activity {
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
 			
-
 			Button captureButton = (Button) findViewById(R.id.button_capture);
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -112,23 +76,54 @@ public class PhotosTakingActivity extends Activity {
 			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !", Toast.LENGTH_LONG).show();
 		}
 	}
-
-
-	private boolean checkCameraHardware(Context context) {
-		if (context.getPackageManager().hasSystemFeature(
-				PackageManager.FEATURE_CAMERA)) {
-			return true;
+ 
+	private void addFilterToFilterBarLayout(LinearLayout filtersLayout,
+			FilterModel filter) {
+		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(filter.getId()));
+		
+		Drawable picture = Drawable.createFromPath(filePath.toString());
+		ImageView filterView = new ImageView(PhotosTakingActivity.this);
+		if (picture != null) {
+			filterView.setImageDrawable(picture);
 		} else {
-			return false;
+			filterView.setImageResource(R.drawable.artist_empty_icon);
 		}
+		filterView.setContentDescription(String.valueOf(filter.getId()));
+		filterView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FiltersDataSource filtersDataSource = new FiltersDataSource(PhotosTakingActivity.this);
+				filtersDataSource.open();
+
+				Long id = Long.parseLong( (String) ((ImageView) v).getContentDescription() );
+				chosenFilter = filtersDataSource.getFilterFromId( id );
+				filtersDataSource.close();
+				
+				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(chosenFilter.getId()));
+				Drawable picture = Drawable.createFromPath(filePath.toString());
+				
+				ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
+				filterImagePreview.setImageDrawable(picture);
+				
+				FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+				preview.removeView(activePreviewFilter);
+				activePreviewFilter = filterImagePreview;
+				preview.addView(filterImagePreview);						
+			}
+		});
+		
+		filterView.setLayoutParams(new FrameLayout.LayoutParams(100,100));
+		filtersLayout.addView(filterView);
 	}
 
-	public static Camera setUpCameraInstance() {
+	private Camera setUpCameraInstance() {
 		Camera camera = null;
 		try {
 			camera = Camera.open();
 			
 			Camera.Parameters params = camera.getParameters();
+			params.setPictureSize(PhotoManager.REQUIRED_PICTURE_WIDTH, PhotoManager.REQUIRED_PICTURE_HEIGHT);
+			params.setPreviewSize(PhotoManager.REQUIRED_PICTURE_WIDTH, PhotoManager.REQUIRED_PICTURE_HEIGHT);
 			params.set("rotation", 90);
 			camera.setParameters(params);
 		} catch (Exception e) {
