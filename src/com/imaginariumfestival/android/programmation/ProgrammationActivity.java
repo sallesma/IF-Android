@@ -1,6 +1,5 @@
 package com.imaginariumfestival.android.programmation;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.artists.ArtistActivity;
 import com.imaginariumfestival.android.artists.ArtistModel;
 import com.imaginariumfestival.android.database.ArtistDataSource;
@@ -140,13 +139,11 @@ public class ProgrammationActivity extends Activity {
 			View child = ((ViewGroup) view).getChildAt(i);
 			
 			if (child.getId() == R.id.programmation_icon ) {
-				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
-				Drawable picture = Drawable.createFromPath(filePath.toString());
-				if (picture != null) {
-					((ImageView) child).setImageDrawable(picture);
-				} else {
-					((ImageView) child).setImageResource(R.drawable.artist_empty_icon);
-				}
+				String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
+				((ImageView) child).setImageBitmap(Utils
+						.decodeSampledBitmapFromFile(filePath,
+								getResources(),
+								R.drawable.artist_empty_icon, 80, 80));
 			} else if ( child.getId() == R.id.programmation_name ) {
 				((TextView) child).setText(artist.getName());
 			}

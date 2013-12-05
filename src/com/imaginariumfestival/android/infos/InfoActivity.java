@@ -1,9 +1,6 @@
 package com.imaginariumfestival.android.infos;
 
-import java.io.File;
-
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -14,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.InfosDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
@@ -65,13 +63,10 @@ public class InfoActivity extends Activity {
 	private void fillViewWithInfoData() {
 		getActionBar().setTitle(info.getName());
 		
-		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName());
-		Drawable picture = Drawable.createFromPath(filePath.toString());
-		if (picture != null) {
-			((ImageView)findViewById(R.id.infoPicture)).setImageDrawable(picture);
-		} else {
-			((ImageView)findViewById(R.id.infoPicture)).setImageResource(R.drawable.artist_empty_icon);
-		}
+		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
+		((ImageView) findViewById(R.id.infoPicture)).setImageBitmap(Utils
+				.decodeSampledBitmapFromFile(filePath, getResources(),
+						R.drawable.artist_empty_icon, 80, 80));
 		
 		if ( parent != null) {
 			((TextView)findViewById(R.id.infoCategoryName)).setText(parent.getName());

@@ -1,6 +1,5 @@
 package com.imaginariumfestival.android.artists;
 
-import java.io.File;
 import java.text.Normalizer;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +22,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
@@ -88,13 +87,12 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 		((TextView) view.findViewById(R.id.artistListItemName)).setText(artist.getName());
 		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setText(artist.getProgrammation());
 		
-		File filePath = new File(context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
-		Drawable picture = Drawable.createFromPath(filePath.toString());
-		if (picture != null) {
-			((ImageView)view.findViewById(R.id.artistListItemIcon)).setImageDrawable(picture);
-		} else {
-			((ImageView)view.findViewById(R.id.artistListItemIcon)).setImageResource(R.drawable.artist_empty_icon);
-		}
+		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
+
+		((ImageView) view.findViewById(R.id.artistListItemIcon))
+				.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
+						context.getResources(), R.drawable.artist_empty_icon,
+						100, 100));
 		
 		((LinearLayout) view.findViewById(R.id.artist_list_item)).setContentDescription(String.valueOf(artist.getId()));
 		((LinearLayout) view.findViewById(R.id.artist_list_item)).setOnClickListener(new OnClickListener() {

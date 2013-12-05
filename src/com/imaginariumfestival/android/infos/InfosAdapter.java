@@ -1,6 +1,5 @@
 package com.imaginariumfestival.android.infos;
 
-import java.io.File;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +19,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class InfosAdapter extends BaseAdapter implements SectionIndexer {
@@ -46,6 +45,7 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 				}
 			}
 		});
+    	
     	this.infos = new ArrayList<InfoModel>();
     	for (InfoModel info : infos) {
     		if (info.getParentId() == parentId) {
@@ -79,13 +79,11 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 		
 		((TextView) view.findViewById(R.id.infoListItemName)).setText(info.getName());
 		
-		File filePath = new File(context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName());
-		Drawable picture = Drawable.createFromPath(filePath.toString());
-		if (picture != null) {
-			((ImageView)view.findViewById(R.id.infoListItemIcon)).setImageDrawable(picture);
-		} else {
-			((ImageView)view.findViewById(R.id.infoListItemIcon)).setImageResource(R.drawable.artist_empty_icon);
-		}
+		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
+		((ImageView) view.findViewById(R.id.infoListItemIcon))
+				.setImageBitmap(Utils.decodeSampledBitmapFromFile(
+						filePath, context.getResources(),
+						R.drawable.artist_empty_icon, 80, 80));
 		
 		((LinearLayout) view.findViewById(R.id.info_list_item)).setContentDescription(String.valueOf(info.getId()));
 		if ( info.getIsCategory() ) {

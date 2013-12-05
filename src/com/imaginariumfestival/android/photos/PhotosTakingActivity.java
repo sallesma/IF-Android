@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.FiltersDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
@@ -45,26 +45,27 @@ public class PhotosTakingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		if ( getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA) ) {
-			FiltersDataSource datasource = new FiltersDataSource(PhotosTakingActivity.this);
+
+		if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+			FiltersDataSource datasource = new FiltersDataSource(
+					PhotosTakingActivity.this);
 			datasource.open();
 			filters = datasource.getAllFilters();
 			datasource.close();
-			
+
 			setContentView(R.layout.activity_picture_taking);
 
 			LinearLayout filtersLayout = (LinearLayout) findViewById(R.id.filtersChoice);
 			for (FilterModel filter : filters) {
 				addFilterToFilterBarLayout(filtersLayout, filter);
 			}
-			
+
 			mCamera = setUpCameraInstance();
-			
+
 			mPreview = new CameraPreview(this, mCamera);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
-			
+
 			Button captureButton = (Button) findViewById(R.id.button_capture);
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -73,46 +74,52 @@ public class PhotosTakingActivity extends Activity {
 				}
 			});
 		} else {
-			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !",
+					Toast.LENGTH_LONG).show();
 		}
 	}
- 
-	private void addFilterToFilterBarLayout(LinearLayout filtersLayout,
-			FilterModel filter) {
-		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(filter.getId()));
+
+	private void addFilterToFilterBarLayout(LinearLayout filtersLayout, FilterModel filter) {
 		
-		Drawable picture = Drawable.createFromPath(filePath.toString());
+		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS
+				+ "/" + String.valueOf(filter.getId());
+
 		ImageView filterView = new ImageView(PhotosTakingActivity.this);
-		if (picture != null) {
-			filterView.setImageDrawable(picture);
-		} else {
-			filterView.setImageResource(R.drawable.artist_empty_icon);
-		}
+		filterView.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
+				getResources(), R.drawable.artist_empty_icon, 100, 100));
+
 		filterView.setContentDescription(String.valueOf(filter.getId()));
 		filterView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FiltersDataSource filtersDataSource = new FiltersDataSource(PhotosTakingActivity.this);
+				FiltersDataSource filtersDataSource = new FiltersDataSource(
+						PhotosTakingActivity.this);
 				filtersDataSource.open();
 
-				Long id = Long.parseLong( (String) ((ImageView) v).getContentDescription() );
-				chosenFilter = filtersDataSource.getFilterFromId( id );
+				Long id = Long.parseLong((String) ((ImageView) v)
+						.getContentDescription());
+				chosenFilter = filtersDataSource.getFilterFromId(id);
 				filtersDataSource.close();
-				
-				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_FILTERS + "/" + String.valueOf(chosenFilter.getId()));
-				Drawable picture = Drawable.createFromPath(filePath.toString());
-				
+
+				String filePath = getApplicationContext().getFilesDir() + "/"
+						+ MySQLiteHelper.TABLE_FILTERS + "/"
+						+ String.valueOf(chosenFilter.getId());
+
 				ImageView filterImagePreview = new ImageView(PhotosTakingActivity.this);
-				filterImagePreview.setImageDrawable(picture);
-				
+				filterImagePreview.setImageBitmap(Utils
+						.decodeSampledBitmapFromFile(filePath, getResources(),
+								R.drawable.artist_empty_icon,
+								PhotoManager.REQUIRED_PICTURE_WIDTH,
+								PhotoManager.REQUIRED_PICTURE_HEIGHT));
+
 				FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 				preview.removeView(activePreviewFilter);
 				activePreviewFilter = filterImagePreview;
-				preview.addView(filterImagePreview);						
+				preview.addView(filterImagePreview);
 			}
 		});
-		
-		filterView.setLayoutParams(new FrameLayout.LayoutParams(100,100));
+
+		filterView.setLayoutParams(new FrameLayout.LayoutParams(100, 100));
 		filtersLayout.addView(filterView);
 	}
 
@@ -120,70 +127,75 @@ public class PhotosTakingActivity extends Activity {
 		Camera camera = null;
 		try {
 			camera = Camera.open();
-			
+
 			Camera.Parameters params = camera.getParameters();
-			params.setPictureSize(PhotoManager.REQUIRED_PICTURE_WIDTH, PhotoManager.REQUIRED_PICTURE_HEIGHT);
-			params.setPreviewSize(PhotoManager.REQUIRED_PICTURE_WIDTH, PhotoManager.REQUIRED_PICTURE_HEIGHT);
+			params.setPictureSize(PhotoManager.REQUIRED_PICTURE_WIDTH,
+					PhotoManager.REQUIRED_PICTURE_HEIGHT);
+			params.setPreviewSize(PhotoManager.REQUIRED_PICTURE_WIDTH,
+					PhotoManager.REQUIRED_PICTURE_HEIGHT);
 			params.set("rotation", 90);
 			camera.setParameters(params);
 		} catch (Exception e) {
-			
+
 		}
 		return camera;
 	}
-	
-	private PictureCallback mPicture = new PictureCallback() {
-	    @Override
-	    public void onPictureTaken(byte[] data, Camera camera) {
-			
-	    	PhotoManager photoManager = new PhotoManager(PhotosTakingActivity.this);
-	    	Bitmap filteredPicture = photoManager.computePhotoWithfilter(data, chosenFilter);
-			
-	        File pictureFile = getOutputMediaFile();
-	        if (pictureFile == null){
-	            Log.d("DEBUG", "Error creating media file, check storage permissions: ");
-	            return;
-	        }
 
-	        try {
-	            FileOutputStream fos = new FileOutputStream(pictureFile);
-	            if (fos != null) {
-	            	filteredPicture.compress(Bitmap.CompressFormat.PNG, 100, fos);
-	            }
-	            fos.close();
-	        } catch (FileNotFoundException e) {
-	            Log.d("DEBUG", "File not found: " + e.getMessage());
-	        } catch (IOException e) {
-	            Log.d("DEBUG", "Error accessing file: " + e.getMessage());
-	        }
-	        
-	        goToValidationActivity(pictureFile.getAbsolutePath());
-	    }
+	private PictureCallback mPicture = new PictureCallback() {
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+
+			PhotoManager photoManager = new PhotoManager(
+					PhotosTakingActivity.this);
+			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,
+					chosenFilter);
+
+			File pictureFile = getOutputMediaFile();
+			if (pictureFile == null) {
+				Log.d("DEBUG",
+						"Error creating media file, check storage permissions: ");
+				return;
+			}
+
+			try {
+				FileOutputStream fos = new FileOutputStream(pictureFile);
+				if (fos != null) {
+					filteredPicture.compress(Bitmap.CompressFormat.PNG, 100,
+							fos);
+				}
+				fos.close();
+			} catch (FileNotFoundException e) {
+				Log.d("DEBUG", "File not found: " + e.getMessage());
+			} catch (IOException e) {
+				Log.d("DEBUG", "Error accessing file: " + e.getMessage());
+			}
+
+			goToValidationActivity(pictureFile.getAbsolutePath());
+		}
 	};
 
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mCamera != null){
-        	mCamera.setPreviewCallback(null);
-        	mPreview.getHolder().removeCallback(mPreview);
-        	mCamera.release();        // release the camera for other applications
-            mCamera = null;
-        }
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mCamera == null){
-        	mCamera = setUpCameraInstance();
-        	mPreview = new CameraPreview(this, mCamera);
-        	FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mCamera != null) {
+			mCamera.setPreviewCallback(null);
+			mPreview.getHolder().removeCallback(mPreview);
+			mCamera.release(); // release the camera for other applications
+			mCamera = null;
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mCamera == null) {
+			mCamera = setUpCameraInstance();
+			mPreview = new CameraPreview(this, mCamera);
+			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mPreview);
-        }
-    }
-    
+		}
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
@@ -194,27 +206,33 @@ public class PhotosTakingActivity extends Activity {
 			return super.onOptionsItemSelected(menuItem);
 		}
 	}
-	
-	private File getOutputMediaFile(){
-	    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-	              Environment.DIRECTORY_PICTURES), "Imaginarium Festival Pictures");
-	
-	    if (! mediaStorageDir.exists()){
-	        if (! mediaStorageDir.mkdirs()){
-	            Log.d("Imaginarium Festival Pictures", "failed to create directory");
-	            return null;
-	        }
-	    }
-	
-	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
-	    File mediaFile;
-	    mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_IF_"+ timeStamp + ".jpg");
-	
-	    return mediaFile;
+
+	private File getOutputMediaFile() {
+		File mediaStorageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				"Imaginarium Festival Pictures");
+
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				Log.d("Imaginarium Festival Pictures",
+						"failed to create directory");
+				return null;
+			}
+		}
+
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+				Locale.FRANCE).format(new Date());
+		File mediaFile;
+		mediaFile = new File(mediaStorageDir.getPath() + File.separator
+				+ "IMG_IF_" + timeStamp + ".jpg");
+
+		return mediaFile;
 	}
 
 	private void goToValidationActivity(String pictureFilePath) {
-		Intent toPictureValidatingActivityIntent = new Intent(PhotosTakingActivity.this, PhotosValidatingActivity.class);
+		Intent toPictureValidatingActivityIntent = new Intent(
+				PhotosTakingActivity.this, PhotosValidatingActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putString("picturePath", pictureFilePath);
 		toPictureValidatingActivityIntent.putExtras(bundle);

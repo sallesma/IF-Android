@@ -1,11 +1,9 @@
 package com.imaginariumfestival.android.partners;
 
-import java.io.File;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -17,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 import com.imaginariumfestival.android.database.PartnersDataSource;
 
@@ -58,13 +57,11 @@ public class PartnersActivity extends Activity {
 			View child = ((ViewGroup) view).getChildAt(i);
 			
 			if (child.getId() == R.id.partner_icon) {
-				File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_PARTNERS + "/" + partner.getName());
-				Drawable picture = Drawable.createFromPath(filePath.toString());
-				if (picture != null) {
-					((ImageView) child).setImageDrawable(picture);
-				} else {
-					((ImageView) child).setImageResource(R.drawable.artist_empty_icon);
-				}
+				String filePath = getApplicationContext().getFilesDir() + "/"
+						+ MySQLiteHelper.TABLE_PARTNERS + "/" + partner.getName();
+				((ImageView) child).setImageBitmap(Utils
+						.decodeSampledBitmapFromFile(filePath, getResources(),
+								R.drawable.artist_empty_icon, 80, 80));
 			} else if ( child.getId() == R.id.partner_name ) {
 				((TextView) child).setText(partner.getName());
 			}

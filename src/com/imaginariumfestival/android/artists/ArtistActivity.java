@@ -1,10 +1,7 @@
 package com.imaginariumfestival.android.artists;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
@@ -16,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
@@ -66,14 +64,11 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getTwitter(), R.id.twitterIcon);
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 
-		File filePath = new File(getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName());
+		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
 		
-		Drawable picture = Drawable.createFromPath(filePath.toString());
-		if (picture != null) {
-			((ImageView)findViewById(R.id.artist_icon)).setImageDrawable(picture);
-		} else {
-			((ImageView)findViewById(R.id.artist_icon)).setImageResource(R.drawable.artist_empty_icon);
-		}
+		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(Utils
+				.decodeSampledBitmapFromFile(filePath, getResources(),
+						R.drawable.artist_empty_icon, 150, 150));
 	}
 
 	private void updateLink(final String url, final int viewId) {
