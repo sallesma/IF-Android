@@ -20,6 +20,8 @@ import com.imaginariumfestival.android.database.MySQLiteHelper;
 import com.imaginariumfestival.android.database.PartnersDataSource;
 
 public class PartnersActivity extends Activity {
+	private static int PARTNERS_COLUMNS = 2;
+	private GridLayout gridLayout = null;
 	List<PartnerModel> partners;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,17 @@ public class PartnersActivity extends Activity {
 		partners = partnerDataSource.getAllPartners();
 		partnerDataSource.close();
 		
-		for (PartnerModel partner : partners) {
-			fillViewWithPartnerData(partner);
+		int total = partners.size();
+		int rowNumber = total / PARTNERS_COLUMNS;
+		gridLayout = ((GridLayout)findViewById(R.id.partnerGridLayout));
+		
+		gridLayout.setRowCount(rowNumber + 1);
+		for (int i = 0, column = 0, row = 0; i < total; i++, column++) {
+			if (column == PARTNERS_COLUMNS) {
+				column = 0;
+				row++;
+			}
+			fillViewWithPartnerData(partners.get(i), column, row);
 		}
 	}
 	
@@ -48,7 +59,7 @@ public class PartnersActivity extends Activity {
 		}
 	}
 	
-	private void fillViewWithPartnerData( PartnerModel partner) {
+	private void fillViewWithPartnerData( PartnerModel partner, int column, int row) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View view = inflater.inflate(R.layout.partner_item, null);
 		int childCount = ((ViewGroup) view).getChildCount();
@@ -66,6 +77,12 @@ public class PartnersActivity extends Activity {
 				((TextView) child).setText(partner.getName());
 			}
 		}
+		GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+		param.columnSpec = GridLayout.spec(column);
+        param.rowSpec = GridLayout.spec(row);
+        param.rightMargin = 5;
+        param.topMargin = 5;
+        view.setLayoutParams (param);
 		((GridLayout)findViewById(R.id.partnerGridLayout)).addView(view);
 	}
 }

@@ -97,6 +97,12 @@ public class PartnersDataSource {
 		
 		partners.add( new PartnerModel(0, "BDE-UTC", "", "http://assos.utc.fr"));
 		partners.add( new PartnerModel(1, "UTC", "", "http://www.utc.fr"));
+		partners.add( new PartnerModel(2, "PAE-UTC", "", "http://assos.utc.fr/poleae"));
+		partners.add( new PartnerModel(3, "Larsen", "", "http://assos.utc.fr/larsen"));
+		partners.add( new PartnerModel(4, "Secourut's", "", "http://assos.utc.fr/secouruts"));
+		partners.add( new PartnerModel(4, "Cook'utc", "", "http://assos.utc.fr/cookutc"));
+		partners.add( new PartnerModel(4, "Festupic", "", "http://assos.utc.fr/festupic"));
+		partners.add( new PartnerModel(4, "Club Photo", "", "http://www.utc.fr/clubphoto"));
 		
 		return partners;
 	}
