@@ -36,13 +36,13 @@ public class PartnersDataSource {
     }
     
 	public PartnerModel insertPartner(long id, String name, String picture,
-			String weblink) {
+			String website) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_ID, id);
 		values.put(MySQLiteHelper.COLUMN_NAME, name);
 		values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
-		values.put(MySQLiteHelper.COLUMN_WEBSITE, weblink);
+		values.put(MySQLiteHelper.COLUMN_WEBSITE, website);
 		long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_PARTNERS,
 				null, values);
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_PARTNERS, allColumns,
@@ -59,7 +59,7 @@ public class PartnersDataSource {
         
         values.put(MySQLiteHelper.COLUMN_NAME, partner.getName());
         values.put(MySQLiteHelper.COLUMN_PICTURE, partner.getPicture());
-        values.put(MySQLiteHelper.COLUMN_WEBSITE, partner.getWeblink());
+        values.put(MySQLiteHelper.COLUMN_WEBSITE, partner.getWebsite());
  
         database.update(MySQLiteHelper.TABLE_PARTNERS, values, MySQLiteHelper.COLUMN_ID + " = " + partner.getId(), null);
  
@@ -75,35 +75,21 @@ public class PartnersDataSource {
 		c.close();
 		return partner;
 	}
-	//TODO: Waiting for the backoffice to provide partners data
-//	public List<PartnerModel> getAllPartners() {
-//		List<PartnerModel> partners = new ArrayList<PartnerModel>();
-//
-//		Cursor cursor = database.query(MySQLiteHelper.TABLE_PARTNERS,
-//				allColumns, null, null, null, null, null);
-//
-//		cursor.moveToFirst();
-//		while (!cursor.isAfterLast()) {
-//			PartnerModel partner = cursorToPartner(cursor);
-//			partners.add(partner);
-//			cursor.moveToNext();
-//		}
-//
-//		cursor.close();
-//		return partners;
-//	}
+
 	public List<PartnerModel> getAllPartners() {
 		List<PartnerModel> partners = new ArrayList<PartnerModel>();
-		
-		partners.add( new PartnerModel(0, "BDE-UTC", "", "http://assos.utc.fr"));
-		partners.add( new PartnerModel(1, "UTC", "", "http://www.utc.fr"));
-		partners.add( new PartnerModel(2, "PAE-UTC", "", "http://assos.utc.fr/poleae"));
-		partners.add( new PartnerModel(3, "Larsen", "", "http://assos.utc.fr/larsen"));
-		partners.add( new PartnerModel(4, "Secourut's", "", "http://assos.utc.fr/secouruts"));
-		partners.add( new PartnerModel(4, "Cook'utc", "", "http://assos.utc.fr/cookutc"));
-		partners.add( new PartnerModel(4, "Festupic", "", "http://assos.utc.fr/festupic"));
-		partners.add( new PartnerModel(4, "Club Photo", "", "http://www.utc.fr/clubphoto"));
-		
+
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_PARTNERS,
+				allColumns, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			PartnerModel partner = cursorToPartner(cursor);
+			partners.add(partner);
+			cursor.moveToNext();
+		}
+
+		cursor.close();
 		return partners;
 	}
 	
@@ -132,7 +118,7 @@ public class PartnersDataSource {
                 + " = " + id, null);
     }
 	
-	public void deleteAllPartner() {
+	public void deleteAllPartners() {
 		database.delete(MySQLiteHelper.TABLE_PARTNERS, null, null);
 	}
 	
@@ -142,7 +128,7 @@ public class PartnersDataSource {
         	partner.setId(cursor.getInt(0));
 	        partner.setName(cursor.getString(1));
 	        partner.setPicture(cursor.getString(2));
-	        partner.setWeblink(cursor.getString(3));
+	        partner.setWebsite(cursor.getString(3));
 	        return partner;
         } else {
         	return null;

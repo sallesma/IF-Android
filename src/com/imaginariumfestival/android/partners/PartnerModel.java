@@ -4,22 +4,22 @@ public class PartnerModel {
 	private long id;
 	private String name;
 	private String picture;
-	private String weblink;
+	private String website;
 	
 	public PartnerModel() {
 		super();
 		this.id = 0;
 		this.name = "";
 		this.picture = "";
-		this.weblink = "";
+		this.website = "";
 	}
 
-	public PartnerModel(long id, String name, String picture, String weblink) {
+	public PartnerModel(long id, String name, String picture, String website) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.picture = picture;
-		this.weblink = weblink;
+		this.website = website;
 	}
 
 	public long getId() {
@@ -40,10 +40,10 @@ public class PartnerModel {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	public String getWeblink() {
-		return weblink;
+	public String getWebsite() {
+		return website;
 	}
-	public void setWeblink(String weblink) {
-		this.weblink = weblink;
+	public void setWebsite(String weblink) {
+		this.website = weblink;
 	}
 }

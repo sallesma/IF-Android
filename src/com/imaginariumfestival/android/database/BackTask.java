@@ -43,12 +43,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_INFO_UPDATE_FROM_DISTANT_DATABASE = "lastInfoUpdateFromDistantDatabase";
 	public final static String LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE = "lastNewsUpdateFromDistantDatabase";
 	public final static String LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE = "lastFilterUpdateFromDistantDatabase";
+	public final static String LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE = "lastPartnerUpdateFromDistantDatabase";
 	
 	private final String BASE_URL = "http://titouanrossier.com/if/";
 	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=artists";
 	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=infos";
 	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=news";
 	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=filters";
+	private final String PARTNERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=partners";
 	private Context context; 
 
 	public BackTask(Context context) {
@@ -68,6 +70,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		getInfosFromWebService();
 		getNewsFromWebService();
 		getFiltersFromWebService();
+		getPartnersFromWebService();
         return null;
 	}
 
@@ -270,6 +273,54 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
 
 				datasource.insertFilter(id, picture);
+			}
+			datasource.close();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			datasource.close();
+			return false;
+		}
+	}
+	
+	
+	private void getPartnersFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final String lastRetrieve = pref.getString(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, "");
+		final String url = PARTNERS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String partnersFromDistantDatabase = getDataFromDistantDatabase(url);
+		
+		Boolean result = false;
+		if (partnersFromDistantDatabase != null && partnersFromDistantDatabase != "") {
+			JSONArray jsonPartners = new JSONArray();
+			try {
+				jsonPartners = new JSONArray(partnersFromDistantDatabase);
+				result = recordPartners(jsonPartners);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing data " + e.toString());
+			}
+		}
+		
+		if (result) {
+			updatePicturesFromRemoteServer(MySQLiteHelper.TABLE_PARTNERS);
+			updateLastUpdateFromDatabase(LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE);
+		}
+	}
+	
+	private Boolean recordPartners(JSONArray jsonPartnersArray) {
+		PartnersDataSource datasource = new PartnersDataSource(context);
+		datasource.open();
+		try {
+			datasource.deleteAllPartners();
+			for (int i = 0; i < jsonPartnersArray.length(); i++) {
+				JSONObject c = jsonPartnersArray.getJSONObject(i);
+
+				Long id = c.getLong(MySQLiteHelper.COLUMN_ID);
+				String name = c.getString(MySQLiteHelper.COLUMN_NAME);
+				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
+				String website = c.getString(MySQLiteHelper.COLUMN_WEBSITE);
+
+				datasource.insertPartner(id, name, picture, website);
 			}
 			datasource.close();
 			return true;
