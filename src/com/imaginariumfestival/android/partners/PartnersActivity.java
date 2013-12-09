@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
@@ -20,9 +20,9 @@ import com.imaginariumfestival.android.database.MySQLiteHelper;
 import com.imaginariumfestival.android.database.PartnersDataSource;
 
 public class PartnersActivity extends Activity {
-	private static int PARTNERS_COLUMNS = 2;
-	private GridLayout gridLayout = null;
+	private LinearLayout linearLayout = null;
 	List<PartnerModel> partners;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,17 +34,9 @@ public class PartnersActivity extends Activity {
 		partners = partnerDataSource.getAllPartners();
 		partnerDataSource.close();
 		
-		int total = partners.size();
-		int rowNumber = total / PARTNERS_COLUMNS;
-		gridLayout = ((GridLayout)findViewById(R.id.partnerGridLayout));
-		
-		gridLayout.setRowCount(rowNumber + 1);
-		for (int i = 0, column = 0, row = 0; i < total; i++, column++) {
-			if (column == PARTNERS_COLUMNS) {
-				column = 0;
-				row++;
-			}
-			fillViewWithPartnerData(partners.get(i), column, row);
+		linearLayout = ((LinearLayout)findViewById(R.id.partnerLinearLayout));
+		for (PartnerModel partner : partners) {
+			fillViewWithPartnerData(partner);
 		}
 	}
 	
@@ -59,7 +51,7 @@ public class PartnersActivity extends Activity {
 		}
 	}
 	
-	private void fillViewWithPartnerData( PartnerModel partner, int column, int row) {
+	private void fillViewWithPartnerData( PartnerModel partner) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View view = inflater.inflate(R.layout.partner_item, null);
 		int childCount = ((ViewGroup) view).getChildCount();
@@ -72,18 +64,12 @@ public class PartnersActivity extends Activity {
 						+ MySQLiteHelper.TABLE_PARTNERS + "/" + partner.getName();
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath, getResources(),
-								R.drawable.artist_empty_icon, 80, 80));
+								R.drawable.artist_empty_icon, 150, 150));
 			} else if ( child.getId() == R.id.partner_name ) {
 				((TextView) child).setText(partner.getName());
 			}
 		}
-		GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-		param.columnSpec = GridLayout.spec(column);
-        param.rowSpec = GridLayout.spec(row);
-        param.rightMargin = 5;
-        param.topMargin = 5;
-        view.setLayoutParams (param);
-		((GridLayout)findViewById(R.id.partnerGridLayout)).addView(view);
+		linearLayout.addView(view);
 	}
 }
 
