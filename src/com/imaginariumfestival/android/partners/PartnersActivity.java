@@ -4,11 +4,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +54,7 @@ public class PartnersActivity extends Activity {
 		}
 	}
 	
-	private void fillViewWithPartnerData( PartnerModel partner) {
+	private void fillViewWithPartnerData( final PartnerModel partner) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View view = inflater.inflate(R.layout.partner_item, null);
 		int childCount = ((ViewGroup) view).getChildCount();
@@ -69,6 +72,19 @@ public class PartnersActivity extends Activity {
 				((TextView) child).setText(partner.getName());
 			}
 		}
+		
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = partner.getWebsite();
+				if (!url.startsWith("https://") && !url.startsWith("http://")){
+					url = "http://" + url;
+				}
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(url));
+				startActivity(intent);
+			}
+		});
 		linearLayout.addView(view);
 	}
 }
