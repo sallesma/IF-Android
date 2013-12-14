@@ -1,17 +1,18 @@
 package com.imaginariumfestival.android.test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import android.app.Instrumentation.ActivityMonitor;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.infos.InfoActivity;
+import com.imaginariumfestival.android.infos.InfoModel;
 import com.imaginariumfestival.android.infos.InfosActivity;
+import com.imaginariumfestival.android.infos.InfosAdapter;
 
 public class InfosActivityTest extends
 		ActivityInstrumentationTestCase2<InfosActivity> {
@@ -28,7 +29,7 @@ public class InfosActivityTest extends
 		super.setUp();
 		setActivityInitialTouchMode(false);
 		mActivity = getActivity();
-		mListView = mActivity.getListView();
+		mListView = (ListView) mActivity.findViewById(R.id.infosList);
 	}
 	
 	public void testPreConditions() {
@@ -39,7 +40,7 @@ public class InfosActivityTest extends
 		assertNotSame(0, mListView.getAdapter().getCount());
 	}	
 	
-	@SuppressWarnings("unchecked")
+	@UiThreadTest
 	public void testOnInfoClickStartsActivity() {
 	    //Given
 		ActivityMonitor monitor = getInstrumentation().addMonitor(InfoActivity.class.getName(), null, true);
@@ -50,11 +51,11 @@ public class InfosActivityTest extends
 		mListView.getAdapter().getView(0, null, null).performClick();
 		
 		//then
-		if ( !Boolean.valueOf(((HashMap<String, String>) mActivity.getListAdapter().getItem(0)).get("isCategory")) )
+		if ( !((InfoModel) mListView.getAdapter().getItem(0)).getIsCategory() )
 			assertTrue(1 == monitor.getHits());
 	}
 	
-	@SuppressWarnings("unchecked")
+	@UiThreadTest
 	public void testOnCategoryClickUpdateList() {
 	    //Given
 		ActivityMonitor monitor = getInstrumentation().addMonitor(InfoActivity.class.getName(), null, true);
@@ -65,35 +66,23 @@ public class InfosActivityTest extends
 		mListView.getAdapter().getView(0, null, null).performClick();
 		
 		//then
-		if ( !Boolean.valueOf(((HashMap<String, String>) mActivity.getListAdapter().getItem(0)).get("isCategory")) )
+		if ( ((InfoModel)mListView.getAdapter().getItem(0)).getIsCategory() )
 			assertTrue(0 == monitor.getHits());
 	}
 	
-	@SuppressWarnings("unchecked")
 	@UiThreadTest
 	public void testStateDestroy() {
 		//Given
-		HashMap<String, String> infoItem;
-		infoItem = new HashMap<String, String>();
-		infoItem.put("id", "0");
-		infoItem.put("title", "name");
-		infoItem.put("img", "picture");
-		infoItem.put("isCategory", "0");
+		InfoModel info = new InfoModel(0L, "test", "picture", "0", "test", 0L);
+		List<InfoModel> infos = new ArrayList<InfoModel>();
+		infos.add(info);
+		mListView.setAdapter( new InfosAdapter(getActivity(), infos, 0L) );
 
-		ArrayList<HashMap<String, String>> listItemToDisplay = new ArrayList<HashMap<String, String>>();
-		listItemToDisplay.add(infoItem);
-		
-		SimpleAdapter listAdapter = new SimpleAdapter(mActivity,
-				listItemToDisplay, R.layout.info_list_item, new String[] {
-						"img", "title", "isCategory", "id" }, new int[] {
-						R.id.infoListItemIcon, R.id.infoListItemName });
-		mActivity.setListAdapter(listAdapter);
-		
 		//When
 		mActivity.finish();
 		mActivity = this.getActivity();
 
 		//Then
-		assertEquals((HashMap<String, String>)mListView.getAdapter().getItem(0), infoItem);
+		assertEquals( (InfoModel)mListView.getAdapter().getItem(0), info );
 	}
 }
