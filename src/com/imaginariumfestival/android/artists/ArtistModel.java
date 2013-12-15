@@ -1,8 +1,18 @@
 package com.imaginariumfestival.android.artists;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
+import com.imaginariumfestival.android.programmation.ProgrammationActivity;
+
 public class ArtistModel {
-	public static final String FRIDAY = "friday";
-	public static final String SATURDAY = "saturday";
+	private static final int DAY_OF_MONTH = 30;
+	private static final int MONTH = Calendar.MAY;
+	private static final int YEAR = 2014;
 
 	public static final String MAIN_STAGE = "principale";
 	public static final String SECOND_STAGE = "chapiteau";
@@ -59,6 +69,31 @@ public class ArtistModel {
 
 	public String getProgrammation(){
 		return  stage + " - " + day + " " + beginHour;
+	}
+	
+	public Date getAbsoluteDate() {
+		Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		calendar.set(YEAR, MONTH, DAY_OF_MONTH, 0, 0, 0);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+
+		Calendar minuteAndHourCalendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		try {
+			minuteAndHourCalendar.setTime( dateFormat.parse(beginHour) );
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		calendar.add(Calendar.HOUR_OF_DAY, minuteAndHourCalendar.get(Calendar.HOUR_OF_DAY));
+		calendar.add(Calendar.MINUTE, minuteAndHourCalendar.get(Calendar.MINUTE));
+		
+		if (calendar.get(Calendar.HOUR_OF_DAY) < 9) //after midnight is considered as the same day
+			calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + ProgrammationActivity.HOURS_IN_DAY );
+		if ( day.equals(ProgrammationActivity.SECOND_DAY) ) {
+			calendar.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		return calendar.getTime();
 	}
 	
 	public long getId() {

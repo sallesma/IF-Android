@@ -11,6 +11,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -25,16 +26,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.MainMenuActivity;
+import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.artists.ArtistModel;
 
 public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastUpdateFromDistantDatabase";
@@ -71,6 +79,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		getNewsFromWebService();
 		getFiltersFromWebService();
 		getPartnersFromWebService();
+		addArtistNotifications();
         return null;
 	}
 
@@ -283,7 +292,6 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 	}
 	
-	
 	private void getPartnersFromWebService() {
 		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, "");
@@ -349,7 +357,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 					builder.append(line + "\n");
 				}
 			} else {
-				Log.e(MainMenuActivity.class.toString(), "Failed to download file");
+				Log.e(MainMenuActivity.class.toString(), "Failed to download file from " + URL);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -420,6 +428,40 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	private void addArtistNotifications() {
+		ArtistDataSource artistDataSource = new ArtistDataSource(context);
+		artistDataSource.open();
+		List<ArtistModel> artists = artistDataSource.getAllArtists();
+		artistDataSource.close();
+		
+		for (ArtistModel artist : artists) {
+			addNotification(artist.getId(), artist.getName(), artist.getAbsoluteDate());
+		}
+	}
+
+	private void addNotification(long id, String name, Date date) {
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				context)
+				.setSmallIcon(R.drawable.ic_launcher)
+				.setContentTitle( name )
+				.setContentText( context.getString(R.string.notification_content) )
+				.setWhen( date.getTime() );
+
+		Intent resultIntent = new Intent(context, MainMenuActivity.class);
+
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+		stackBuilder.addParentStack(MainMenuActivity.class);
+		stackBuilder.addNextIntent(resultIntent);
+
+		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+		mBuilder.setContentIntent(resultPendingIntent);
+
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.notify((int) id, mBuilder.build());
 	}
 }
 

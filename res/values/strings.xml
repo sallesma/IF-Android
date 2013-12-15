@@ -30,17 +30,16 @@
     <!--  -->
     <string name="news">News</string>
     
-    
+    <!--  -->
+    <!-- Notifications -->
+    <!--  -->
+    <string name="notification_content">Sur scène dans 15 minutes !</string>
     
     <!--  -->
     <!-- ArtistsActivity -->
     <!--  -->
     <string name="action_alpha_sort">Tri alphabétique</string>
     <string name="action_type_sort">Tri par genre</string>
-
-    <!--  -->
-    <!-- contentDescription for artistListItem -->
-    <!--  -->
     <string name="artistListItemIcon">Icone Artiste</string>
     
     <!--  -->

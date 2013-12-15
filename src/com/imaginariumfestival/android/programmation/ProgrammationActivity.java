@@ -27,11 +27,12 @@ import com.imaginariumfestival.android.database.ArtistDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ProgrammationActivity extends Activity {
-	private static final String FIRST_DAY = "vendredi";
-	private static final String SECOND_DAY = "samedi";
+	public static final String FIRST_DAY = "vendredi";
+	public static final String SECOND_DAY = "samedi";
 	private static final String SEPARATION_BETWEEN_DAYS = "31/05/2014 05:00";
+	
 	private static final int STARTING_HOUR = 15;
-	private static final int HOURS_IN_DAY = 24;
+	public static final int HOURS_IN_DAY = 24;
 	private static final int MINUTES_IN_HOUR = 60;
 	private static final int SIZE_COEFFICIENT = 2;
 	
