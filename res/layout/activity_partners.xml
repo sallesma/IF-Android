@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    style="@style/DefaultDarkBackground"
     android:layout_height="wrap_content" >
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:gravity="center"
             android:text="@string/partners_header_text"
             android:textAlignment="center"
-            android:textColor="#000000"
+            style="@style/OrangeText"
             android:textSize="20sp" />
     </LinearLayout>
 

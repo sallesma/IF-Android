@@ -3,6 +3,7 @@
     android:id="@+id/ArtistLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/DefaultDarkBackground"
     android:orientation="vertical"
     tools:context=".ArtistActivity" >
 
@@ -10,21 +11,21 @@
         android:id="@+id/ArtistHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/artist_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/artistIcon"
+            android:maxHeight="150dp"
+            android:maxWidth="150dp"
             android:minHeight="100dp"
             android:minWidth="100dp"
-            android:maxWidth="150dp"
-            android:maxHeight="150dp"
-            android:adjustViewBounds="true"
-			android:scaleType="centerInside"
-            android:contentDescription="@string/artistIcon"
-            android:padding="10dp" /> 
+            android:padding="10dp"
+            android:scaleType="centerInside" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -35,85 +36,88 @@
 
             <TextView
                 android:id="@+id/artistProgrammationStage"
+                style="@style/WhiteText"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:textColor="#444444"
-                android:textSize="17sp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/artistProgrammationDay"
+                style="@style/WhiteText"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:textColor="#444444"
-                android:textSize="17sp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/artistProgrammationHour"
+                style="@style/WhiteText"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:textColor="#444444"
-                android:textSize="17sp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/artistDescription"
+        style="@style/WhiteText"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:padding="10dp"
         android:layout_weight="1"
-        android:textColor="#444444"
-        android:scrollbars = "vertical"
-         />
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:textSize="17sp" />
 
     <LinearLayout
         android:id="@+id/ArtistLinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1A2626"
         android:orientation="horizontal" >
 
         <ImageButton
             android:id="@+id/youtubeIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/youtubeIcon"
             android:layout_margin="10dp"
-            android:src="@drawable/youtube"
-            android:scaleType="center" 
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@null" />
-        
+            android:background="@null"
+            android:contentDescription="@string/youtubeIcon"
+            android:scaleType="center"
+            android:src="@drawable/youtube" />
+
         <ImageButton
             android:id="@+id/facebookIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/facebookIcon"
             android:layout_margin="10dp"
-            android:src="@drawable/facebook"
-            android:background="@null" />
-        
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/facebookIcon"
+            android:src="@drawable/facebook" />
+
         <ImageButton
             android:id="@+id/twitterIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@null"
             android:contentDescription="@string/twitterIcon"
-            android:src="@drawable/twitter"
-            android:background="@null" />
-        
+            android:src="@drawable/twitter" />
+
         <ImageButton
             android:id="@+id/websiteIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@null"
             android:contentDescription="@string/webIcon"
-            android:src="@drawable/website"
-            android:background="@null" />
+            android:src="@drawable/website" />
     </LinearLayout>
 
 </LinearLayout>

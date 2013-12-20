@@ -1,87 +1,86 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ArtistLinearLayout"
+    style="@style/DefaultDarkBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ProgrammationActivity" >
-    
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        
+
         <Button
             android:id="@+id/button_first_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_weight="1"
             android:layout_margin="5dp"
+            android:layout_weight="1"
             android:text="@string/button_first_day" />
-        
+
         <Button
             android:id="@+id/button_second_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_weight="1"
             android:layout_margin="5dp"
+            android:layout_weight="1"
             android:text="@string/button_second_day" />
-        
     </LinearLayout>
-    
+
     <TextView
-            android:id="@+id/main_stage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_stage"
-            android:gravity="center"
-            android:textColor="#444444"
-            android:background="#dddddd"
-            android:textSize="20sp"
-            android:padding="5dp" />
-    
+        android:id="@+id/main_stage"
+        style="@style/OrangeText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#1E2827"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/main_stage"
+        android:textSize="20sp" />
+
     <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal" >
 
         <RelativeLayout
-		    android:id="@+id/main_stage_layout"
+            android:id="@+id/main_stage_layout"
             android:layout_width="1560px"
             android:layout_height="150dp"
-            android:background="#666666"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp" >
+            android:background="#304341"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
         </RelativeLayout>
     </HorizontalScrollView>
-    
+
     <TextView
-            android:id="@+id/second_stage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/second_stage"
-            android:gravity="center"
-            android:textColor="#444444"
-            android:background="#dddddd"
-            android:textSize="20sp"
-            android:padding="5dp" />
-    
+        android:id="@+id/second_stage"
+        style="@style/OrangeText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#1E2827"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/second_stage"
+        android:textSize="20sp" />
+
     <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal" >
-    
-		<RelativeLayout 
-		    android:id="@+id/second_stage_layout"
-	        android:layout_width="1560px"
-	        android:layout_height="150dp"
-	        android:background="#666666"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp" >
-	    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/second_stage_layout"
+            android:layout_width="1560px"
+            android:layout_height="150dp"
+            android:background="#304341"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+        </RelativeLayout>
     </HorizontalScrollView>
-    
+
 </LinearLayout>

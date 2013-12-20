@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -109,13 +110,19 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 	
 	private void setSection(LinearLayout header, String label) {
 		TextView text = new TextView(context);
-		header.setBackgroundColor(0xffaabbcc);
-		text.setTextColor(Color.WHITE);
-		text.setText(label);
+		text.setTextColor(Color.parseColor("#E66524"));
+		text.setText(label.substring(0, 1).toUpperCase());
 		text.setTextSize(20);
 		text.setPadding(5, 0, 0, 0);
-		text.setGravity(Gravity.CENTER_VERTICAL);
+		text.setGravity(Gravity.CENTER);
+		
+		View separation = new View(context);
+		separation.setBackgroundColor(Color.parseColor("#E66524"));
+		LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
+		separation.setLayoutParams(params);
+		
 		header.addView(text);
+		header.addView(separation);
 	}
 
 	@Override

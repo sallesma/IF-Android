@@ -3,6 +3,7 @@
     android:id="@+id/ArtistLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/DefaultDarkBackground"
     android:orientation="vertical"
     tools:context=".InfoActivity" >
 
@@ -28,29 +29,29 @@
 
         <TextView
             android:id="@+id/infoCategory"
+            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="@string/category"
             android:gravity="center"
-            android:textColor="#444444"
+            android:text="@string/category"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/infoCategoryName"
+            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:textColor="#444444"
             android:textSize="17sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/infoContent"
+        style="@style/WhiteText"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:padding="10dp"
-        android:scrollbars="vertical"
-        android:textColor="#444444" />
+        android:scrollbars="vertical" />
 
 </LinearLayout>
