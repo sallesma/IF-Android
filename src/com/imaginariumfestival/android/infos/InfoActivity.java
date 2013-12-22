@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.infos;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -74,7 +75,10 @@ public class InfoActivity extends Activity {
 			((TextView)findViewById(R.id.infoCategoryName)).setText(DEFAULT_CATEGORY_NAME);
 		}
 		
-		((TextView)findViewById(R.id.infoContent)).setText(info.getContent());
-		((TextView)findViewById(R.id.infoContent)).setMovementMethod(new ScrollingMovementMethod());
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		TextView infoContent = (TextView)findViewById(R.id.infoContent);
+		infoContent.setTypeface( euroFont );
+		infoContent.setText( info.getContent() );
+		infoContent.setMovementMethod( new ScrollingMovementMethod() );
 	}
 }

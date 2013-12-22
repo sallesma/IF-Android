@@ -2,6 +2,7 @@ package com.imaginariumfestival.android.artists;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
@@ -56,8 +57,12 @@ public class ArtistActivity extends Activity {
 		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
 		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour());
-		((TextView)findViewById(R.id.artistDescription)).setText(artist.getDescription());
-		((TextView)findViewById(R.id.artistDescription)).setMovementMethod(new ScrollingMovementMethod());
+		
+		TextView artistDescription = (TextView)findViewById(R.id.artistDescription);
+		artistDescription.setText(artist.getDescription());
+		artistDescription.setMovementMethod(new ScrollingMovementMethod());
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");  
+		artistDescription.setTypeface(euroFont);
 		
 		updateLink(artist.getWebsite(), R.id.websiteIcon);
 		updateLink(artist.getFacebook(), R.id.facebookIcon);

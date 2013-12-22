@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -88,11 +89,13 @@ public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIn
 	}
 
 	private void fillArtistData(View view, ArtistModel artist) {
+		Typeface euroFont = Typeface.createFromAsset(context.getAssets(), "eurof55.ttf");  
+		((TextView) view.findViewById(R.id.artistListItemName)).setTypeface(euroFont);
+		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setTypeface(euroFont);
 		((TextView) view.findViewById(R.id.artistListItemName)).setText(artist.getName());
 		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setText(artist.getProgrammation());
 		
 		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
-		
 		((ImageView) view.findViewById(R.id.artistListItemIcon))
 				.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
 						context.getResources(), R.drawable.artist_empty_icon,

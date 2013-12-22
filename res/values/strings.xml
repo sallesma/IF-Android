@@ -61,6 +61,7 @@
     <!-- contentDescription for infoListItem -->
     <!--  -->
     <string name="infoListItemIcon">Info</string>
+    <string name="infoListCategoryArrow">Catégorie suivante</string>
 
     <!--  -->
     <!-- InfoActivity -->
