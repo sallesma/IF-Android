@@ -54,14 +54,14 @@ public class ArtistActivity extends Activity {
 	private void fillViewWithArtistData() {
 		getActionBar().setTitle(artist.getName());
 		
-		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
-		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour());
+		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour().substring(0, 5));
+		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
 		
 		TextView artistDescription = (TextView)findViewById(R.id.artistDescription);
 		artistDescription.setText(artist.getDescription());
 		artistDescription.setMovementMethod(new ScrollingMovementMethod());
-		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");  
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 		artistDescription.setTypeface(euroFont);
 		
 		updateLink(artist.getWebsite(), R.id.websiteIcon);
@@ -73,7 +73,7 @@ public class ArtistActivity extends Activity {
 		
 		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(Utils
 				.decodeSampledBitmapFromFile(filePath, getResources(),
-						R.drawable.artist_empty_icon, 150, 150));
+						R.drawable.artist_empty_icon, 200, 200));
 	}
 
 	private void updateLink(final String url, final int viewId) {
