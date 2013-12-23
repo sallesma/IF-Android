@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -31,6 +32,9 @@ public class PartnersActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_partners);
+		
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView)findViewById(R.id.partners_header_text)).setTypeface( euroFont );
 		
 		PartnersDataSource partnerDataSource = new PartnersDataSource(PartnersActivity.this);
 		partnerDataSource.open();
@@ -68,8 +72,6 @@ public class PartnersActivity extends Activity {
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath, getResources(),
 								R.drawable.artist_empty_icon, 150, 150));
-			} else if ( child.getId() == R.id.partner_name ) {
-				((TextView) child).setText(partner.getName());
 			}
 		}
 		
