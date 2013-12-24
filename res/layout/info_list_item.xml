@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/infoListCategoryArrow"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="right"
             android:contentDescription="@string/infoListCategoryArrow"
             android:paddingLeft="10dp"

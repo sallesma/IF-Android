@@ -31,7 +31,7 @@
         <item name="android:background">#304341</item>
     </style>
     <style name="LightBackground">
-        <item name="android:background">#A1BEBA</item>
+        <item name="android:background">#bacecd</item>
     </style>
     <style name="OrangeBackground">
         <item name="android:background">#E66524</item>

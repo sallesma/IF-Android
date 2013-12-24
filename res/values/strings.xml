@@ -17,7 +17,7 @@
     <!-- contentDescription for MainMenuImageButtons -->
     <!--  -->
 
-    <string name="mainLogo">Imaginarium</string>
+    <string name="mainLogo">Imaginarium Festival</string>
     <string name="artistImageButtonDescription">Artistes</string>
     <string name="infosImageButtonDescription">Infos</string>
     <string name="programmationImageButtonDescription">Programmation</string>
