@@ -75,16 +75,20 @@ public class ArtistActivity extends Activity {
 			((ImageButton)findViewById(viewId)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String finalUrl = url;
-					if (!url.startsWith("https://") && !url.startsWith("http://")){
-						finalUrl = "http://" + url;
+					if (Utils.isNetworkConnected(ArtistActivity.this)) {
+						String finalUrl = url;
+						if (!url.startsWith("https://") && !url.startsWith("http://")){
+							finalUrl = "http://" + url;
+						}
+						Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("weblink", finalUrl);
+						bundle.putString("artistName", artist.getName());
+						toWebViewIntent.putExtras(bundle);
+						startActivity(toWebViewIntent);
+					} else {
+						Toast.makeText(ArtistActivity.this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
 					}
-					Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("weblink", finalUrl);
-					bundle.putString("artistName", artist.getName());
-					toWebViewIntent.putExtras(bundle);
-					startActivity(toWebViewIntent);
 				}
 			});	
 		} else {

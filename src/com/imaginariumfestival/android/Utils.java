@@ -1,10 +1,23 @@
 package com.imaginariumfestival.android;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 
 public class Utils {
+	
+	/*
+	 * Checks if the phone is connected to the internet
+	 */
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return (cm.getActiveNetworkInfo() != null
+				&& cm.getActiveNetworkInfo().isAvailable()
+				&& cm.getActiveNetworkInfo().isConnected());
+	}
 	
 	/*
 	 * Decodes an image to a resized bitmap object. If the file cannot be loaded, it loads the default drawable
