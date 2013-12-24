@@ -13,8 +13,10 @@
     <string name="photos_validating_activity">Photos</string>
     <string name="partner_activity">Partenaires</string>
 
+    <string name="back_button">Retour arrière</string>
+
     <!--  -->
-    <!-- contentDescription for MainMenuImageButtons -->
+    <!-- MainMenuActivity -->
     <!--  -->
 
     <string name="mainLogo">Imaginarium Festival</string>
@@ -35,16 +37,14 @@
     <!--  -->
     <!-- ArtistsActivity -->
     <!--  -->
+    <string name="artist_title_1">LES </string>
+    <string name="artist_title_2"> ARTISTES</string>
     <string name="action_alpha_sort">Tri alphabétique</string>
     <string name="action_type_sort">Tri par genre</string>
-
-    <!--  -->
-    <!-- contentDescription for artistListItem -->
-    <!--  -->
     <string name="artistListItemIcon">Icone Artiste</string>
     
     <!--  -->
-    <!-- contentDescription for ArtistActivity -->
+    <!-- ArtistActivity -->
     <!--  -->
     <string name="artistIcon">Icone Artiste</string>
     <string name="facebookIcon">Lien vers facebook</string>
@@ -58,7 +58,7 @@
     <string name="loading">Chargement...</string>
     
     <!--  -->
-    <!-- contentDescription for infoListItem -->
+    <!-- infoListItem -->
     <!--  -->
     <string name="infoListItemIcon">Info</string>
     <string name="infoListCategoryArrow">Catégorie suivante</string>

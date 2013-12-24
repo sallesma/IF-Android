@@ -53,7 +53,7 @@ public class MainMenuActivity extends Activity {
 	        }
 		}
 
-		initialiseButtonsLinks();
+		initializeButtonsLinks();
 		addNewsView();
 	}
 
@@ -83,7 +83,7 @@ public class MainMenuActivity extends Activity {
 				.getActiveNetworkInfo().isConnected());
 	}
 	
-	private void initialiseButtonsLinks() {
+	private void initializeButtonsLinks() {
 		ImageButton artistsButton = (ImageButton) findViewById(R.id.artistsButton);
 		artistsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
