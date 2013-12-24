@@ -5,8 +5,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +26,21 @@ public class InfoActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_info);
+		
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.navigateUpFromSameTask(InfoActivity.this);
+			}
+		});
+		((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(InfoActivity.this, "Quand l'activité existera ;)", Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		String infoId = (String) getIntent().getSerializableExtra("infoId");
 	    if (infoId == null || infoId.equals("")) {
@@ -41,28 +56,8 @@ public class InfoActivity extends Activity {
 	    }
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_info, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.action_type_see_on_map:
-			Toast.makeText(InfoActivity.this, "Quand l'activité existera ;)", Toast.LENGTH_SHORT).show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
-	}
-	
 	private void fillViewWithInfoData() {
-		getActionBar().setTitle(info.getName());
+		((TextView)findViewById(R.id.info_title)).setText(info.getName());
 		
 		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
 		((ImageView) findViewById(R.id.infoPicture)).setImageBitmap(Utils

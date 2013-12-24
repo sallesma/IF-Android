@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ public class ArtistActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_artist);
 		
 		String artistId = (String) getIntent().getSerializableExtra("artistId");
@@ -38,21 +38,16 @@ public class ArtistActivity extends Activity {
 			
 			fillViewWithArtistData();
 	    }
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
+	    ((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
 	}
 
 	private void fillViewWithArtistData() {
-		getActionBar().setTitle(artist.getName());
+		((TextView)findViewById(R.id.artist_title)).setText(artist.getName());
 		
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
 		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour().substring(0, 5));
@@ -70,7 +65,6 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 
 		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
-		
 		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(Utils
 				.decodeSampledBitmapFromFile(filePath, getResources(),
 						R.drawable.artist_empty_icon, 200, 200));

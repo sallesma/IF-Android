@@ -7,7 +7,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.imaginariumfestival.android.R;
@@ -21,7 +23,8 @@ public class InfosActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_infos);
 
 		categoryIdPathFromRoot = new Stack<Long>();
 		categoryIdPathFromRoot.push((long) ROOT_ID);
@@ -32,10 +35,20 @@ public class InfosActivity extends Activity {
 		datasource.close();
 		
 		computeListToView(ROOT_ID);
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if ( categoryIdPathFromRoot.peek() == 0 ) {
+					NavUtils.navigateUpFromSameTask(InfosActivity.this);
+				} else {
+					categoryIdPathFromRoot.pop();
+					computeListToView( categoryIdPathFromRoot.peek() );
+				}
+			}
+		});
 	}
 
 	private void computeListToView(long parentId) {
-		setContentView(R.layout.activity_infos);
 		ListView list = (ListView) findViewById(R.id.infosList);
 		list.removeAllViewsInLayout();
 		
@@ -53,21 +66,4 @@ public class InfosActivity extends Activity {
 		toInfoActivityIntent.putExtras(bundle);
 		startActivity(toInfoActivityIntent);
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			if ( categoryIdPathFromRoot.peek() == 0 ) {
-				NavUtils.navigateUpFromSameTask(this);
-			} else {
-				categoryIdPathFromRoot.pop();
-				computeListToView( categoryIdPathFromRoot.peek() );
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
-	}
-	
 }

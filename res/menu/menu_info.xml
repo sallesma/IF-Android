@@ -1,8 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/action_type_see_on_map"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_type_see_on_map"/>
-
-</menu>
