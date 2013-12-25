@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/artistImageButtonDescription"
-            android:src="@drawable/artistes" />
+            android:src="@drawable/artists_menu_icon" />
 
         <ImageButton
             android:id="@+id/infosButton"
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/infosImageButtonDescription"
-            android:src="@drawable/infos" />
+            android:src="@drawable/infos_menu_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/programmationImageButtonDescription"
-            android:src="@drawable/programmation" />
+            android:src="@drawable/programmation_menu_icon" />
 
         <ImageButton
             android:id="@+id/mapButton"
@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/planImageButtonDescription"
-            android:src="@drawable/plan" />
+            android:src="@drawable/map_menu_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,7 +80,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/photosImageButtonDescription"
-            android:src="@drawable/photos" />
+            android:src="@drawable/photos_menu_icon" />
 
         <ImageButton
             android:id="@+id/partnersButton"
@@ -90,7 +90,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/partnersImageButtonDescription"
-            android:src="@drawable/partenaires" />
+            android:src="@drawable/partners_menu_icon" />
     </LinearLayout>
 
     <RelativeLayout
