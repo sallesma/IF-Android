@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,7 @@ public class MainMenuActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_menu);
 		
-		if (isNetworkConnected(MainMenuActivity.this)) {
+		if (Utils.isNetworkConnected(MainMenuActivity.this)) {
 			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
 	        long lastUpdateMillis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
 	         
@@ -53,7 +52,7 @@ public class MainMenuActivity extends Activity {
 	        }
 		}
 
-		initialiseButtonsLinks();
+		initializeButtonsLinks();
 		addNewsView();
 	}
 
@@ -75,15 +74,7 @@ public class MainMenuActivity extends Activity {
 		}
 	}
 	
-	private boolean isNetworkConnected(Context context) {
-		ConnectivityManager cm = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return (cm.getActiveNetworkInfo() != null
-				&& cm.getActiveNetworkInfo().isAvailable() && cm
-				.getActiveNetworkInfo().isConnected());
-	}
-	
-	private void initialiseButtonsLinks() {
+	private void initializeButtonsLinks() {
 		ImageButton artistsButton = (ImageButton) findViewById(R.id.artistsButton);
 		artistsButton.setOnClickListener(new View.OnClickListener() {
 			@Override

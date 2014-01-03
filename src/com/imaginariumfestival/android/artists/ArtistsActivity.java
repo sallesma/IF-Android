@@ -5,8 +5,10 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -19,48 +21,42 @@ public class ArtistsActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_artists);
 
 		ArtistDataSource datasource = new ArtistDataSource(ArtistsActivity.this);
 		datasource.open();
 		artists = datasource.getAllArtists();
 		datasource.close();
 		
+		initializeButtons();
 		computeListToView( new ArtistsAlphabeticalAdapter(this, artists) );
 	}
 
+	private void initializeButtons() {
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.navigateUpFromSameTask(ArtistsActivity.this);
+			}
+		});
+		((Button) findViewById(R.id.action_type_sort)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				computeListToView( new ArtistsStyleAdapter(ArtistsActivity.this, artists) );
+			}
+		});
+		((Button) findViewById(R.id.action_alpha_sort)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				computeListToView( new ArtistsAlphabeticalAdapter(ArtistsActivity.this, artists) );
+			}
+		});
+	}
+
 	private void computeListToView(ListAdapter adapter) {
-		setContentView(R.layout.activity_artists);
 		ListView list = (ListView) findViewById(R.id.artistsList);
 		list.removeAllViewsInLayout();
 		list.setAdapter(adapter);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_artists, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.action_type_sort:
-			if (menuItem.getTitle().toString() == getString(R.string.action_type_sort)) {
-				menuItem.setTitle(R.string.action_alpha_sort);
-				computeListToView( new ArtistsStyleAdapter(this, artists) );
-				
-			} else {
-				menuItem.setTitle(R.string.action_type_sort);
-				computeListToView( new ArtistsAlphabeticalAdapter(this, artists) );
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
-	}
-	
 }

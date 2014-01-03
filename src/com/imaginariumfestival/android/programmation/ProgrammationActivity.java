@@ -9,11 +9,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,56 +33,60 @@ public class ProgrammationActivity extends Activity {
 	public static final String FIRST_DAY = "vendredi";
 	public static final String SECOND_DAY = "samedi";
 	private static final String SEPARATION_BETWEEN_DAYS = "31/05/2014 05:00";
-	
-	private static final int STARTING_HOUR = 15;
+
 	public static final int HOURS_IN_DAY = 24;
+	private static final int STARTING_HOUR = 15;
+	private static final int ENDING_HOUR = 28; //04 AM late in the night
 	private static final int MINUTES_IN_HOUR = 60;
 	private static final int SIZE_COEFFICIENT = 2;
-	
+
 	private List<ArtistModel> artists;
 	private RelativeLayout mainStageLayout;
 	private RelativeLayout secondStageLayout;
-	
+	private Button firstDayButton;
+	Button secondDayButton;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_programmation);
-		
+
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.navigateUpFromSameTask(ProgrammationActivity.this);
+			}
+		});
+
 		final ArtistDataSource artistDataSource = new ArtistDataSource(this);
 		artistDataSource.open();
 		artists = artistDataSource.getAllArtists();
 		artistDataSource.close();
-		
+
 		mainStageLayout = ((RelativeLayout)findViewById(R.id.main_stage_layout));
 		secondStageLayout = ((RelativeLayout)findViewById(R.id.second_stage_layout));
-		
-		Button firstDayButton = ((Button)findViewById(R.id.button_first_day));
-		firstDayButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mainStageLayout.removeAllViews();
-				secondStageLayout.removeAllViews();
-				for (ArtistModel artist : artists) {
-					if (artist.getDay().equals(FIRST_DAY))
-					displayProgrammationOnScreen(artist);
-				}
-			}
-		});
 
-		Button secondDayButton = ((Button)findViewById(R.id.button_second_day));
-		secondDayButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mainStageLayout.removeAllViews();
-				secondStageLayout.removeAllViews();
-				for (ArtistModel artist : artists) {
-					if (artist.getDay().equals(SECOND_DAY))
-						displayProgrammationOnScreen(artist);
-				}
-			}
-		});
-		
+		initializeTimelineBackground();
+		initializeButtons();
+		initializeSelectedDay();
+	}
+
+	private void initializeTimelineBackground() {
+		for (int i = STARTING_HOUR ; i <= ENDING_HOUR ; i++) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final View view = inflater.inflate(R.layout.programmation_hour_item, null);
+			final View secondView = inflater.inflate(R.layout.programmation_hour_item, null);
+			((LinearLayout)view).setX( getOffsetFromStringHour(String.valueOf(i)+"h00") );
+			((LinearLayout)secondView).setX( getOffsetFromStringHour(String.valueOf(i)+"h00") );
+			fillHourItemData(i, view);
+			fillHourItemData(i, secondView);
+			mainStageLayout.addView(view);
+			secondStageLayout.addView(secondView);
+		}
+	}
+
+	private void initializeSelectedDay() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Date date = new Date();
 		try {
@@ -87,7 +94,7 @@ public class ProgrammationActivity extends Activity {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		long now = new Date().getTime();
 		if (now - date.getTime() < 0) {
 			firstDayButton.callOnClick();
@@ -96,23 +103,52 @@ public class ProgrammationActivity extends Activity {
 		}
 	}
 
+	private void initializeButtons() {
+		firstDayButton = ((Button)findViewById(R.id.button_first_day));
+		firstDayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mainStageLayout.removeAllViews();
+				secondStageLayout.removeAllViews();
+				initializeTimelineBackground();
+				for (ArtistModel artist : artists) {
+					if (artist.getDay().equals(FIRST_DAY))
+						displayProgrammationOnScreen(artist);
+				}
+			}
+		});
+		secondDayButton = ((Button)findViewById(R.id.button_second_day));
+		secondDayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mainStageLayout.removeAllViews();
+				secondStageLayout.removeAllViews();
+				initializeTimelineBackground();
+				for (ArtistModel artist : artists) {
+					if (artist.getDay().equals(SECOND_DAY))
+						displayProgrammationOnScreen(artist);
+				}
+			}
+		});
+	}
+
 	private void displayProgrammationOnScreen(final ArtistModel artist) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View view = inflater.inflate(R.layout.programmation_item, null);
-		
+		final View view = inflater.inflate(R.layout.programmation_artist_item, null);
+
 		fillChildrenData(artist, view);
-		
+
 		((LinearLayout)view).setX( getOffsetFromStringHour(artist.getBeginHour()) );
 		int width = getOffsetFromStringHour(artist.getEndHour()) - getOffsetFromStringHour(artist.getBeginHour());
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, 150);
 
 		final String stage = artist.getStage();
 		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
 			mainStageLayout.addView(view, params);
 		} else if ( stage.equals(ArtistModel.SECOND_STAGE) ) {
-			secondStageLayout.addView(view, params);			
+			secondStageLayout.addView(view, params);
 		}
-		
+
 		view.setContentDescription( String.valueOf(artist.getId()) );
 		view.setOnClickListener(new OnClickListener() {
 			@Override
@@ -138,15 +174,25 @@ public class ProgrammationActivity extends Activity {
 		int childCount = ((ViewGroup) view).getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			View child = ((ViewGroup) view).getChildAt(i);
-			
-			if (child.getId() == R.id.programmation_icon ) {
+
+			if ( child.getId() == R.id.programmation_name ) {
+				((TextView) child).setText(artist.getName());
+			} else if (child.getId() == R.id.programmation_icon ) {
 				String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath,
 								getResources(),
 								R.drawable.artist_empty_icon, 80, 80));
-			} else if ( child.getId() == R.id.programmation_name ) {
-				((TextView) child).setText(artist.getName());
+			}
+		}
+	}
+
+	private void fillHourItemData(final int hour, final View view) {
+		int childCount = ((ViewGroup) view).getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			View child = ((ViewGroup) view).getChildAt(i);
+			if (child.getId() == R.id.hour ) {
+				((TextView) child).setText((hour % HOURS_IN_DAY) + "h");
 			}
 		}
 	}

@@ -2,11 +2,12 @@ package com.imaginariumfestival.android.artists;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class ArtistActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_artist);
 		
 		String artistId = (String) getIntent().getSerializableExtra("artistId");
@@ -37,27 +38,26 @@ public class ArtistActivity extends Activity {
 			
 			fillViewWithArtistData();
 	    }
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
+	    ((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
 	}
 
 	private void fillViewWithArtistData() {
-		getActionBar().setTitle(artist.getName());
+		((TextView)findViewById(R.id.artist_title)).setText(artist.getName());
 		
-		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
-		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour());
-		((TextView)findViewById(R.id.artistDescription)).setText(artist.getDescription());
-		((TextView)findViewById(R.id.artistDescription)).setMovementMethod(new ScrollingMovementMethod());
+		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour().substring(0, 5));
+		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
+		
+		TextView artistDescription = (TextView)findViewById(R.id.artistDescription);
+		artistDescription.setText(artist.getDescription());
+		artistDescription.setMovementMethod(new ScrollingMovementMethod());
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		artistDescription.setTypeface(euroFont);
 		
 		updateLink(artist.getWebsite(), R.id.websiteIcon);
 		updateLink(artist.getFacebook(), R.id.facebookIcon);
@@ -65,10 +65,9 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 
 		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
-		
 		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(Utils
 				.decodeSampledBitmapFromFile(filePath, getResources(),
-						R.drawable.artist_empty_icon, 150, 150));
+						R.drawable.artist_empty_icon, 200, 200));
 	}
 
 	private void updateLink(final String url, final int viewId) {
@@ -76,16 +75,20 @@ public class ArtistActivity extends Activity {
 			((ImageButton)findViewById(viewId)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String finalUrl = url;
-					if (!url.startsWith("https://") && !url.startsWith("http://")){
-						finalUrl = "http://" + url;
+					if (Utils.isNetworkConnected(ArtistActivity.this)) {
+						String finalUrl = url;
+						if (!url.startsWith("https://") && !url.startsWith("http://")){
+							finalUrl = "http://" + url;
+						}
+						Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("weblink", finalUrl);
+						bundle.putString("artistName", artist.getName());
+						toWebViewIntent.putExtras(bundle);
+						startActivity(toWebViewIntent);
+					} else {
+						Toast.makeText(ArtistActivity.this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
 					}
-					Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("weblink", finalUrl);
-					bundle.putString("artistName", artist.getName());
-					toWebViewIntent.putExtras(bundle);
-					startActivity(toWebViewIntent);
 				}
 			});	
 		} else {

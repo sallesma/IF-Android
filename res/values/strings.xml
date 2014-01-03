@@ -13,11 +13,13 @@
     <string name="photos_validating_activity">Photos</string>
     <string name="partner_activity">Partenaires</string>
 
+    <string name="back_button">Retour arrière</string>
+
     <!--  -->
-    <!-- contentDescription for MainMenuImageButtons -->
+    <!-- MainMenuActivity -->
     <!--  -->
 
-    <string name="mainLogo">Imaginarium</string>
+    <string name="mainLogo">Imaginarium Festival</string>
     <string name="artistImageButtonDescription">Artistes</string>
     <string name="infosImageButtonDescription">Infos</string>
     <string name="programmationImageButtonDescription">Programmation</string>
@@ -38,12 +40,14 @@
     <!--  -->
     <!-- ArtistsActivity -->
     <!--  -->
+    <string name="artists_title_1">LES</string>
+    <string name="artists_title_2">ARTISTES</string>
     <string name="action_alpha_sort">Tri alphabétique</string>
     <string name="action_type_sort">Tri par genre</string>
     <string name="artistListItemIcon">Icone Artiste</string>
     
     <!--  -->
-    <!-- contentDescription for ArtistActivity -->
+    <!-- ArtistActivity -->
     <!--  -->
     <string name="artistIcon">Icone Artiste</string>
     <string name="facebookIcon">Lien vers facebook</string>
@@ -57,9 +61,12 @@
     <string name="loading">Chargement...</string>
     
     <!--  -->
-    <!-- contentDescription for infoListItem -->
+    <!-- InfosActivity -->
     <!--  -->
+    <string name="infos_title_1">INFOS</string>
+    <string name="infos_title_2">PRATIQUES</string>
     <string name="infoListItemIcon">Info</string>
+    <string name="infoListCategoryArrow">Catégorie suivante</string>
 
     <!--  -->
     <!-- InfoActivity -->
@@ -70,6 +77,8 @@
     <!--  -->
     <!-- Programmation Activity-->
     <!--  -->
+    <string name="programmation_title_1">LA</string>
+    <string name="programmation_title_2">TIMELINE</string>
     <string name="button_first_day">Vendredi</string>
     <string name="button_second_day">Samedi</string>
     <string name="main_stage">Scène principale</string>
@@ -79,6 +88,8 @@
     <!--  -->
     <!-- Map Activity-->
     <!--  -->
+    <string name="map_title_1">PLAN</string>
+    <string name="map_title_2">INTERACTIF</string>
     <string name="map">Plan</string>
     <string name="action_type_filter">Filtrer</string>
     <string name="action_type_filter_food">Restauration</string>
@@ -91,6 +102,8 @@
     <!--  -->
     <!-- Photo Activity-->
     <!--  -->
+    <string name="photo_title_1">APPAREIL</string>
+    <string name="photo_title_2">PHOTO</string>
     <string name="camera_take">Prendre</string>
     <string name="picture_taken">Photo prise</string>
     <string name="share">Partager</string>
@@ -98,6 +111,8 @@
     <!--  -->
     <!-- Partners Activity-->
     <!--  -->
+    <string name="partners_title_1">NOS</string>
+    <string name="partners_title_2">PARTENAIRES</string>
     <string name="partner_icon">logo partenaire</string>
     <string name="partners_header_text">Ils nous aident à faire vivre le festival</string>
 

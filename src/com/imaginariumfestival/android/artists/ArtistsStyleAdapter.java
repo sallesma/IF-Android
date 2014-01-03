@@ -9,11 +9,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -84,6 +86,9 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 	}
 
 	private void fillArtistData(View view, ArtistModel artist) {
+		Typeface euroFont = Typeface.createFromAsset(context.getAssets(), "eurof55.ttf");  
+		((TextView) view.findViewById(R.id.artistListItemName)).setTypeface(euroFont);
+		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setTypeface(euroFont);
 		((TextView) view.findViewById(R.id.artistListItemName)).setText(artist.getName());
 		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setText(artist.getProgrammation());
 		
@@ -92,7 +97,7 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 		((ImageView) view.findViewById(R.id.artistListItemIcon))
 				.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
 						context.getResources(), R.drawable.artist_empty_icon,
-						100, 100));
+						80, 80));
 		
 		((LinearLayout) view.findViewById(R.id.artist_list_item)).setContentDescription(String.valueOf(artist.getId()));
 		((LinearLayout) view.findViewById(R.id.artist_list_item)).setOnClickListener(new OnClickListener() {
@@ -109,13 +114,19 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
 	
 	private void setSection(LinearLayout header, String label) {
 		TextView text = new TextView(context);
-		header.setBackgroundColor(0xffaabbcc);
-		text.setTextColor(Color.WHITE);
+		text.setTextColor(Color.parseColor("#E66524"));
 		text.setText(label);
 		text.setTextSize(20);
 		text.setPadding(5, 0, 0, 0);
-		text.setGravity(Gravity.CENTER_VERTICAL);
+		text.setGravity(Gravity.CENTER);
+		
+		View separation = new View(context);
+		separation.setBackgroundColor(Color.parseColor("#E66524"));
+		LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
+		separation.setLayoutParams(params);
+		
 		header.addView(text);
+		header.addView(separation);
 	}
 
 	@Override

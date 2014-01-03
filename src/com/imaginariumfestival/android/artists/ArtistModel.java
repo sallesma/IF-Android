@@ -68,7 +68,7 @@ public class ArtistModel {
 	}
 
 	public String getProgrammation(){
-		return  stage + " - " + day + " " + beginHour;
+		return  stage + " - " + day + " " + beginHour.substring(0, 5);
 	}
 	
 	public Date getAbsoluteDate() {

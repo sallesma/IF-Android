@@ -1,33 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/homeLayout"
+    style="@style/DefaultDarkBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainMenuActivity" >
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/mainLogo"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_name"
-            android:textSize="@dimen/MainMenuTitleSize" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:contentDescription="@string/mainLogo"
+        android:src="@drawable/menu_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +30,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/artistImageButtonDescription"
-            android:src="@drawable/artistes" />
+            android:src="@drawable/artists_menu_icon" />
 
         <ImageButton
             android:id="@+id/infosButton"
@@ -54,8 +40,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/infosImageButtonDescription"
-            android:src="@drawable/infos" />
-
+            android:src="@drawable/infos_menu_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +58,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/programmationImageButtonDescription"
-            android:src="@drawable/programmation" />
+            android:src="@drawable/programmation_menu_icon" />
 
         <ImageButton
             android:id="@+id/mapButton"
@@ -83,8 +68,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/planImageButtonDescription"
-            android:src="@drawable/plan" />
-
+            android:src="@drawable/map_menu_icon" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,7 +86,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/photosImageButtonDescription"
-            android:src="@drawable/photos" />
+            android:src="@drawable/photos_menu_icon" />
 
         <ImageButton
             android:id="@+id/partnersButton"
@@ -112,12 +96,12 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/partnersImageButtonDescription"
-            android:src="@drawable/partenaires" />
-
+            android:src="@drawable/partners_menu_icon" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/main_activity_footer"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

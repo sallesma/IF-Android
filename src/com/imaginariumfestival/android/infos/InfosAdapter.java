@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,6 +78,8 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 		
 		InfoModel info = infos.get(position);
 		
+		Typeface euroFont = Typeface.createFromAsset(context.getAssets(), "eurof55.ttf");  
+		((TextView) view.findViewById(R.id.infoListItemName)).setTypeface(euroFont);
 		((TextView) view.findViewById(R.id.infoListItemName)).setText(info.getName());
 		
 		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
@@ -87,7 +90,7 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 		
 		((LinearLayout) view.findViewById(R.id.info_list_item)).setContentDescription(String.valueOf(info.getId()));
 		if ( info.getIsCategory() ) {
-			view.setBackgroundColor(0xffaabbcc);
+			((ImageView) view.findViewById(R.id.infoListCategoryArrow)).setVisibility(View.VISIBLE);
 			((LinearLayout) view.findViewById(R.id.info_list_item)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

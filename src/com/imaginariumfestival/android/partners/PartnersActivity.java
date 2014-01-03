@@ -5,14 +5,16 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,8 +31,18 @@ public class PartnersActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_partners);
+		
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.navigateUpFromSameTask(PartnersActivity.this);
+			}
+		});
+		
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView)findViewById(R.id.partners_header_text)).setTypeface( euroFont );
 		
 		PartnersDataSource partnerDataSource = new PartnersDataSource(PartnersActivity.this);
 		partnerDataSource.open();
@@ -40,17 +52,6 @@ public class PartnersActivity extends Activity {
 		linearLayout = ((LinearLayout)findViewById(R.id.partnerLinearLayout));
 		for (PartnerModel partner : partners) {
 			fillViewWithPartnerData(partner);
-		}
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
 		}
 	}
 	
@@ -68,8 +69,6 @@ public class PartnersActivity extends Activity {
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath, getResources(),
 								R.drawable.artist_empty_icon, 150, 150));
-			} else if ( child.getId() == R.id.partner_name ) {
-				((TextView) child).setText(partner.getName());
 			}
 		}
 		

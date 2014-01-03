@@ -22,8 +22,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -44,7 +46,15 @@ public class PhotosTakingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_picture_taking);
+		
+		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				NavUtils.navigateUpFromSameTask(PhotosTakingActivity.this);
+			}
+		});
 
 		if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 			FiltersDataSource datasource = new FiltersDataSource(
@@ -52,8 +62,6 @@ public class PhotosTakingActivity extends Activity {
 			datasource.open();
 			filters = datasource.getAllFilters();
 			datasource.close();
-
-			setContentView(R.layout.activity_picture_taking);
 
 			LinearLayout filtersLayout = (LinearLayout) findViewById(R.id.filtersChoice);
 			for (FilterModel filter : filters) {

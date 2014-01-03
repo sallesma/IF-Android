@@ -3,6 +3,7 @@
     android:id="@+id/news_view"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
+    style="@style/LightBackground"
     android:background="#dddddd"
     android:gravity="center"
     android:minHeight="100dp"
