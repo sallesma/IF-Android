@@ -46,14 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp" >
+        android:paddingTop="5dp" >
 
         <Button
             android:id="@+id/button_first_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
             android:text="@string/button_first_day" />
 
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
             android:text="@string/button_second_day" />
     </LinearLayout>
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:background="#1E2827"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="3dp"
         android:text="@string/main_stage"
         android:textSize="20sp" />
 
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:background="#1E2827"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="3dp"
         android:text="@string/second_stage"
         android:textSize="20sp" />
 

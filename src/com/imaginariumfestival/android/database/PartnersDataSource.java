@@ -54,7 +54,7 @@ public class PartnersDataSource {
 		return newPartner;
     }
 	
-	public PartnerModel updateInfo(Long id, PartnerModel partner){
+	public PartnerModel updatePartner(Long id, PartnerModel partner){
         ContentValues values = new ContentValues();
         
         values.put(MySQLiteHelper.COLUMN_NAME, partner.getName());

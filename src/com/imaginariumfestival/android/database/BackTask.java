@@ -283,7 +283,6 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		}
 	}
 	
-	
 	private void getPartnersFromWebService() {
 		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, "");
