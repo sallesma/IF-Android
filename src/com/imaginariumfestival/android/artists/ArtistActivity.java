@@ -92,8 +92,7 @@ public class ArtistActivity extends Activity {
 				}
 			});	
 		} else {
-			//TODO : mettre plutot une image "no link"
-			((ImageButton) findViewById(viewId)).setVisibility(View.INVISIBLE);
+			((ImageButton) findViewById(viewId)).setImageAlpha(50);
 		}
 	}
 }
