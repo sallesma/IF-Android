@@ -14,6 +14,7 @@
     <string name="partner_activity">Partenaires</string>
 
     <string name="back_button">Retour arrière</string>
+    <string name="header_icon">Icone header</string>
 
     <!--  -->
     <!-- MainMenuActivity -->
