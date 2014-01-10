@@ -68,7 +68,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		Toast.makeText(context, "Mise à jour des données...", Toast.LENGTH_LONG)
+		Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_LONG)
 				.show();
 	}
 
@@ -89,7 +89,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
-		Toast.makeText(context, "...la mise à jour est terminée",
+		Toast.makeText(context, context.getResources().getString(R.string.update_ending),
 				Toast.LENGTH_SHORT).show();
 	}
 	
@@ -106,7 +106,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				jsonArtists = new JSONArray(artistsFromDistantDatabase);
 				result = recordArtists(jsonArtists);
 			} catch (JSONException e) {
-				Log.e("JSON Parser", "Error parsing data " + e.toString());
+				Log.e("JSON Parser", "Error parsing artist data " + e.toString());
 			}
 		}
 		
@@ -164,7 +164,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				jsonInfos = new JSONArray(infosFromDistantDatabase);
 				result = recordInfos(jsonInfos);
 			} catch (JSONException e) {
-				Log.e("JSON Parser", "Error parsing data " + e.toString());
+				Log.e("JSON Parser", "Error parsing infos data " + e.toString());
 			}
 		}
 
@@ -213,7 +213,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				jsonNews = new JSONArray(newsFromDistantDatabase);
 				result = recordNews(jsonNews);
 			} catch (JSONException e) {
-				Log.e("JSON Parser", "Error parsing data " + e.toString());
+				Log.e("JSON Parser", "Error parsing news data " + e.toString());
 			}
 		}
 		
@@ -260,7 +260,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				jsonFilters = new JSONArray(filtersFromDistantDatabase);
 				result = recordFilters(jsonFilters);
 			} catch (JSONException e) {
-				Log.e("JSON Parser", "Error parsing data " + e.toString());
+				Log.e("JSON Parser", "Error parsing filters data " + e.toString());
 			}
 		}
 		
@@ -305,7 +305,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				jsonPartners = new JSONArray(partnersFromDistantDatabase);
 				result = recordPartners(jsonPartners);
 			} catch (JSONException e) {
-				Log.e("JSON Parser", "Error parsing data " + e.toString());
+				Log.e("JSON Parser", "Error parsing partners data " + e.toString());
 			}
 		}
 		

@@ -50,6 +50,12 @@
     <string name="notification_content">Sur scène dans 15 minutes !</string>
     
     <!--  -->
+    <!-- BackTask -->
+    <!--  -->
+    <string name="update_beginning">Mise à jour des données</string>
+    <string name="update_ending">...la mise à jour est terminée</string>
+    
+    <!--  -->
     <!-- ArtistsActivity -->
     <!--  -->
     <string name="artists_title_1">LES</string>
