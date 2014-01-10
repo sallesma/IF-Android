@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <string name="facebook_link">https://www.facebook.com/imaginariumf</string>
+    <string name="twitter_link">https://twitter.com/ImaginariumF</string>
+    <string name="google_plus_link">https://plus.google.com/u/0/116270946991852741743/posts</string>
 
     <string name="app_name">Imaginarium</string>
     <string name="artists_activity">Artistes</string>
@@ -27,11 +31,18 @@
     <string name="planImageButtonDescription">Plan</string>
     <string name="photosImageButtonDescription">Photos</string>
     <string name="partnersImageButtonDescription">Partenaires</string>
+    
+    <string name="facebook_icon">Facebook Imaginarium</string>
+    <string name="twitter_icon">Twitter Imaginarium</string>
+    <string name="google_plus_icon">Google+ Imaginarium</string>
+
+    <string name="about">Made with &lt;3 from Compy</string>
 
     <!--  -->
     <!-- News -->
     <!--  -->
     <string name="news">News</string>
+    <string name="no_news">Pas de news à afficher</string>
     
     <!--  -->
     <!-- Notifications -->

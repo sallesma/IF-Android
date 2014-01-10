@@ -11,16 +11,16 @@
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
         android:contentDescription="@string/mainLogo"
+        android:paddingBottom="20dp"
         android:src="@drawable/menu_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_weight="1" >
 
         <ImageButton
             android:id="@+id/artistsButton"
@@ -46,9 +46,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_weight="1" >
 
         <ImageButton
             android:id="@+id/programmationButton"
@@ -74,9 +74,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_weight="1" >
 
         <ImageButton
             android:id="@+id/photosButton"
@@ -101,11 +101,101 @@
 
     <RelativeLayout
         android:id="@+id/main_activity_footer"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center" >
+        android:layout_weight="1" >
+
+        <ImageButton
+            android:id="@+id/show_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/news"
+            android:minHeight="100dp"
+            android:src="@drawable/news" />
+
+        <TextView
+            android:id="@+id/news_content"
+            style="@style/LightBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/show_news"
+            android:gravity="center"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:id="@+id/social_network_links"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/facebook_home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/facebook_icon"
+                android:src="@drawable/facebook_home" />
+
+            <ImageButton
+                android:id="@+id/twitter_home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:contentDescription="@string/twitter_icon"
+                android:scaleType="center"
+                android:src="@drawable/twitter_home" />
+
+            <ImageButton
+                android:id="@+id/google_plus_home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:contentDescription="@string/google_plus_icon"
+                android:scaleType="center"
+                android:src="@drawable/google_plus_home" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/about"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/about"
+            android:textColor="#aaaaaa"
+            android:textSize="17sp" />
+
+        <ImageButton
+            android:id="@+id/show_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/news"
+            android:minHeight="100dp"
+            android:src="@drawable/news" />
+
+        <TextView
+            android:id="@+id/twitter_content"
+            style="@style/LightBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/show_twitter"
+            android:gravity="center"
+            android:textSize="17sp" />
     </RelativeLayout>
 
 </LinearLayout>

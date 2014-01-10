@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -52,29 +54,13 @@ public class MainMenuActivity extends Activity {
 	        }
 		}
 
-		initializeButtonsLinks();
+		initializeMenuButtonsLinks();
+		initializeSocialNetworkButtonsLinks();
 		addNewsView();
-	}
-
-
-	private void addNewsView() {
-		NewsDataSource newsDataSource = new NewsDataSource(this);
-		newsDataSource.open();
-		NewsModel news = newsDataSource.getLastNews();
-		newsDataSource.close();
-		
-		if (news != null) {
-			RelativeLayout footerLayout = (RelativeLayout) findViewById(R.id.main_activity_footer);
-			
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			final View newsView = inflater.inflate(R.layout.news_view, null);
-			footerLayout.addView(newsView);
-
-			((TextView)findViewById(R.id.news_content)).setText(news.getContent());
-		}
+		addTwitterView();
 	}
 	
-	private void initializeButtonsLinks() {
+	private void initializeMenuButtonsLinks() {
 		ImageButton artistsButton = (ImageButton) findViewById(R.id.artistsButton);
 		artistsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -121,6 +107,108 @@ public class MainMenuActivity extends Activity {
 			public void onClick(View v) {
 				Intent toPartnersActivity = new Intent(MainMenuActivity.this, PartnersActivity.class);
 				startActivity(toPartnersActivity);
+			}
+		});
+	}
+	
+	private void initializeSocialNetworkButtonsLinks() {
+		((ImageButton) findViewById(R.id.facebook_home_icon)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse( getResources().getString(R.string.facebook_link ) ));
+				startActivity(intent);
+			}
+		});
+		((ImageButton) findViewById(R.id.twitter_home_icon)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse( getResources().getString(R.string.twitter_link) ));
+				startActivity(intent);
+			}
+		});
+		((ImageButton) findViewById(R.id.google_plus_home_icon)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse( getResources().getString(R.string.google_plus_link ) ));
+				startActivity(intent);
+			}
+		});
+	}
+
+	private void addNewsView() {
+		NewsDataSource newsDataSource = new NewsDataSource(this);
+		newsDataSource.open();
+		NewsModel news = newsDataSource.getLastNews();
+		newsDataSource.close();
+		
+		if (news != null) {
+			((TextView)findViewById(R.id.news_content)).setText(news.getContent());
+		} else {
+			((TextView)findViewById(R.id.news_content)).setText( getResources().getString(R.string.no_news) );
+		}
+		((ImageButton)findViewById(R.id.show_news)).setOnTouchListener(new OnTouchListener() {
+			int _xDeltaButton;
+			int _xDeltaContent;
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				final int X = (int) event.getRawX();
+				RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_news)).getLayoutParams();
+				RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.news_content)).getLayoutParams();
+			    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+			        case MotionEvent.ACTION_DOWN:
+			            _xDeltaButton = X - buttonLayoutParams.leftMargin;
+			            _xDeltaContent = X - contentLayoutParams.leftMargin;
+			            break;
+			        case MotionEvent.ACTION_UP:
+			            break;
+			        case MotionEvent.ACTION_POINTER_DOWN:
+			            break;
+			        case MotionEvent.ACTION_POINTER_UP:
+			            break;
+			        case MotionEvent.ACTION_MOVE:
+			            buttonLayoutParams.leftMargin = X - _xDeltaButton;
+			            contentLayoutParams.leftMargin = X - _xDeltaContent;
+			            ((ImageButton)findViewById(R.id.show_news)).setLayoutParams(buttonLayoutParams);
+			            ((TextView)findViewById(R.id.news_content)).setLayoutParams(contentLayoutParams);
+			            break;
+			    }
+				return false;
+			}
+		});
+	}
+	
+	private void addTwitterView() {
+		((TextView)findViewById(R.id.twitter_content)).setText( getResources().getString(R.string.no_news) );
+		((ImageButton)findViewById(R.id.show_twitter)).setOnTouchListener(new OnTouchListener() {
+			int _xDeltaButton;
+//			int _xDeltaContent;
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				final int X = (int) event.getRawX();
+				RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_twitter)).getLayoutParams();
+//				RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.twitter_content)).getLayoutParams();
+			    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+			        case MotionEvent.ACTION_DOWN:
+			            _xDeltaButton = X - buttonLayoutParams.leftMargin;
+//			            _xDeltaContent = X - contentLayoutParams.leftMargin;
+			            break;
+			        case MotionEvent.ACTION_UP:
+			            break;
+			        case MotionEvent.ACTION_POINTER_DOWN:
+			            break;
+			        case MotionEvent.ACTION_POINTER_UP:
+			            break;
+			        case MotionEvent.ACTION_MOVE:
+			            buttonLayoutParams.leftMargin = X - _xDeltaButton;
+//			            contentLayoutParams.leftMargin = X - _xDeltaContent;
+			            ((ImageButton)findViewById(R.id.show_twitter)).setLayoutParams(buttonLayoutParams);
+//			            ((TextView)findViewById(R.id.twitter_content)).setLayoutParams(contentLayoutParams);
+			            break;
+			    }
+				return false;
 			}
 		});
 	}
