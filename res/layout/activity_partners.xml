@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/back_button"
             android:text="@string/partners_title_1"
-            android:textSize="22sp" />
+            android:textSize="23sp" />
 
         <TextView
             android:id="@+id/partners_title_2"
@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/partners_title_1"
             android:text="@string/partners_title_2"
-            android:textSize="22sp" />
+            android:textSize="23sp" />
 
         <ImageView
             android:id="@+id/header_icon"

@@ -397,6 +397,11 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 			filtersDataSource.open();
 			urlList.putAll(filtersDataSource.getAllFilterPictures());
 			filtersDataSource.close();
+		} else if (tableName.equals(MySQLiteHelper.TABLE_PARTNERS)) {
+			PartnersDataSource partnersDataSource = new PartnersDataSource(context);
+			partnersDataSource.open();
+			urlList.putAll(partnersDataSource.getAllPartnersPictures());
+			partnersDataSource.close();
 		}
 
 		String path = context.getFilesDir() + "/" + tableName + "/";
