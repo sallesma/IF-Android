@@ -25,17 +25,6 @@
             android:padding="20dp"
             android:src="@drawable/back_button" />
 
-        <TextView
-            android:id="@+id/info_title"
-            style="@style/BlackText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/back_button"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="24sp" />
-
         <ImageView
             android:id="@+id/header_icon"
             android:layout_width="wrap_content"
@@ -45,6 +34,18 @@
             android:background="@null"
             android:contentDescription="@string/header_icon"
             android:src="@drawable/infos_header_icon" />
+
+        <TextView
+            android:id="@+id/info_title"
+            style="@style/BlackText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/header_icon"
+            android:layout_toRightOf="@id/back_button"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <Button
