@@ -58,26 +58,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingTop="5dp" >
+        android:padding="5dp" >
 
-        <Button
+        <TextView
             android:id="@+id/button_first_day"
+            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:text="@string/button_first_day" />
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/button_first_day"
+            android:textSize="20sp" />
 
-        <Button
+        <Switch
+            android:id="@+id/day_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textOn=" "
+            android:textOff=" "
+            android:thumb="@drawable/switch_button"
+            android:track="@drawable/switch_button_track" />
+
+        <TextView
             android:id="@+id/button_second_day"
+            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:text="@string/button_second_day" />
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/button_second_day"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
@@ -98,7 +115,6 @@
 
         <RelativeLayout
             android:id="@+id/main_stage_layout"
-            style="@style/DefaultDarkBackground"
             android:layout_width="1560px"
             android:layout_height="150dp"
             android:paddingBottom="10dp"
@@ -124,7 +140,6 @@
 
         <RelativeLayout
             android:id="@+id/second_stage_layout"
-            style="@style/DefaultDarkBackground"
             android:layout_width="1560px"
             android:layout_height="150dp"
             android:paddingBottom="10dp"

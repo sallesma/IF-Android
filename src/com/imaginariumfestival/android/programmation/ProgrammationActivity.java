@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
@@ -39,12 +41,14 @@ public class ProgrammationActivity extends Activity {
 	private static final int ENDING_HOUR = 28; //04 AM late in the night
 	private static final int MINUTES_IN_HOUR = 60;
 	private static final int SIZE_COEFFICIENT = 2;
+	
+	private static final boolean FIRST_DAY_SWITCH_VALUE = false;
+	private static final boolean SECOND_DAY_SWITCH_VALUE = true;
 
 	private List<ArtistModel> artists;
 	private RelativeLayout mainStageLayout;
 	private RelativeLayout secondStageLayout;
-	private Button firstDayButton;
-	Button secondDayButton;
+	private Switch switchButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class ProgrammationActivity extends Activity {
 		secondStageLayout = ((RelativeLayout)findViewById(R.id.second_stage_layout));
 
 		initializeTimelineBackground();
-		initializeButtons();
+		initializeSwitchButton();
 		initializeSelectedDay();
 	}
 
@@ -97,36 +101,36 @@ public class ProgrammationActivity extends Activity {
 
 		long now = new Date().getTime();
 		if (now - date.getTime() < 0) {
-			firstDayButton.callOnClick();
+			switchButton.setChecked( FIRST_DAY_SWITCH_VALUE );
 		} else {
-			secondDayButton.callOnClick();
+			switchButton.setChecked( SECOND_DAY_SWITCH_VALUE );
 		}
+		//Ugly hack to effectively initialize the switch on its normal value
+		 switchButton.performClick();
+		 switchButton.performClick();
 	}
 
-	private void initializeButtons() {
-		firstDayButton = ((Button)findViewById(R.id.button_first_day));
-		firstDayButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mainStageLayout.removeAllViews();
-				secondStageLayout.removeAllViews();
-				initializeTimelineBackground();
-				for (ArtistModel artist : artists) {
-					if (artist.getDay().equals(FIRST_DAY))
-						displayProgrammationOnScreen(artist);
-				}
-			}
-		});
-		secondDayButton = ((Button)findViewById(R.id.button_second_day));
-		secondDayButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mainStageLayout.removeAllViews();
-				secondStageLayout.removeAllViews();
-				initializeTimelineBackground();
-				for (ArtistModel artist : artists) {
-					if (artist.getDay().equals(SECOND_DAY))
-						displayProgrammationOnScreen(artist);
+	private void initializeSwitchButton() {
+		switchButton = ((Switch) findViewById(R.id.day_toggle));
+		switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked == FIRST_DAY_SWITCH_VALUE) {
+					mainStageLayout.removeAllViews();
+					secondStageLayout.removeAllViews();
+					initializeTimelineBackground();
+					for (ArtistModel artist : artists) {
+						if (artist.getDay().equals(FIRST_DAY))
+							displayProgrammationOnScreen(artist);
+					}
+				} else if (isChecked == SECOND_DAY_SWITCH_VALUE) {
+					mainStageLayout.removeAllViews();
+					secondStageLayout.removeAllViews();
+					initializeTimelineBackground();
+					for (ArtistModel artist : artists) {
+						if (artist.getDay().equals(SECOND_DAY))
+							displayProgrammationOnScreen(artist);
+					}
 				}
 			}
 		});
