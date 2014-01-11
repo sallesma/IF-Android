@@ -140,7 +140,8 @@ public class ProgrammationActivity extends Activity {
 
 		((LinearLayout)view).setX( getOffsetFromStringHour(artist.getBeginHour()) );
 		int width = getOffsetFromStringHour(artist.getEndHour()) - getOffsetFromStringHour(artist.getBeginHour());
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, 150);
+		int height = ((View)findViewById(R.id.vertical_bar)).getLayoutParams().height - 10;
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
 
 		final String stage = artist.getStage();
 		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
@@ -182,7 +183,7 @@ public class ProgrammationActivity extends Activity {
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath,
 								getResources(),
-								R.drawable.artist_empty_icon, 80, 80));
+								R.drawable.artist_empty_icon, 70, 70));
 			}
 		}
 	}

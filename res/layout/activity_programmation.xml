@@ -98,9 +98,9 @@
 
         <RelativeLayout
             android:id="@+id/main_stage_layout"
+            style="@style/DefaultDarkBackground"
             android:layout_width="1560px"
             android:layout_height="150dp"
-            android:background="#304341"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
         </RelativeLayout>
@@ -124,9 +124,9 @@
 
         <RelativeLayout
             android:id="@+id/second_stage_layout"
+            style="@style/DefaultDarkBackground"
             android:layout_width="1560px"
             android:layout_height="150dp"
-            android:background="#304341"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
         </RelativeLayout>
