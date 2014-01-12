@@ -7,15 +7,21 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ArtistsActivity extends Activity {
+	
+	private static final boolean ALPHA_SORT_SWITCH_VALUE = false;
+	private static final boolean STYLE_SORT_SWITCH_VALUE = true;
+	
 	private List<ArtistModel> artists;
 
 	@Override
@@ -40,16 +46,14 @@ public class ArtistsActivity extends Activity {
 				NavUtils.navigateUpFromSameTask(ArtistsActivity.this);
 			}
 		});
-		((Button) findViewById(R.id.action_type_sort)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				computeListToView( new ArtistsStyleAdapter(ArtistsActivity.this, artists) );
-			}
-		});
-		((Button) findViewById(R.id.action_alpha_sort)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				computeListToView( new ArtistsAlphabeticalAdapter(ArtistsActivity.this, artists) );
+		((Switch) findViewById(R.id.sort_toggle)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked == ALPHA_SORT_SWITCH_VALUE) {
+					computeListToView( new ArtistsAlphabeticalAdapter(ArtistsActivity.this, artists) );
+				} else if (isChecked == STYLE_SORT_SWITCH_VALUE) {
+					computeListToView( new ArtistsStyleAdapter(ArtistsActivity.this, artists) );
+				}
 			}
 		});
 	}
