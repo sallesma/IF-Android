@@ -7,12 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     
     public static final String TABLE_ARTIST = "artists";
     public static final String TABLE_INFOS = "infos";
     public static final String TABLE_NEWS = "news";
     public static final String TABLE_FILTERS = "filters";
+    public static final String TABLE_MAP_ITEMS = "mapItems";
     public static final String TABLE_PARTNERS = "partners";
 
     public static final String COLUMN_ID = "id";
@@ -33,6 +34,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_PARENT_ID = "parent";
 	public static final String COLUMN_TITLE = "title";
 	public static final String COLUMN_DATE = "date";
+	public static final String COLUMN_LABEL = "label";
+	public static final String COLUMN_X = "x";
+	public static final String COLUMN_Y = "y";
+	public static final String COLUMN_INFO_ID = "infoId";
 
 	public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,6 +74,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + TABLE_FILTERS + "(" +
 				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				COLUMN_PICTURE + " text not null)");
+		db.execSQL("CREATE TABLE " + TABLE_MAP_ITEMS + "(" +
+				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				COLUMN_LABEL + " text not null, " +
+				COLUMN_X + " INTEGER null, " +
+				COLUMN_Y + " INTEGER null, " +
+				COLUMN_INFO_ID + " INTEGER)");
 		db.execSQL("CREATE TABLE " + TABLE_PARTNERS + "(" +
 				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				COLUMN_NAME + " text not null, " +
@@ -83,6 +94,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_INFOS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILTERS +";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_MAP_ITEMS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTNERS +";");
 			onCreate(db);
 		}

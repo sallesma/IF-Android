@@ -51,6 +51,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_INFO_UPDATE_FROM_DISTANT_DATABASE = "lastInfoUpdateFromDistantDatabase";
 	public final static String LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE = "lastNewsUpdateFromDistantDatabase";
 	public final static String LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE = "lastFilterUpdateFromDistantDatabase";
+	public final static String LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE = "lastMapItemUpdateFromDistantDatabase";
 	public final static String LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE = "lastPartnerUpdateFromDistantDatabase";
 	
 	private final String BASE_URL = "http://titouanrossier.com/if/";
@@ -58,6 +59,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=infos";
 	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=news";
 	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=filters";
+	private final String MAP_ITEMS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=mapItems";
 	private final String PARTNERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=partners";
 	private Context context; 
 
@@ -78,6 +80,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		getInfosFromWebService();
 		getNewsFromWebService();
 		getFiltersFromWebService();
+		getMapItemsFromWebService();
 		getPartnersFromWebService();
 		addArtistNotifications();
         return null;
@@ -282,6 +285,54 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
 
 				datasource.insertFilter(id, picture);
+			}
+			datasource.close();
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			datasource.close();
+			return false;
+		}
+	}
+	
+	private void getMapItemsFromWebService() {
+		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+        final String lastRetrieve = pref.getString(BackTask.LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE, "");
+		final String url = MAP_ITEMS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String mapItemsFromDistantDatabase = getDataFromDistantDatabase(url);
+		
+		Boolean result = false;
+		if (mapItemsFromDistantDatabase != null && mapItemsFromDistantDatabase != "") {
+			JSONArray jsonMapItems = new JSONArray();
+			try {
+				jsonMapItems = new JSONArray(mapItemsFromDistantDatabase);
+				result = recordMapItems(jsonMapItems);
+			} catch (JSONException e) {
+				Log.e("JSON Parser", "Error parsing map items data " + e.toString());
+			}
+		}
+		
+		if (result) {
+			updatePicturesFromRemoteServer(MySQLiteHelper.TABLE_MAP_ITEMS);
+			updateLastUpdateFromDatabase(LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE);
+		}
+	}
+	
+	private Boolean recordMapItems(JSONArray jsonMapItemsArray) {
+		MapItemsDataSource datasource = new MapItemsDataSource(context);
+		datasource.open();
+		try {
+			datasource.deleteAllMapItems();
+			for (int i = 0; i < jsonMapItemsArray.length(); i++) {
+				JSONObject c = jsonMapItemsArray.getJSONObject(i);
+
+				Long id = c.getLong(MySQLiteHelper.COLUMN_ID);
+				String label = c.getString(MySQLiteHelper.COLUMN_LABEL);
+				int x = c.getInt(MySQLiteHelper.COLUMN_X);
+				int y = c.getInt(MySQLiteHelper.COLUMN_Y);
+				int infoId = c.getInt(MySQLiteHelper.COLUMN_INFO_ID);
+
+				datasource.insertMapItems(id, label, x, y, infoId);
 			}
 			datasource.close();
 			return true;
