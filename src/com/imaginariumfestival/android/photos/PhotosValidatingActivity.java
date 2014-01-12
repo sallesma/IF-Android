@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -63,5 +64,7 @@ public class PhotosValidatingActivity extends Activity {
 				startActivity(Intent.createChooser(i, "Partagez !"));
 			}
 		});
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		shareButton.setTypeface(euroFont);
 	}
 }

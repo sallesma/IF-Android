@@ -13,13 +13,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -81,6 +81,8 @@ public class PhotosTakingActivity extends Activity {
 					mCamera.takePicture(null, null, mPicture);
 				}
 			});
+			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+			captureButton.setTypeface(euroFont);
 		} else {
 			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !",
 					Toast.LENGTH_LONG).show();
@@ -204,16 +206,6 @@ public class PhotosTakingActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
-		}
-	}
 
 	private File getOutputMediaFile() {
 		File mediaStorageDir = new File(
