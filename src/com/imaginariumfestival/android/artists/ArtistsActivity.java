@@ -3,6 +3,7 @@ package com.imaginariumfestival.android.artists;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.database.ArtistDataSource;
@@ -56,6 +58,9 @@ public class ArtistsActivity extends Activity {
 				}
 			}
 		});
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView) findViewById(R.id.action_alpha_sort)).setTypeface(euroFont);
+		((TextView) findViewById(R.id.action_type_sort)).setTypeface(euroFont);
 	}
 
 	private void computeListToView(ListAdapter adapter) {

@@ -79,16 +79,17 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		getArtistsFromWebService();
-		publishProgress(16);
+		publishProgress(15);
 		getInfosFromWebService();
-		publishProgress(32);
+		publishProgress(30);
 		getNewsFromWebService();
-		publishProgress(48);
+		publishProgress(45);
 		getFiltersFromWebService();
-		publishProgress(64);
+		publishProgress(60);
 		getMapItemsFromWebService();
-		publishProgress(80);
+		publishProgress(75);
 		getPartnersFromWebService();
+		publishProgress(90);
 		addArtistNotifications();
         return null;
 	}

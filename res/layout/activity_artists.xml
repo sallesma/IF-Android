@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/action_alpha_sort"
-            android:textSize="20sp" />
+            android:textSize="26sp" />
 
         <Switch
             android:id="@+id/sort_toggle"
@@ -91,7 +91,7 @@
             android:layout_toRightOf="@id/sort_toggle"
             android:padding="5dp"
             android:text="@string/action_type_sort"
-            android:textSize="20sp" />
+            android:textSize="26sp" />
     </RelativeLayout>
 
     <ListView

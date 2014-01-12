@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/button_first_day"
-            android:textSize="20sp" />
+            android:textSize="26sp" />
 
         <Switch
             android:id="@+id/day_toggle"
@@ -92,7 +92,7 @@
             android:layout_toRightOf="@id/day_toggle"
             android:padding="5dp"
             android:text="@string/button_second_day"
-            android:textSize="20sp" />
+            android:textSize="26sp" />
     </RelativeLayout>
 
     <TextView

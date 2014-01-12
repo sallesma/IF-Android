@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -134,6 +135,9 @@ public class ProgrammationActivity extends Activity {
 				}
 			}
 		});
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView) findViewById(R.id.button_first_day)).setTypeface(euroFont);
+		((TextView) findViewById(R.id.button_second_day)).setTypeface(euroFont);
 	}
 
 	private void displayProgrammationOnScreen(final ArtistModel artist) {
@@ -182,6 +186,8 @@ public class ProgrammationActivity extends Activity {
 
 			if ( child.getId() == R.id.programmation_name ) {
 				((TextView) child).setText(artist.getName());
+				Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+				((TextView) child).setTypeface(euroFont);
 			} else if (child.getId() == R.id.programmation_icon ) {
 				String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
 				((ImageView) child).setImageBitmap(Utils
