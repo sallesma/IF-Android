@@ -61,7 +61,9 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=filters";
 	private final String MAP_ITEMS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=mapItems";
 	private final String PARTNERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=partners";
-	private Context context; 
+	
+	private Context context;
+	private Toast toast;
 
 	public BackTask(Context context) {
 		this.context = context;
@@ -70,17 +72,22 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_LONG)
-				.show();
+		toast = Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_SHORT);
+		toast.show();
 	}
 
 	@Override
 	protected Void doInBackground(Void... params) {
 		getArtistsFromWebService();
+		publishProgress(16);
 		getInfosFromWebService();
+		publishProgress(32);
 		getNewsFromWebService();
+		publishProgress(48);
 		getFiltersFromWebService();
+		publishProgress(64);
 		getMapItemsFromWebService();
+		publishProgress(80);
 		getPartnersFromWebService();
 		addArtistNotifications();
         return null;
@@ -88,12 +95,16 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
+		toast.setText( context.getResources().getString(R.string.update_progress) + " " + values[0] + "%");
+		toast.show();
 	}
 
 	@Override
 	protected void onPostExecute(Void result) {
 		Toast.makeText(context, context.getResources().getString(R.string.update_ending),
 				Toast.LENGTH_SHORT).show();
+		toast.setText( context.getResources().getString(R.string.update_ending));
+		toast.show();
 	}
 	
 	private void getArtistsFromWebService() {

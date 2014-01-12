@@ -54,6 +54,7 @@
     <!--  -->
     <string name="update_beginning">Mise à jour des données</string>
     <string name="update_ending">...la mise à jour est terminée</string>
+    <string name="update_progress">Mise à jour des données : </string>
     
     <!--  -->
     <!-- ArtistsActivity -->
