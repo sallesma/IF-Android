@@ -38,13 +38,13 @@ public class InfoActivity extends Activity {
 		((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(InfoActivity.this, "Quand l'activité existera ;)", Toast.LENGTH_SHORT).show();
+				Toast.makeText(InfoActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
 		String infoId = (String) getIntent().getSerializableExtra("infoId");
 	    if (infoId == null || infoId.equals("")) {
-	    	Toast.makeText(this, "Impossible d'afficher l'artiste", Toast.LENGTH_LONG).show();
+	    	Toast.makeText(this, getResources().getString(R.string.cannot_display_info), Toast.LENGTH_LONG).show();
 	    } else {
 	    	InfosDataSource datasource = new InfosDataSource(InfoActivity.this);
 			datasource.open();

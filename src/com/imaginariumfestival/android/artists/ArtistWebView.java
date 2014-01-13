@@ -39,7 +39,7 @@ public class ArtistWebView extends Activity {
 		mWebView.setWebViewClient(new WebViewClient() {
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
-				Toast.makeText(ArtistWebView.this, "Oh no! " + description,
+				Toast.makeText(ArtistWebView.this, description,
 						Toast.LENGTH_SHORT).show();
 			}
 		});

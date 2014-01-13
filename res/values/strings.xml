@@ -19,6 +19,8 @@
 
     <string name="back_button">Retour arrière</string>
     <string name="header_icon">Icone header</string>
+    <string name="not_implemented">Pas encore fonctionnel</string>
+    <string name="no_internet_connection">Vous n\'êtes pas connecté à internet</string>
 
     <!--  -->
     <!-- MainMenuActivity -->
@@ -68,6 +70,7 @@
     <!--  -->
     <!-- ArtistActivity -->
     <!--  -->
+    <string name="cannot_display_artist">Impossible d\'afficher l\'artiste</string>
     <string name="artistIcon">Icone Artiste</string>
     <string name="facebookIcon">Lien vers facebook</string>
     <string name="youtubeIcon">Lien vers Youtube</string>
@@ -90,6 +93,7 @@
     <!--  -->
     <!-- InfoActivity -->
     <!--  -->
+    <string name="cannot_display_info">Impossible d\'afficher l\'info</string>
     <string name="action_type_see_on_map">Voir sur la carte</string>
     <string name="category">Catégorie : </string>
     
@@ -125,7 +129,10 @@
     <string name="photo_title_2">PHOTO</string>
     <string name="camera_take">Prendre</string>
     <string name="picture_taken">Photo prise</string>
-    <string name="share">Partager</string>
+    <string name="share_button">Partager</string>
+    <string name="share_intent">Partagez !</string>
+    <string name="unavailable_camera">Impossible d\'accéder à l\'appareil photo !</string>
+    <string name="cannot_display_picture">Impossible d\'afficher la photo !</string>
     
     <!--  -->
     <!-- Partners Activity-->

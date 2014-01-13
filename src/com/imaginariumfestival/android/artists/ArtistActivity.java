@@ -29,7 +29,7 @@ public class ArtistActivity extends Activity {
 		
 		String artistId = (String) getIntent().getSerializableExtra("artistId");
 	    if (artistId == null || artistId.equals("")) {
-	    	Toast.makeText(this, "Impossible d'afficher l'artiste", Toast.LENGTH_LONG).show();
+	    	Toast.makeText(this, getResources().getString(R.string.cannot_display_artist), Toast.LENGTH_LONG).show();
 	    } else {
 	    	ArtistDataSource datasource = new ArtistDataSource(ArtistActivity.this);
 			datasource.open();
@@ -87,7 +87,7 @@ public class ArtistActivity extends Activity {
 						toWebViewIntent.putExtras(bundle);
 						startActivity(toWebViewIntent);
 					} else {
-						Toast.makeText(ArtistActivity.this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
+						Toast.makeText(ArtistActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
 					}
 				}
 			});	

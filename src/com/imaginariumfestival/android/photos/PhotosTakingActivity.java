@@ -84,7 +84,7 @@ public class PhotosTakingActivity extends Activity {
 			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 			captureButton.setTypeface(euroFont);
 		} else {
-			Toast.makeText(this, "Impossible d'accéder à l'appareil photo !",
+			Toast.makeText(this, getResources().getString(R.string.unavailable_camera),
 					Toast.LENGTH_LONG).show();
 		}
 	}

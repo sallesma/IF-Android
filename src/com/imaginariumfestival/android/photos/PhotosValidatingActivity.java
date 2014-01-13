@@ -37,7 +37,7 @@ public class PhotosValidatingActivity extends Activity {
 		
 		picturePath = (String) getIntent().getSerializableExtra("picturePath");
 	    if (picturePath == null || picturePath.equals("")) {
-	    	Toast.makeText(this, "Impossible d'afficher la photo.", Toast.LENGTH_LONG).show();
+	    	Toast.makeText(this, getResources().getString(R.string.cannot_display_picture), Toast.LENGTH_LONG).show();
 	    } else {
 	    	ImageView imageView = (ImageView)findViewById(R.id.picture_taken);
 	    	
@@ -61,7 +61,7 @@ public class PhotosValidatingActivity extends Activity {
 
 				i.setType("image/png");
 				
-				startActivity(Intent.createChooser(i, "Partagez !"));
+				startActivity(Intent.createChooser(i, getResources().getString(R.string.share_intent)));
 			}
 		});
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
