@@ -68,7 +68,7 @@ public class PartnersActivity extends Activity {
 						+ MySQLiteHelper.TABLE_PARTNERS + "/" + partner.getName();
 				((ImageView) child).setImageBitmap(Utils
 						.decodeSampledBitmapFromFile(filePath, getResources(),
-								R.drawable.artist_empty_icon, 150, 150));
+								R.drawable.partner_empty_icon, 150, 150));
 			}
 		}
 		

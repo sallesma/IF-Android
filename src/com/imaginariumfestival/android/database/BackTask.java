@@ -72,7 +72,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		toast = Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_SHORT);
+		toast = Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_LONG);
 		toast.show();
 	}
 

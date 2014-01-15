@@ -105,24 +105,6 @@
         android:layout_height="0dp"
         android:layout_weight="1" >
 
-        <ImageButton
-            android:id="@+id/show_news"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:contentDescription="@string/news"
-            android:minHeight="100dp"
-            android:src="@drawable/news" />
-
-        <TextView
-            android:id="@+id/news_content"
-            style="@style/LightBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/show_news"
-            android:gravity="center"
-            android:textSize="17sp" />
-
         <LinearLayout
             android:id="@+id/social_network_links"
             android:layout_width="wrap_content"
@@ -180,13 +162,32 @@
             android:textSize="18sp" />
 
         <ImageButton
+            android:id="@+id/show_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_alignLeft="@id/main_activity_footer"
+            android:contentDescription="@string/news"
+            android:minHeight="100dp"
+            android:src="@drawable/news_panel" />
+
+        <TextView
+            android:id="@+id/news_content"
+            style="@style/LightBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/show_news"
+            android:gravity="center"
+            android:textSize="17sp" />
+
+        <ImageButton
             android:id="@+id/show_twitter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/news"
             android:minHeight="100dp"
-            android:src="@drawable/news" />
+            android:src="@drawable/twitter_panel" />
 
         <TextView
             android:id="@+id/twitter_content"
