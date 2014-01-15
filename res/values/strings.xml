@@ -39,12 +39,10 @@
     <string name="google_plus_icon">Google+ Imaginarium</string>
 
     <string name="about">Made with &lt;3 from Compy</string>
-
-    <!--  -->
-    <!-- News -->
-    <!--  -->
-    <string name="news">News</string>
+    
+    <string name="news_panel">News</string>
     <string name="no_news">Pas de news à afficher</string>
+    <string name="twitter_panel">Tweets</string>
     
     <!--  -->
     <!-- Notifications -->

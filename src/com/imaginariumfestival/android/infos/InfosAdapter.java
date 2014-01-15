@@ -83,13 +83,13 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 		((TextView) view.findViewById(R.id.infoListItemName)).setText(info.getName());
 		
 		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
-		((ImageView) view.findViewById(R.id.infoListItemIcon))
-				.setImageBitmap(Utils.decodeSampledBitmapFromFile(
-						filePath, context.getResources(),
-						R.drawable.artist_empty_icon, 80, 80));
 		
 		((LinearLayout) view.findViewById(R.id.info_list_item)).setContentDescription(String.valueOf(info.getId()));
 		if ( info.getIsCategory() ) {
+			((ImageView) view.findViewById(R.id.infoListItemIcon))
+			.setImageBitmap(Utils.decodeSampledBitmapFromFile(
+					filePath, context.getResources(),
+					R.drawable.category_empty_icon, 80, 80));
 			((ImageView) view.findViewById(R.id.infoListCategoryArrow)).setVisibility(View.VISIBLE);
 			((LinearLayout) view.findViewById(R.id.info_list_item)).setOnClickListener(new OnClickListener() {
 				@Override
@@ -98,6 +98,10 @@ public class InfosAdapter extends BaseAdapter implements SectionIndexer {
 				}
 			});
 		} else {
+			((ImageView) view.findViewById(R.id.infoListItemIcon))
+			.setImageBitmap(Utils.decodeSampledBitmapFromFile(
+					filePath, context.getResources(),
+					R.drawable.info_empty_icon, 80, 80));
 			((LinearLayout) view.findViewById(R.id.info_list_item)).setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
