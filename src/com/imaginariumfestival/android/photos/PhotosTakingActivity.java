@@ -97,7 +97,7 @@ public class PhotosTakingActivity extends Activity {
 		ImageView filterView = new ImageView(PhotosTakingActivity.this);
 		filterView.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
 				getResources(), R.drawable.artist_empty_icon, 100, 100));
-
+		
 		filterView.setContentDescription(String.valueOf(filter.getId()));
 		filterView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,7 +128,7 @@ public class PhotosTakingActivity extends Activity {
 				preview.addView(filterImagePreview);
 			}
 		});
-
+		
 		filterView.setLayoutParams(new FrameLayout.LayoutParams(100, 100));
 		filtersLayout.addView(filterView);
 	}
@@ -205,7 +205,6 @@ public class PhotosTakingActivity extends Activity {
 			preview.addView(mPreview);
 		}
 	}
-
 
 	private File getOutputMediaFile() {
 		File mediaStorageDir = new File(
