@@ -135,6 +135,19 @@ public class ProgrammationActivity extends Activity {
 				}
 			}
 		});
+		((TextView) findViewById(R.id.button_first_day)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switchButton.setChecked(FIRST_DAY_SWITCH_VALUE);
+			}
+		});
+		((TextView) findViewById(R.id.button_second_day)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switchButton.setChecked(SECOND_DAY_SWITCH_VALUE);
+			}
+		});
+		
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 		((TextView) findViewById(R.id.button_first_day)).setTypeface(euroFont);
 		((TextView) findViewById(R.id.button_second_day)).setTypeface(euroFont);

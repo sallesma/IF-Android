@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -56,6 +57,18 @@ public class ArtistsActivity extends Activity {
 				} else if (isChecked == STYLE_SORT_SWITCH_VALUE) {
 					computeListToView( new ArtistsStyleAdapter(ArtistsActivity.this, artists) );
 				}
+			}
+		});
+		((TextView) findViewById(R.id.action_alpha_sort)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Switch) findViewById(R.id.sort_toggle)).setChecked(ALPHA_SORT_SWITCH_VALUE);
+			}
+		});
+		((TextView) findViewById(R.id.action_type_sort)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((Switch) findViewById(R.id.sort_toggle)).setChecked(STYLE_SORT_SWITCH_VALUE);
 			}
 		});
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
