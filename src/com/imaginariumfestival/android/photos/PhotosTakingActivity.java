@@ -129,7 +129,8 @@ public class PhotosTakingActivity extends Activity {
 			}
 		});
 		
-		filterView.setLayoutParams(new FrameLayout.LayoutParams(100, 100));
+		filterView.setLayoutParams( new FrameLayout.LayoutParams(100, 100) );
+		filterView.setBackgroundResource( R.drawable.photo_filter_frame );
 		filtersLayout.addView(filterView);
 	}
 
