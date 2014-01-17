@@ -38,12 +38,14 @@ public class ArtistActivity extends Activity {
 			
 			fillViewWithArtistData();
 	    }
-	    ((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+	    ImageButton backButton = ((ImageButton) findViewById(R.id.back_button));
+	    backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onBackPressed();
 			}
 		});
+	    Utils.addAlphaEffectOnClick(backButton);
 	}
 
 	private void fillViewWithArtistData() {
@@ -71,8 +73,9 @@ public class ArtistActivity extends Activity {
 	}
 
 	private void updateLink(final String url, final int viewId) {
+		ImageButton button = ((ImageButton) findViewById(viewId));
 		if (null != url && !url.equals("")) {
-			((ImageButton)findViewById(viewId)).setOnClickListener(new OnClickListener() {
+			button.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (Utils.isNetworkConnected(ArtistActivity.this)) {
@@ -92,7 +95,8 @@ public class ArtistActivity extends Activity {
 				}
 			});	
 		} else {
-			((ImageButton) findViewById(viewId)).setImageAlpha(50);
+			button.setImageAlpha(50);
 		}
+		Utils.addAlphaEffectOnClick(button);
 	}
 }

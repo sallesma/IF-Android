@@ -29,12 +29,15 @@ public class InfoActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_info);
 		
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				NavUtils.navigateUpFromSameTask(InfoActivity.this);
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
+		
 		((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

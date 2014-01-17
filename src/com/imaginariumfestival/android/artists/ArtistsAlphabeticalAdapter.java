@@ -101,8 +101,9 @@ public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIn
 						context.getResources(), R.drawable.artist_empty_icon,
 						80, 80));
 
-		((LinearLayout) view.findViewById(R.id.artist_list_item)).setContentDescription(String.valueOf(artist.getId()));
-		((LinearLayout) view.findViewById(R.id.artist_list_item)).setOnClickListener(new OnClickListener() {
+		LinearLayout artistView = ((LinearLayout) view.findViewById(R.id.artist_list_item));
+		artistView.setContentDescription(String.valueOf(artist.getId()));
+		artistView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent toArtistActivityIntent = new Intent(context,ArtistActivity.class);

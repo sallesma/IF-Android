@@ -50,10 +50,12 @@
 
     <Button
         android:id="@+id/action_type_see_on_map"
+        style="@style/WhiteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/black_button"
         android:text="@string/action_type_see_on_map" />
 
     <LinearLayout

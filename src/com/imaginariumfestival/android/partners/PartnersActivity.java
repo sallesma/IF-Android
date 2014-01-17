@@ -34,12 +34,14 @@ public class PartnersActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_partners);
 		
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				NavUtils.navigateUpFromSameTask(PartnersActivity.this);
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
 		
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 		((TextView)findViewById(R.id.partners_header_text)).setTypeface( euroFont );

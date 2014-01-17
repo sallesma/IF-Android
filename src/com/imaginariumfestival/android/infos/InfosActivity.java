@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.InfosDataSource;
 
 public class InfosActivity extends Activity {
@@ -35,7 +36,8 @@ public class InfosActivity extends Activity {
 		datasource.close();
 		
 		computeListToView(ROOT_ID);
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if ( categoryIdPathFromRoot.peek() == 0 ) {
@@ -46,6 +48,7 @@ public class InfosActivity extends Activity {
 				}
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
 	}
 
 	private void computeListToView(long parentId) {

@@ -57,12 +57,14 @@ public class ProgrammationActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_programmation);
 
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				NavUtils.navigateUpFromSameTask(ProgrammationActivity.this);
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
 
 		final ArtistDataSource artistDataSource = new ArtistDataSource(this);
 		artistDataSource.open();

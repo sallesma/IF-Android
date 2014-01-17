@@ -49,12 +49,14 @@ public class PhotosTakingActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_picture_taking);
 		
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				NavUtils.navigateUpFromSameTask(PhotosTakingActivity.this);
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
 
 		if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 			FiltersDataSource datasource = new FiltersDataSource(

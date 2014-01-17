@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.imaginariumfestival.android.R;
+import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.ArtistDataSource;
 
 public class ArtistsActivity extends Activity {
@@ -43,12 +44,15 @@ public class ArtistsActivity extends Activity {
 	}
 
 	private void initializeButtons() {
-		((ImageButton) findViewById(R.id.back_button)).setOnClickListener(new View.OnClickListener() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				NavUtils.navigateUpFromSameTask(ArtistsActivity.this);
 			}
 		});
+		Utils.addAlphaEffectOnClick(backButton);
+		
 		((Switch) findViewById(R.id.sort_toggle)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {

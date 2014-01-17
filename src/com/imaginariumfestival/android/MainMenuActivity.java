@@ -113,10 +113,18 @@ public class MainMenuActivity extends Activity {
 				startActivity(toPartnersActivity);
 			}
 		});
+		
+		Utils.addAlphaEffectOnClick(artistsButton);
+		Utils.addAlphaEffectOnClick(infosButton);
+		Utils.addAlphaEffectOnClick(programmationButton);
+		Utils.addAlphaEffectOnClick(mapButton);
+		Utils.addAlphaEffectOnClick(photosButton);
+		Utils.addAlphaEffectOnClick(partnersButton);
 	}
 	
 	private void initializeSocialNetworkButtonsLinks() {
-		((ImageButton) findViewById(R.id.facebook_home_icon)).setOnClickListener(new View.OnClickListener() {
+		ImageButton facebookButton = (ImageButton) findViewById(R.id.facebook_home_icon);
+		facebookButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (Utils.isNetworkConnected(MainMenuActivity.this)) {
@@ -128,7 +136,10 @@ public class MainMenuActivity extends Activity {
 				}
 			}
 		});
-		((ImageButton) findViewById(R.id.twitter_home_icon)).setOnClickListener(new View.OnClickListener() {
+		Utils.addAlphaEffectOnClick(facebookButton);
+		
+		ImageButton twitterButton = (ImageButton) findViewById(R.id.twitter_home_icon);
+		twitterButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (Utils.isNetworkConnected(MainMenuActivity.this)) {
@@ -140,7 +151,10 @@ public class MainMenuActivity extends Activity {
 				}
 			}
 		});
-		((ImageButton) findViewById(R.id.google_plus_home_icon)).setOnClickListener(new View.OnClickListener() {
+		Utils.addAlphaEffectOnClick(twitterButton);
+
+		ImageButton googlePlusButton = ((ImageButton) findViewById(R.id.google_plus_home_icon));
+		googlePlusButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (Utils.isNetworkConnected(MainMenuActivity.this)) {
@@ -152,6 +166,7 @@ public class MainMenuActivity extends Activity {
 				}
 			}
 		});
+		Utils.addAlphaEffectOnClick(googlePlusButton);
 	}
 
 	private void addNewsView() {

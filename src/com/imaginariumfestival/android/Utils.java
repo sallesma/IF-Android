@@ -5,6 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 public class Utils {
 	
@@ -17,6 +20,26 @@ public class Utils {
 		return (cm.getActiveNetworkInfo() != null
 				&& cm.getActiveNetworkInfo().isAvailable()
 				&& cm.getActiveNetworkInfo().isConnected());
+	}
+	
+	/*
+	 * Button becomes transparent while pressed
+	 */
+	public static void addAlphaEffectOnClick(View button) {
+		button.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+				case MotionEvent.ACTION_DOWN:
+					v.setAlpha((float) 0.5);
+					break;
+				case MotionEvent.ACTION_UP:
+					v.setAlpha((float) 1);
+					break;
+				}
+				return false;
+			}
+		});
 	}
 	
 	/*
