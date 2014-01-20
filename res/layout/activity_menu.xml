@@ -164,8 +164,8 @@
         <ImageButton
             android:id="@+id/show_news"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/main_activity_footer"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:background="@null"
             android:contentDescription="@string/news_panel"
             android:src="@drawable/news_panel" />
@@ -175,14 +175,13 @@
             style="@style/LightBackground"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/show_news"
             android:gravity="center"
             android:textSize="17sp" />
 
         <ImageButton
             android:id="@+id/show_twitter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@null"
             android:contentDescription="@string/twitter_panel"
@@ -193,7 +192,6 @@
             style="@style/LightBackground"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/show_twitter"
             android:gravity="center"
             android:textSize="17sp" />
     </RelativeLayout>
