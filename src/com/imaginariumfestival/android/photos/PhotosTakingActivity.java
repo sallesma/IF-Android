@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -80,6 +81,9 @@ public class PhotosTakingActivity extends Activity {
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					ProgressDialog progress = new ProgressDialog(PhotosTakingActivity.this);
+					progress.setMessage(PhotosTakingActivity.this.getResources().getString(R.string.photo_taking_wait_message));
+					progress.show();
 					mCamera.takePicture(null, null, mPicture);
 				}
 			});

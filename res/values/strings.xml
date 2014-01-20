@@ -105,6 +105,7 @@
     <string name="main_stage">Scène principale</string>
     <string name="second_stage">Scène secondaire</string>
     <string name="programmation_icon">Programmation</string>
+    <string name="photo_taking_wait_message">Le filtre est appliqué à la photo</string>
     
     <!--  -->
     <!-- Map Activity-->
