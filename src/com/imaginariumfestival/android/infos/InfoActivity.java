@@ -65,7 +65,7 @@ public class InfoActivity extends Activity {
 		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
 		((ImageView) findViewById(R.id.infoPicture)).setImageBitmap(Utils
 				.decodeSampledBitmapFromFile(filePath, getResources(),
-						R.drawable.artist_empty_icon, 80, 80));
+						R.drawable.info_empty_icon, 80, 80));
 		
 		if ( parent != null) {
 			((TextView)findViewById(R.id.infoCategoryName)).setText(parent.getName());
