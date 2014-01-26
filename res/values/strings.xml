@@ -42,7 +42,8 @@
     
     <string name="news_panel">News</string>
     <string name="no_news">Pas de news à afficher</string>
-    <string name="twitter_panel">Tweets</string>
+<!--     <string name="twitter_panel">Tweets</string> -->
+<!--     <string name="no_twitter">Pas de tweet à afficher</string> -->
     
     <!--  -->
     <!-- Notifications -->

@@ -59,7 +59,7 @@ public class MainMenuActivity extends Activity {
 		initializeMenuButtonsLinks();
 		initializeSocialNetworkButtonsLinks();
 		addNewsView();
-		addTwitterView();
+//		addTwitterView();
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 		((TextView) findViewById(R.id.about)).setTypeface(euroFont);
 	}
@@ -180,6 +180,10 @@ public class MainMenuActivity extends Activity {
 		} else {
 			((TextView)findViewById(R.id.news_content)).setText( getResources().getString(R.string.no_news) );
 		}
+		
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView) findViewById(R.id.news_content)).setTypeface(euroFont);
+		
 		RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_news)).getLayoutParams();
 		RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.news_content)).getLayoutParams();
 		contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
@@ -199,7 +203,7 @@ public class MainMenuActivity extends Activity {
 			        case MotionEvent.ACTION_UP:
 			            break;
 			        case MotionEvent.ACTION_MOVE:
-			        	if ( X < ((ImageButton)findViewById(R.id.show_news)).getWidth() + ((TextView)findViewById(R.id.news_content)).getWidth() ) {
+			        	if ( X < ((ImageButton)findViewById(R.id.show_news)).getWidth() + ((TextView)findViewById(R.id.news_content)).getWidth()) {
 				            buttonLayoutParams.leftMargin = X - _xDeltaButton;
 				            contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
 			            	contentLayoutParams.leftMargin = buttonLayoutParams.leftMargin - contentLayoutParams.width;
@@ -214,45 +218,48 @@ public class MainMenuActivity extends Activity {
 		});
 	}
 	
-	private void addTwitterView() {
-		RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_twitter)).getLayoutParams();
-		RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.twitter_content)).getLayoutParams();
-		contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
-    	contentLayoutParams.rightMargin = buttonLayoutParams.rightMargin - contentLayoutParams.width;
-
-		((TextView)findViewById(R.id.twitter_content)).setText( getResources().getString(R.string.no_news) );
-		
-		((ImageButton)findViewById(R.id.show_twitter)).setOnTouchListener(new OnTouchListener() {
-			int _xDeltaButton;
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				final int X = (int) event.getRawX();
-				RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_twitter)).getLayoutParams();
-				RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.twitter_content)).getLayoutParams();
-				switch (event.getAction() & MotionEvent.ACTION_MASK) {
-			        case MotionEvent.ACTION_DOWN:
-			            _xDeltaButton = ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - X - buttonLayoutParams.rightMargin;
-			            break;
-			        case MotionEvent.ACTION_UP:
-			            break;
-			        case MotionEvent.ACTION_POINTER_DOWN:
-			            break;
-			        case MotionEvent.ACTION_POINTER_UP:
-			            break;
-			        case MotionEvent.ACTION_MOVE:
-			        	if ( X > ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - ((ImageButton)findViewById(R.id.show_twitter)).getWidth() - ((TextView)findViewById(R.id.twitter_content)).getWidth() ) {
-				            buttonLayoutParams.rightMargin = ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - X - _xDeltaButton;
-				            contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
-			            	contentLayoutParams.rightMargin = buttonLayoutParams.rightMargin - contentLayoutParams.width;
-			            	contentLayoutParams.leftMargin = (int) ((ImageButton)findViewById(R.id.show_twitter)).getX() + ((ImageButton)findViewById(R.id.show_twitter)).getWidth();
-			            	
-			            	((ImageButton)findViewById(R.id.show_twitter)).setLayoutParams(buttonLayoutParams);
-				            ((TextView)findViewById(R.id.twitter_content)).setLayoutParams(contentLayoutParams);
-			        	}
-			        	break;
-			    }
-				return false;
-			}
-		});
-	}
+//	private void addTwitterView() {
+//		((TextView)findViewById(R.id.twitter_content)).setText( getResources().getString(R.string.no_news) );
+//		
+//		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+//		((TextView) findViewById(R.id.twitter_content)).setTypeface(euroFont);
+//
+//		RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_twitter)).getLayoutParams();
+//		RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.twitter_content)).getLayoutParams();
+//		contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
+//    	contentLayoutParams.rightMargin = buttonLayoutParams.rightMargin - contentLayoutParams.width;
+//
+//    	((ImageButton)findViewById(R.id.show_twitter)).setOnTouchListener(new OnTouchListener() {
+//			int _xDeltaButton;
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				final int X = (int) event.getRawX();
+//				RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_twitter)).getLayoutParams();
+//				RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.twitter_content)).getLayoutParams();
+//				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//			        case MotionEvent.ACTION_DOWN:
+//			            _xDeltaButton = ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - X - buttonLayoutParams.rightMargin;
+//			            break;
+//			        case MotionEvent.ACTION_UP:
+//			            break;
+//			        case MotionEvent.ACTION_POINTER_DOWN:
+//			            break;
+//			        case MotionEvent.ACTION_POINTER_UP:
+//			            break;
+//			        case MotionEvent.ACTION_MOVE:
+//			        	if ( X > ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - ((ImageButton)findViewById(R.id.show_twitter)).getWidth() - ((TextView)findViewById(R.id.twitter_content)).getWidth() ) {
+//				            buttonLayoutParams.rightMargin = ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth() - X - _xDeltaButton;
+//				            contentLayoutParams.width = (int) (0.75 * ((RelativeLayout)findViewById(R.id.main_activity_footer)).getWidth());
+//			            	contentLayoutParams.rightMargin = buttonLayoutParams.rightMargin - contentLayoutParams.width;
+//			            	contentLayoutParams.leftMargin = (int) ((ImageButton)findViewById(R.id.show_twitter)).getX() + ((ImageButton)findViewById(R.id.show_twitter)).getWidth();
+//			            	
+//			            	((ImageButton)findViewById(R.id.show_twitter)).setLayoutParams(buttonLayoutParams);
+//				            ((TextView)findViewById(R.id.twitter_content)).setLayoutParams(contentLayoutParams);
+//			        	}
+//			        	break;
+//			    }
+//				return false;
+//			}
+//		});
+//	}
 }

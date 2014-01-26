@@ -166,8 +166,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:adjustViewBounds="true"
             android:background="@null"
             android:contentDescription="@string/news_panel"
+            android:scaleType="centerInside"
             android:src="@drawable/news_panel" />
 
         <TextView
@@ -176,24 +178,26 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="17sp" />
+            android:textSize="20sp" />
 
-        <ImageButton
-            android:id="@+id/show_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:contentDescription="@string/twitter_panel"
-            android:src="@drawable/twitter_panel" />
+<!--         <ImageButton -->
+<!--             android:id="@+id/show_twitter" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:adjustViewBounds="true" -->
+<!--             android:background="@null" -->
+<!--             android:contentDescription="@string/twitter_panel" -->
+<!--             android:scaleType="centerInside" -->
+<!--             android:src="@drawable/twitter_panel" /> -->
 
-        <TextView
-            android:id="@+id/twitter_content"
-            style="@style/LightBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="17sp" />
+<!--         <TextView -->
+<!--             android:id="@+id/twitter_content" -->
+<!--             style="@style/LightBackground" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:gravity="center" -->
+<!--             android:textSize="20sp" /> -->
     </RelativeLayout>
 
 </LinearLayout>
