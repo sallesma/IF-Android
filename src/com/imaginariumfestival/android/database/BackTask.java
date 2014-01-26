@@ -90,7 +90,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		publishProgress(75);
 		getPartnersFromWebService();
 		publishProgress(90);
-		addArtistNotifications();
+		//addArtistNotifications();
         return null;
 	}
 
