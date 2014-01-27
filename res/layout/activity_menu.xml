@@ -30,6 +30,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/artistImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/artists_menu_icon" />
 
         <ImageButton
@@ -40,6 +41,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/infosImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/infos_menu_icon" />
     </LinearLayout>
 
@@ -58,6 +60,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/programmationImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/programmation_menu_icon" />
 
         <ImageButton
@@ -68,6 +71,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/planImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/map_menu_icon" />
     </LinearLayout>
 
@@ -86,6 +90,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/photosImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/photos_menu_icon" />
 
         <ImageButton
@@ -96,6 +101,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/partnersImageButtonDescription"
+            android:scaleType="centerInside"
             android:src="@drawable/partners_menu_icon" />
     </LinearLayout>
 
@@ -180,24 +186,25 @@
             android:gravity="center"
             android:textSize="20sp" />
 
-<!--         <ImageButton -->
-<!--             android:id="@+id/show_twitter" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="match_parent" -->
-<!--             android:layout_alignParentRight="true" -->
-<!--             android:adjustViewBounds="true" -->
-<!--             android:background="@null" -->
-<!--             android:contentDescription="@string/twitter_panel" -->
-<!--             android:scaleType="centerInside" -->
-<!--             android:src="@drawable/twitter_panel" /> -->
+        <!-- <ImageButton -->
+        <!-- android:id="@+id/show_twitter" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:layout_alignParentRight="true" -->
+        <!-- android:adjustViewBounds="true" -->
+        <!-- android:background="@null" -->
+        <!-- android:contentDescription="@string/twitter_panel" -->
+        <!-- android:scaleType="centerInside" -->
+        <!-- android:src="@drawable/twitter_panel" /> -->
 
-<!--         <TextView -->
-<!--             android:id="@+id/twitter_content" -->
-<!--             style="@style/LightBackground" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="match_parent" -->
-<!--             android:gravity="center" -->
-<!--             android:textSize="20sp" /> -->
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/twitter_content" -->
+        <!-- style="@style/LightBackground" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:gravity="center" -->
+        <!-- android:textSize="20sp" /> -->
     </RelativeLayout>
 
 </LinearLayout>
