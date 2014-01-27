@@ -3,11 +3,14 @@ package com.imaginariumfestival.android.artists;
 import java.text.Normalizer;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIndexer {
 	List<ArtistModel> artists;
+	Map<Long, Bitmap> artistsIcons;
 	private Context context;
 	
     public ArtistsAlphabeticalAdapter(Context context, List<ArtistModel> artists) {
@@ -46,6 +50,14 @@ public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIn
     	});
         this.artists = artists;
         this.context = context;
+        artistsIcons = new HashMap<Long, Bitmap>();
+        
+        for (ArtistModel artist : artists) {
+        	String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
+    		Bitmap artistIcon = Utils.decodeSampledBitmapFromFile(filePath,context.getResources(),
+    				R.drawable.artist_empty_icon, 80, 80);
+    		artistsIcons.put(artist.getId(), artistIcon);
+		}
     }
 
 	@Override
@@ -95,11 +107,8 @@ public class ArtistsAlphabeticalAdapter extends BaseAdapter implements SectionIn
 		((TextView) view.findViewById(R.id.artistListItemName)).setText(artist.getName());
 		((TextView) view.findViewById(R.id.artistListItemProgrammation)).setText(artist.getProgrammation());
 		
-		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
 		((ImageView) view.findViewById(R.id.artistListItemIcon))
-				.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
-						context.getResources(), R.drawable.artist_empty_icon,
-						80, 80));
+			.setImageBitmap( artistsIcons.get(artist.getId()) );
 
 		LinearLayout artistView = ((LinearLayout) view.findViewById(R.id.artist_list_item));
 		artistView.setContentDescription(String.valueOf(artist.getId()));
