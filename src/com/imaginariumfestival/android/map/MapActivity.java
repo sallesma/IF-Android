@@ -4,31 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.Utils;
+import com.imaginariumfestival.android.database.InfosDataSource;
 import com.imaginariumfestival.android.database.MapItemsDataSource;
+import com.imaginariumfestival.android.database.MySQLiteHelper;
+import com.imaginariumfestival.android.infos.InfoActivity;
+import com.imaginariumfestival.android.infos.InfoModel;
 
 public class MapActivity extends Activity {
+	protected static final int NO_INFO_LINKED = -1;
+	
 	private ImageView map;
 	private List<ImageView> mapItems;
 	private List<MapItemModel> mapItemModels;
+	private View popup;
 	
 	int maxX, maxY;
 	
@@ -48,6 +62,7 @@ public class MapActivity extends Activity {
 		Utils.addAlphaEffectOnClick(backButton);
 		
 		initializeMap();
+		initializePopUp();
 		addMapItemsOverMap();
 	}
 
@@ -77,7 +92,15 @@ public class MapActivity extends Activity {
 		final int maxTop = (maxY * -1);
 		final int maxBottom = maxY;
 		
+		map.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popup.setVisibility(TextView.INVISIBLE);
+			}
+		});
+		
 		map.setOnTouchListener(new View.OnTouchListener() {
+			float originX, originY;
 			float lastX, lastY;
 			int totalX, totalY;
 			int scrollByX, scrollByY;
@@ -87,6 +110,16 @@ public class MapActivity extends Activity {
 				case MotionEvent.ACTION_DOWN:
 					lastX = event.getX();
 					lastY = event.getY();
+					originX = lastX;
+					originY = lastY;
+					break;
+				case MotionEvent.ACTION_UP:
+					currentX = event.getX();
+					currentY = event.getY();
+					// If it is a click on the map, hide map item popup
+					if (Math.abs(currentX - originX) < 10
+							&& Math.abs(currentY - originY) < 10 )
+						popup.setVisibility(TextView.INVISIBLE);
 					break;
 				case MotionEvent.ACTION_MOVE:
 					currentX = event.getX();
@@ -152,6 +185,10 @@ public class MapActivity extends Activity {
 						pointLayoutParams.topMargin -= scrollByY;
 						mapItem.setLayoutParams(pointLayoutParams);
 					}
+					RelativeLayout.LayoutParams popupLayoutParams = (RelativeLayout.LayoutParams) popup.getLayoutParams();
+					popupLayoutParams.leftMargin -= scrollByX;
+					popupLayoutParams.topMargin -= scrollByY;
+					popup.setLayoutParams(popupLayoutParams);
 					lastX = currentX;
 					lastY = currentY;
 					break;
@@ -161,6 +198,17 @@ public class MapActivity extends Activity {
 		});
 	}
 	
+	private void initializePopUp() {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		popup = inflater.inflate(R.layout.map_item_popup, null);
+		
+		((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(popup);
+		
+		popup.setVisibility(LinearLayout.INVISIBLE);
+		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+		((TextView) popup.findViewById(R.id.map_item_popup_label)).setTypeface(euroFont);
+	}
+
 	private void addMapItemsOverMap() {
 		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
 		datasource.open();
@@ -179,15 +227,62 @@ public class MapActivity extends Activity {
 			pointLayoutParams.topMargin = (int) ( (mapItemModel.getY() - maxY - (pointLayoutParams.height / 2)) );
 			point.setLayoutParams(pointLayoutParams);
 			
-			point.setImageResource(R.drawable.switch_button);
 			point.setContentDescription( String.valueOf(mapItemModels.indexOf(mapItemModel)) );
+			point.setImageResource(R.drawable.switch_button);
 			mapItems.add(point);
 			
 			point.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					int mapItemId = Integer.parseInt((String) view.getContentDescription());
-					Toast.makeText(getApplicationContext(), mapItemModels.get(mapItemId).toString(), Toast.LENGTH_SHORT).show();
+					MapItemModel mapItemModel = mapItemModels.get(mapItemId);
+					
+					if (mapItemModel.getInfoId() != MapActivity.NO_INFO_LINKED ) {
+						InfosDataSource infoDatasource = new InfosDataSource(MapActivity.this);
+						infoDatasource.open();
+						final InfoModel info = infoDatasource.getInfoFromId(mapItemModel.getInfoId());
+						infoDatasource.close();
+
+						String filePath = getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
+						((ImageView) popup.findViewById(R.id.map_item_popup_icon))
+						.setImageBitmap(Utils.decodeSampledBitmapFromFile(
+								filePath, getResources(),
+								R.drawable.info_empty_icon, 40, 40));
+						((ImageView) popup.findViewById(R.id.map_item_popup_arrow)).setVisibility(ImageView.VISIBLE);
+						
+						popup.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent toInfoActivityIntent = new Intent(MapActivity.this, InfoActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("infoId", String.valueOf(info.getId()));
+								toInfoActivityIntent.putExtras(bundle);
+								startActivity(toInfoActivityIntent);
+							}
+						});
+						Utils.addAlphaEffectOnClick(popup);
+					} else {
+						((ImageView) popup.findViewById(R.id.map_item_popup_arrow)).setVisibility(ImageView.INVISIBLE);
+						
+						popup.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								//Do nothing
+							}
+						});
+						popup.setOnTouchListener(new OnTouchListener() {
+							@Override
+							public boolean onTouch(View v, MotionEvent event) {
+								//Do nothing
+								return false;
+							}
+						});
+					}
+					((TextView) popup.findViewById(R.id.map_item_popup_label)).setText(mapItemModel.getLabel());
+					popup.setVisibility(TextView.VISIBLE);
+					popup.bringToFront();
+					popup.setX( view.getX() - (popup.getWidth() / 2) );
+					popup.setY( view.getY() - popup.getHeight() );
 				}
 			});
 		}
