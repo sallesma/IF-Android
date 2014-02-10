@@ -8,7 +8,10 @@ Android application for the festival
 If you feel like improving the application, don't hesitate to try to add some of these features :
 
  * Zoomable map activity
+ * Use GPS to add user position on map
  * Notification when a new piece of news arrives
+ * Notification 15 minutes before a concert
  * Improve camera (hability to switch camera...)
+ * Round edges for photos, programmation items...
 
 And feel free to contact us if you have any new ideas :)

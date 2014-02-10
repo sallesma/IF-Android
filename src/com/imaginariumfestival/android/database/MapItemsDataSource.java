@@ -118,8 +118,8 @@ public class MapItemsDataSource {
         mapItem.setId(cursor.getInt(0));
         mapItem.setLabel(cursor.getString(1));
         mapItem.setX(cursor.getInt(2));
-        mapItem.setY(cursor.getInt(2));
-        mapItem.setInfoId(cursor.getInt(3));
+        mapItem.setY(cursor.getInt(3));
+        mapItem.setInfoId(cursor.getInt(4));
 
         return mapItem;
     }

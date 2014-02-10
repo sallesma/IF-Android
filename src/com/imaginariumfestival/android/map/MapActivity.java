@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class MapActivity extends Activity {
 	private List<ImageView> mapItems;
 	private List<MapItemModel> mapItemModels;
 	
-	float bmWidth, bmHeight;
+	int maxX, maxY;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MapActivity extends Activity {
 		Utils.addAlphaEffectOnClick(backButton);
 		
 		initializeMap();
-//		addMapItemsOverMap();
+		addMapItemsOverMap();
 	}
 
 	private void initializeMap() {
@@ -63,11 +64,12 @@ public class MapActivity extends Activity {
 		Point size = new Point();
 		getWindowManager().getDefaultDisplay().getSize(size);
 		int screenWidth = size.x;
-		int screenHeight = size.y;
+		int screenHeight = (int) (size.y);
+		int headerHeight = ((ImageView)findViewById(R.id.header_icon)).getDrawable().getIntrinsicHeight();
 		
 		// set maximum scroll amount (based on center of image)
-		int maxX = (int)((bitmapWidth / 2) - (screenWidth / 2));
-		int maxY = (int)((bitmapHeight / 2) - (screenHeight / 2));
+		maxX = (int)((bitmapWidth / 2) - (screenWidth / 2));
+		maxY = (int)((bitmapHeight / 2) - ((screenHeight - headerHeight) / 2));
 		
 		// set scroll limits
 		final int maxLeft = (maxX * -1);
@@ -76,23 +78,23 @@ public class MapActivity extends Activity {
 		final int maxBottom = maxY;
 		
 		map.setOnTouchListener(new View.OnTouchListener() {
-			float downX, downY;
+			float lastX, lastY;
 			int totalX, totalY;
 			int scrollByX, scrollByY;
 			public boolean onTouch(View view, MotionEvent event) {
 				float currentX, currentY;
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					downX = event.getX();
-					downY = event.getY();
+					lastX = event.getX();
+					lastY = event.getY();
 					break;
 				case MotionEvent.ACTION_MOVE:
 					currentX = event.getX();
 					currentY = event.getY();
-					scrollByX = (int)(downX - currentX);
-					scrollByY = (int)(downY - currentY);
+					scrollByX = (int)(lastX - currentX);
+					scrollByY = (int)(lastY - currentY);
 					// scrolling to left side of image (pic moving to the right)
-					if (currentX > downX) {
+					if (currentX > lastX) {
 						if (totalX == maxLeft) {
 							scrollByX = 0;
 						}
@@ -105,7 +107,7 @@ public class MapActivity extends Activity {
 						}
 					}
 					// scrolling to right side of image (pic moving to the left)
-					if (currentX < downX) {
+					if (currentX < lastX) {
 						if (totalX == maxRight) {
 							scrollByX = 0;
 						}
@@ -118,7 +120,7 @@ public class MapActivity extends Activity {
 						}
 					}
 					// scrolling to top of image (pic moving to the bottom)
-					if (currentY > downY) {
+					if (currentY > lastY) {
 						if (totalY == maxTop) {
 							scrollByY = 0;
 						}
@@ -131,7 +133,7 @@ public class MapActivity extends Activity {
 						}
 					}
 					// scrolling to bottom of image (pic moving to the top)
-					if (currentY < downY) {
+					if (currentY < lastY) {
 						if (totalY == maxBottom) {
 							scrollByY = 0;
 						}
@@ -144,8 +146,14 @@ public class MapActivity extends Activity {
 						}
 					}
 					map.scrollBy(scrollByX, scrollByY);
-					downX = currentX;
-					downY = currentY;
+					for (ImageView mapItem : mapItems) {
+						RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) mapItem.getLayoutParams();
+						pointLayoutParams.leftMargin -= scrollByX;
+						pointLayoutParams.topMargin -= scrollByY;
+						mapItem.setLayoutParams(pointLayoutParams);
+					}
+					lastX = currentX;
+					lastY = currentY;
 					break;
 				}
 				return true;
@@ -153,35 +161,45 @@ public class MapActivity extends Activity {
 		});
 	}
 	
-//	private void addMapItemsOverMap() {
-//		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
-//		datasource.open();
-//		mapItemModels = datasource.getAllMapItems();
-//		datasource.close();
-//		
-//		mapItems = new ArrayList<ImageView>();
-//		for (final MapItemModel mapItemModel : mapItemModels) {
-//			ImageView point = new ImageView(this, null);
-//			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
-//
-//			point.setLeft(mapItemModel.getX());
-//			point.setTop(mapItemModel.getY());
-//			point.setImageResource(R.drawable.switch_button);
-//			point.bringToFront();
-//			map.invalidate();
-//			
-//			point.setContentDescription( String.valueOf(mapItemModels.indexOf(mapItemModel)) );
-//			mapItems.add(point);
-//		}
-//	}
+	private void addMapItemsOverMap() {
+		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
+		datasource.open();
+		mapItemModels = datasource.getAllMapItems();
+		datasource.close();
+		
+		mapItems = new ArrayList<ImageView>();
+		for (final MapItemModel mapItemModel : mapItemModels) {
+			ImageView point = new ImageView(this, null);
+			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
+			
+			RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) point.getLayoutParams();
+			pointLayoutParams.width = 40;
+			pointLayoutParams.height = 40;
+			pointLayoutParams.leftMargin = (int) (mapItemModel.getX() - maxX - (pointLayoutParams.width / 2));
+			pointLayoutParams.topMargin = (int) ( (mapItemModel.getY() - maxY - (pointLayoutParams.height / 2)) );
+			point.setLayoutParams(pointLayoutParams);
+			
+			point.setImageResource(R.drawable.switch_button);
+			point.setContentDescription( String.valueOf(mapItemModels.indexOf(mapItemModel)) );
+			mapItems.add(point);
+			
+			point.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					int mapItemId = Integer.parseInt((String) view.getContentDescription());
+					Toast.makeText(getApplicationContext(), mapItemModels.get(mapItemId).toString(), Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
+	}
 	
-//	public void showPopup() {
-//		ImageView mainLayout = (ImageView)findViewById(R.id.map_anchor);
-//	    PopupMenu popupMenu = new PopupMenu(this, mainLayout);
-//	    
-//	    popupMenu.getMenuInflater().inflate(R.menu.menu_map_advanced, popupMenu.getMenu());
-//	    popupMenu.show();
-//	}
+/*	public void showPopup() {
+		ImageView mainLayout = (ImageView)findViewById(R.id.map_anchor);
+	    PopupMenu popupMenu = new PopupMenu(this, mainLayout);
+	    
+	    popupMenu.getMenuInflater().inflate(R.menu.menu_map_advanced, popupMenu.getMenu());
+	    popupMenu.show();
+	}*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
