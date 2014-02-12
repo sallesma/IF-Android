@@ -64,6 +64,15 @@ public class MapActivity extends Activity {
 		initializeMap();
 		initializePopUp();
 		addMapItemsOverMap();
+		
+		String infoId = (String) getIntent().getSerializableExtra("infoId");
+	    if (infoId != null && !infoId.equals("")) { //We come from InfoActivity
+	    	int infoIdInt = Integer.parseInt(infoId);
+	    	for (int i = 0 ; i < mapItems.size() && i < mapItemModels.size() ; i++) {
+	    		if ( mapItemModels.get(i).getInfoId() == infoIdInt )
+	    			mapItems.get(i).performClick();
+	    	}
+	    }
 	}
 
 	private void initializeMap() {
@@ -228,13 +237,13 @@ public class MapActivity extends Activity {
 			point.setLayoutParams(pointLayoutParams);
 			
 			point.setContentDescription( String.valueOf(mapItemModels.indexOf(mapItemModel)) );
-			point.setImageResource(R.drawable.switch_button);
-			mapItems.add(point);
+			point.setImageResource(R.drawable.map_item);
+			mapItems.add(mapItems.size(), point);
 			
 			point.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View view) {
-					int mapItemId = Integer.parseInt((String) view.getContentDescription());
+				public void onClick(View clickedMapItem) {
+					int mapItemId = Integer.parseInt((String) clickedMapItem.getContentDescription());
 					MapItemModel mapItemModel = mapItemModels.get(mapItemId);
 					
 					if (mapItemModel.getInfoId() != MapActivity.NO_INFO_LINKED ) {
@@ -281,8 +290,8 @@ public class MapActivity extends Activity {
 					((TextView) popup.findViewById(R.id.map_item_popup_label)).setText(mapItemModel.getLabel());
 					popup.setVisibility(TextView.VISIBLE);
 					popup.bringToFront();
-					popup.setX( view.getX() - (popup.getWidth() / 2) );
-					popup.setY( view.getY() - popup.getHeight() );
+					popup.setX( clickedMapItem.getX() - (popup.getWidth() / 2) + (clickedMapItem.getWidth() /2) );
+					popup.setY( clickedMapItem.getY() - popup.getHeight() );
 				}
 			});
 		}
