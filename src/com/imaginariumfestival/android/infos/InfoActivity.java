@@ -1,6 +1,7 @@
 package com.imaginariumfestival.android.infos;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -17,6 +18,7 @@ import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.InfosDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
+import com.imaginariumfestival.android.map.MapActivity;
 
 public class InfoActivity extends Activity {
 	private static final String DEFAULT_CATEGORY_NAME = "Aucune";
@@ -38,13 +40,6 @@ public class InfoActivity extends Activity {
 		});
 		Utils.addAlphaEffectOnClick(backButton);
 		
-		((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(InfoActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			}
-		});
-		
 		String infoId = (String) getIntent().getSerializableExtra("infoId");
 	    if (infoId == null || infoId.equals("")) {
 	    	Toast.makeText(this, getResources().getString(R.string.cannot_display_info), Toast.LENGTH_LONG).show();
@@ -56,6 +51,21 @@ public class InfoActivity extends Activity {
 			datasource.close();
 			
 			fillViewWithInfoData();
+			
+			if (info.getIsDisplayedOnMap()) {
+				((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent toInfoActivityIntent = new Intent(InfoActivity.this, MapActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("infoId", String.valueOf(info.getId()));
+						toInfoActivityIntent.putExtras(bundle);
+						startActivity(toInfoActivityIntent);
+					}
+				});
+			} else {
+				((Button) findViewById(R.id.action_type_see_on_map)).setVisibility(View.GONE);
+			}
 	    }
 	}
 	

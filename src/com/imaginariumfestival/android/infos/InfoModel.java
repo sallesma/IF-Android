@@ -7,6 +7,7 @@ public class InfoModel {
 	private Boolean isCategory;
 	private String content;
 	private long parentId;
+	private Boolean isDisplayedOnMap;
 	
 	public InfoModel() {
 		super();
@@ -16,10 +17,11 @@ public class InfoModel {
 		this.isCategory = false;
 		this.content = "";
 		this.parentId = 0;
+		this.isDisplayedOnMap = false;
 	}
 
 	public InfoModel(long id, String name, String picture, String isCategory,
-			String content, long parentId) {
+			String content, long parentId, String isDisplayedOnMap) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,6 +32,10 @@ public class InfoModel {
 			this.isCategory = false;
 		this.content = content;
 		this.parentId = parentId;
+		if (Boolean.valueOf(isDisplayedOnMap) || isDisplayedOnMap.equals("1"))
+			this.isDisplayedOnMap = true;
+		else
+			this.isDisplayedOnMap = false;
 	}
 
 	public long getId() {
@@ -79,9 +85,17 @@ public class InfoModel {
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
+	
+	public Boolean getIsDisplayedOnMap() {
+		return isDisplayedOnMap;
+	}
+
+	public void setIsDisplayedOnMap(Boolean isDisplayedOnMap) {
+		this.isDisplayedOnMap = isDisplayedOnMap;
+	}
 
 	@Override
 	public String toString() {
-		return "InfoModel [name=" + name + " - isCategory=" + isCategory + "]";
+		return "InfoModel [name=" + name + " - isCategory=" + isCategory + " - isDisplayedOnMap=" + isDisplayedOnMap + "]";
 	}
 }
