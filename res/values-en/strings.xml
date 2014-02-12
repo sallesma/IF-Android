@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="facebook_link">https://www.facebook.com/imaginariumf</string>
+    <string name="twitter_link">https://twitter.com/ImaginariumF</string>
+    <string name="google_plus_link">https://plus.google.com/u/0/116270946991852741743/posts</string>
+    <string name="app_name">Imaginarium</string>
+    <string name="artists_activity">Artists</string>
+    <string name="artist_activity">Artist</string>
+    <string name="artist_web_view_activity">Artist</string>
+    <string name="infos_activity">Infos</string>
+    <string name="info_activity">Info</string>
+    <string name="programmation_activity">Line-up</string>
+    <string name="map_activity">Interactive map</string>
+    <string name="photos_taking_activity">Photos</string>
+    <string name="photos_validating_activity">Photos</string>
+    <string name="partner_activity">Partners</string>
+    <string name="back_button">Go back</string>
+    <string name="header_icon">header icon</string>
+    <string name="not_implemented">Not implemented yet</string>
+    <string name="no_internet_connection">You are not connected to the internet</string>
+
+    <!--  -->
+    <!-- MainMenuActivity -->
+    <!--  -->
+
+    <string name="mainLogo">Imaginarium Festival</string>
+    <string name="artistImageButtonDescription">Artists</string>
+    <string name="infosImageButtonDescription">Infos</string>
+    <string name="programmationImageButtonDescription">Line-up</string>
+    <string name="planImageButtonDescription">Map</string>
+    <string name="photosImageButtonDescription">Photos</string>
+    <string name="partnersImageButtonDescription">Partners</string>
+    <string name="facebook_icon">Facebook Imaginarium</string>
+    <string name="twitter_icon">Twitter Imaginarium</string>
+    <string name="google_plus_icon">Google+ Imaginarium</string>
+    <string name="about">Made with &lt;3 from Compy</string>
+    <string name="news_panel">News</string>
+    <string name="no_news">No news to display</string>
+    <!-- <string name="twitter_panel">Tweets</string> -->
+    <!-- <string name="no_twitter">Pas de tweet à afficher</string> -->
+
+
+    <!--  -->
+    <!-- Notifications -->
+    <!--  -->
+    <string name="notification_content">On stage within 15 minutes!</string>
+
+    <!--  -->
+    <!-- BackTask -->
+    <!--  -->
+    <string name="update_beginning">Database update...</string>
+    <string name="update_ending">...the update is done</string>
+    <string name="update_progress">Updating data : </string>
+
+    <!--  -->
+    <!-- ArtistsActivity -->
+    <!--  -->
+    <string name="artists_title_1">THE</string>
+    <string name="artists_title_2">ARTISTS</string>
+    <string name="action_alpha_sort">Name</string>
+    <string name="action_type_sort">Style</string>
+    <string name="artistListItemIcon">Artist icon</string>
+
+    <!--  -->
+    <!-- ArtistActivity -->
+    <!--  -->
+    <string name="cannot_display_artist">Impossible to show the artist</string>
+    <string name="artistIcon">Artist icon</string>
+    <string name="facebookIcon">Link to facebook</string>
+    <string name="youtubeIcon">Link to Youtube</string>
+    <string name="twitterIcon">Link to Twitter</string>
+    <string name="webIcon">Link to website</string>
+
+    <!--  -->
+    <!-- ArtistWebView -->
+    <!--  -->
+    <string name="loading">Loading...</string>
+
+    <!--  -->
+    <!-- InfosActivity -->
+    <!--  -->
+    <string name="infos_title_1">USEFUL</string>
+    <string name="infos_title_2">INFOS</string>
+    <string name="infoListItemIcon">Info</string>
+    <string name="infoListCategoryArrow">Next category</string>
+
+    <!--  -->
+    <!-- InfoActivity -->
+    <!--  -->
+    <string name="cannot_display_info">Impossible to show the info</string>
+    <string name="action_type_see_on_map">See on map</string>
+    <string name="category">Category : </string>
+
+    <!--  -->
+    <!-- Programmation Activity -->
+    <!--  -->
+    <string name="programmation_title_1">THE</string>
+    <string name="programmation_title_2">TIMELINE</string>
+    <string name="button_first_day">Friday 30th</string>
+    <string name="button_second_day">Saturday 31st</string>
+    <string name="main_stage">Main stage</string>
+    <string name="second_stage">Second Stage</string>
+    <string name="programmation_icon">Line-up</string>
+
+    <!--  -->
+    <!-- Map Activity -->
+    <!--  -->
+    <string name="map_title_1">INTERACTIVE</string>
+    <string name="map_title_2">MAP</string>
+    <string name="map">Map</string>
+    <string name="action_type_filter">Filter</string>
+    <string name="action_type_filter_food">Food</string>
+    <string name="action_type_filter_bar">Bars</string>
+    <string name="action_type_filter_stage">Stages</string>
+    <string name="action_type_filter_asso">Assos</string>
+    <string name="action_type_filter_security">Security</string>
+
+    <!--  -->
+    <!-- Photo Activity -->
+    <!--  -->
+    <string name="photo_title_1">MY</string>
+    <string name="photo_title_2">CAMERA</string>
+    <string name="camera_take">Take picture</string>
+    <string name="photo_taking_wait_message">The filter is applied to the picture</string>
+    <string name="picture_taken">Photo taken</string>
+    <string name="share_button">Share</string>
+    <string name="share_intent">Share!</string>
+    <string name="unavailable_camera">Impossible to use the camera!</string>
+    <string name="cannot_display_picture">Impossible to show the photo!</string>
+
+    <!--  -->
+    <!-- Partners Activity -->
+    <!--  -->
+    <string name="partners_title_1">OUR</string>
+    <string name="partners_title_2">PARTNERS</string>
+    <string name="partner_icon">partner logo</string>
+    <string name="partners_header_text">They help us to make this festival happen</string>
+
+</resources>

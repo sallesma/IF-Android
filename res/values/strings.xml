@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="facebook_link">https://www.facebook.com/imaginariumf</string>
     <string name="twitter_link">https://twitter.com/ImaginariumF</string>
     <string name="google_plus_link">https://plus.google.com/u/0/116270946991852741743/posts</string>
-
     <string name="app_name">Imaginarium</string>
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
@@ -16,7 +15,6 @@
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
     <string name="partner_activity">Partenaires</string>
-
     <string name="back_button">Retour arrière</string>
     <string name="header_icon">Icone header</string>
     <string name="not_implemented">Pas encore fonctionnel</string>
@@ -33,30 +31,28 @@
     <string name="planImageButtonDescription">Plan</string>
     <string name="photosImageButtonDescription">Photos</string>
     <string name="partnersImageButtonDescription">Partenaires</string>
-    
     <string name="facebook_icon">Facebook Imaginarium</string>
     <string name="twitter_icon">Twitter Imaginarium</string>
     <string name="google_plus_icon">Google+ Imaginarium</string>
-
     <string name="about">Made with &lt;3 from Compy</string>
-    
     <string name="news_panel">News</string>
     <string name="no_news">Pas de news à afficher</string>
-<!--     <string name="twitter_panel">Tweets</string> -->
-<!--     <string name="no_twitter">Pas de tweet à afficher</string> -->
-    
+    <!-- <string name="twitter_panel">Tweets</string> -->
+    <!-- <string name="no_twitter">Pas de tweet à afficher</string> -->
+
+
     <!--  -->
     <!-- Notifications -->
     <!--  -->
     <string name="notification_content">Sur scène dans 15 minutes !</string>
-    
+
     <!--  -->
     <!-- BackTask -->
     <!--  -->
     <string name="update_beginning">Mise à jour des données</string>
     <string name="update_ending">...la mise à jour est terminée</string>
     <string name="update_progress">Mise à jour des données : </string>
-    
+
     <!--  -->
     <!-- ArtistsActivity -->
     <!--  -->
@@ -65,7 +61,7 @@
     <string name="action_alpha_sort">Nom</string>
     <string name="action_type_sort">Style</string>
     <string name="artistListItemIcon">Icone Artiste</string>
-    
+
     <!--  -->
     <!-- ArtistActivity -->
     <!--  -->
@@ -75,12 +71,12 @@
     <string name="youtubeIcon">Lien vers Youtube</string>
     <string name="twitterIcon">Lien vers Twitter</string>
     <string name="webIcon">Lien vers site web</string>
-    
+
     <!--  -->
     <!-- ArtistWebView -->
     <!--  -->
     <string name="loading">Chargement...</string>
-    
+
     <!--  -->
     <!-- InfosActivity -->
     <!--  -->
@@ -95,9 +91,9 @@
     <string name="cannot_display_info">Impossible d\'afficher l\'info</string>
     <string name="action_type_see_on_map">Voir sur la carte</string>
     <string name="category">Catégorie : </string>
-    
+
     <!--  -->
-    <!-- Programmation Activity-->
+    <!-- Programmation Activity -->
     <!--  -->
     <string name="programmation_title_1">LA</string>
     <string name="programmation_title_2">TIMELINE</string>
@@ -106,10 +102,9 @@
     <string name="main_stage">Scène principale</string>
     <string name="second_stage">Scène secondaire</string>
     <string name="programmation_icon">Programmation</string>
-    <string name="photo_taking_wait_message">Le filtre est appliqué à la photo</string>
-    
+
     <!--  -->
-    <!-- Map Activity-->
+    <!-- Map Activity -->
     <!--  -->
     <string name="map_title_1">PLAN</string>
     <string name="map_title_2">INTERACTIF</string>
@@ -120,27 +115,26 @@
     <string name="action_type_filter_stage">Scènes</string>
     <string name="action_type_filter_asso">Assos</string>
     <string name="action_type_filter_security">Secours et sécurité</string>
-    
-    
+
     <!--  -->
-    <!-- Photo Activity-->
+    <!-- Photo Activity -->
     <!--  -->
     <string name="photo_title_1">APPAREIL</string>
     <string name="photo_title_2">PHOTO</string>
     <string name="camera_take">Prendre</string>
     <string name="picture_taken">Photo prise</string>
+    <string name="photo_taking_wait_message">Le filtre est appliqué à la photo</string>
     <string name="share_button">Partager</string>
     <string name="share_intent">Partagez !</string>
     <string name="unavailable_camera">Impossible d\'accéder à l\'appareil photo !</string>
     <string name="cannot_display_picture">Impossible d\'afficher la photo !</string>
-    
+
     <!--  -->
-    <!-- Partners Activity-->
+    <!-- Partners Activity -->
     <!--  -->
     <string name="partners_title_1">NOS</string>
     <string name="partners_title_2">PARTENAIRES</string>
     <string name="partner_icon">logo partenaire</string>
     <string name="partners_header_text">Ils nous aident à faire vivre le festival</string>
-
 
 </resources>
