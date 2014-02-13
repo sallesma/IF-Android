@@ -4,45 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.Utils;
 import com.imaginariumfestival.android.database.InfosDataSource;
 import com.imaginariumfestival.android.database.MapItemsDataSource;
-import com.imaginariumfestival.android.database.MySQLiteHelper;
-import com.imaginariumfestival.android.infos.InfoActivity;
 import com.imaginariumfestival.android.infos.InfoModel;
 
 public class MapActivity extends Activity {
 	protected static final int NO_INFO_LINKED = -1;
 	
 	private ImageView map;
-	private List<ImageView> mapItems;
-	private List<MapItemModel> mapItemModels;
-	private View popup;
+	private List<MapItemView> mapItems;
+	private PopupView popup;
 	
 	int maxX, maxY;
 	
@@ -62,13 +52,21 @@ public class MapActivity extends Activity {
 		Utils.addAlphaEffectOnClick(backButton);
 		
 		initializeMap();
-		initializePopUp();
-		addMapItemsOverMap();
+		
+		popup = new PopupView(getApplicationContext());
+		((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(popup.getPopupView());
+
+		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
+		datasource.open();
+		List<MapItemModel> mapItemModels = datasource.getAllMapItems();
+		datasource.close();
+
+		addMapItemsOverMap(mapItemModels);
 		
 		String infoId = (String) getIntent().getSerializableExtra("infoId");
 	    if (infoId != null && !infoId.equals("")) { //We come from InfoActivity
 	    	int infoIdInt = Integer.parseInt(infoId);
-	    	for (int i = 0 ; i < mapItems.size() && i < mapItemModels.size() ; i++) {
+	    	for (int i = 0 ; i < mapItems.size(); i++) {
 	    		if ( mapItemModels.get(i).getInfoId() == infoIdInt )
 	    			mapItems.get(i).performClick();
 	    	}
@@ -104,7 +102,7 @@ public class MapActivity extends Activity {
 		map.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				popup.setVisibility(TextView.INVISIBLE);
+				popup.setInvisible();
 			}
 		});
 		
@@ -128,7 +126,7 @@ public class MapActivity extends Activity {
 					// If it is a click on the map, hide map item popup
 					if (Math.abs(currentX - originX) < 10
 							&& Math.abs(currentY - originY) < 10 )
-						popup.setVisibility(TextView.INVISIBLE);
+						map.performClick();
 					break;
 				case MotionEvent.ACTION_MOVE:
 					currentX = event.getX();
@@ -188,16 +186,11 @@ public class MapActivity extends Activity {
 						}
 					}
 					map.scrollBy(scrollByX, scrollByY);
-					for (ImageView mapItem : mapItems) {
-						RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) mapItem.getLayoutParams();
-						pointLayoutParams.leftMargin -= scrollByX;
-						pointLayoutParams.topMargin -= scrollByY;
-						mapItem.setLayoutParams(pointLayoutParams);
+					for (MapItemView mapItem : mapItems) {
+						mapItem.updatePositionOnMapScrolled(scrollByX, scrollByY);
 					}
-					RelativeLayout.LayoutParams popupLayoutParams = (RelativeLayout.LayoutParams) popup.getLayoutParams();
-					popupLayoutParams.leftMargin -= scrollByX;
-					popupLayoutParams.topMargin -= scrollByY;
-					popup.setLayoutParams(popupLayoutParams);
+					popup.updatePositionOnMapScrolled(scrollByX, scrollByY);
+					
 					lastX = currentX;
 					lastY = currentY;
 					break;
@@ -207,91 +200,31 @@ public class MapActivity extends Activity {
 		});
 	}
 	
-	private void initializePopUp() {
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		popup = inflater.inflate(R.layout.map_item_popup, null);
+	private void addMapItemsOverMap(List<MapItemModel> mapItemModels) {
+		mapItems = new ArrayList<MapItemView>();
 		
-		((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(popup);
-		
-		popup.setVisibility(LinearLayout.INVISIBLE);
-		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
-		((TextView) popup.findViewById(R.id.map_item_popup_label)).setTypeface(euroFont);
-	}
-
-	private void addMapItemsOverMap() {
-		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
-		datasource.open();
-		mapItemModels = datasource.getAllMapItems();
-		datasource.close();
-		
-		mapItems = new ArrayList<ImageView>();
 		for (final MapItemModel mapItemModel : mapItemModels) {
-			ImageView point = new ImageView(this, null);
+			MapItemView point = new MapItemView(this, mapItemModel, maxX, maxY);
 			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
+			point.initPosition();
 			
-			RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) point.getLayoutParams();
-			pointLayoutParams.width = 40;
-			pointLayoutParams.height = 40;
-			pointLayoutParams.leftMargin = (int) (mapItemModel.getX() - maxX - (pointLayoutParams.width / 2));
-			pointLayoutParams.topMargin = (int) ( (mapItemModel.getY() - maxY - (pointLayoutParams.height / 2)) );
-			point.setLayoutParams(pointLayoutParams);
-			
-			point.setContentDescription( String.valueOf(mapItemModels.indexOf(mapItemModel)) );
-			point.setImageResource(R.drawable.map_item);
-			mapItems.add(mapItems.size(), point);
+			mapItems.add(point);
 			
 			point.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View clickedMapItem) {
-					int mapItemId = Integer.parseInt((String) clickedMapItem.getContentDescription());
-					MapItemModel mapItemModel = mapItemModels.get(mapItemId);
+					MapItemModel mapItemModel = ((MapItemView) clickedMapItem).getMapItemModel();
 					
 					if (mapItemModel.getInfoId() != MapActivity.NO_INFO_LINKED ) {
 						InfosDataSource infoDatasource = new InfosDataSource(MapActivity.this);
 						infoDatasource.open();
 						final InfoModel info = infoDatasource.getInfoFromId(mapItemModel.getInfoId());
 						infoDatasource.close();
-
-						String filePath = getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + info.getName();
-						((ImageView) popup.findViewById(R.id.map_item_popup_icon))
-						.setImageBitmap(Utils.decodeSampledBitmapFromFile(
-								filePath, getResources(),
-								R.drawable.info_empty_icon, 40, 40));
-						((ImageView) popup.findViewById(R.id.map_item_popup_arrow)).setVisibility(ImageView.VISIBLE);
 						
-						popup.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								Intent toInfoActivityIntent = new Intent(MapActivity.this, InfoActivity.class);
-								Bundle bundle = new Bundle();
-								bundle.putString("infoId", String.valueOf(info.getId()));
-								toInfoActivityIntent.putExtras(bundle);
-								startActivity(toInfoActivityIntent);
-							}
-						});
-						Utils.addAlphaEffectOnClick(popup);
+						popup.changeMapItemModel(mapItemModel, info, clickedMapItem);
 					} else {
-						((ImageView) popup.findViewById(R.id.map_item_popup_arrow)).setVisibility(ImageView.INVISIBLE);
-						
-						popup.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								//Do nothing
-							}
-						});
-						popup.setOnTouchListener(new OnTouchListener() {
-							@Override
-							public boolean onTouch(View v, MotionEvent event) {
-								//Do nothing
-								return false;
-							}
-						});
+						popup.changeMapItemModel(mapItemModel, null, clickedMapItem);
 					}
-					((TextView) popup.findViewById(R.id.map_item_popup_label)).setText(mapItemModel.getLabel());
-					popup.setVisibility(TextView.VISIBLE);
-					popup.bringToFront();
-					popup.setX( clickedMapItem.getX() - (popup.getWidth() / 2) + (clickedMapItem.getWidth() /2) );
-					popup.setY( clickedMapItem.getY() - popup.getHeight() );
 				}
 			});
 		}
