@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LightBackground"
     android:layout_width="wrap_content"
     android:layout_height="100dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/programmation_item_background" >
 
     <ImageView
         android:id="@+id/programmation_icon"
