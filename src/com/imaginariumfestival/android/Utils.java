@@ -31,7 +31,7 @@ public class Utils {
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction() & MotionEvent.ACTION_MASK) {
 				case MotionEvent.ACTION_DOWN:
-					v.setAlpha((float) 0.5);
+					v.setAlpha((float) 0.7);
 					break;
 				case MotionEvent.ACTION_UP:
 					v.setAlpha((float) 1);

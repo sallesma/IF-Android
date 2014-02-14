@@ -31,7 +31,7 @@ public class PopupView {
 		this.context = context;
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		popupView = inflater.inflate(R.layout.map_item_popup, null);
+		popupView = inflater.inflate(R.layout.map_popup, null);
 		
 		arrow = (ImageView) popupView.findViewById(R.id.map_item_popup_arrow);
 		icon = (ImageView) popupView.findViewById(R.id.map_item_popup_icon);
@@ -50,57 +50,60 @@ public class PopupView {
 		popupView.setLayoutParams(popupLayoutParams);
 	}
 	
-	public void changeMapItemModel(MapItemModel mapItemModel, final InfoModel linkedInfo, View clickedMapItem) {
+	public void changeMapItemModel(String newLabel, final InfoModel linkedInfo, View clickedMapItem) {
 		if (null == linkedInfo) {
-			arrow.setVisibility(ImageView.INVISIBLE);
-			icon.setImageResource(R.drawable.info_empty_icon);
-			popupView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					//Do nothing
-				}
-			});
-			popupView.setOnTouchListener(new OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					//Do nothing
-					return false;
-				}
-			});
+			updatePopupForNoLinkedInfo();
 		} else {
-			String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + linkedInfo.getName();
-			((ImageView) popupView.findViewById(R.id.map_item_popup_icon))
-					.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
-							context.getResources(), R.drawable.info_empty_icon,40, 40));
-			((ImageView) popupView.findViewById(R.id.map_item_popup_arrow)).setVisibility(ImageView.VISIBLE);
-			
-			popupView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent toInfoActivityIntent = new Intent(context, InfoActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("infoId", String.valueOf(linkedInfo.getId()));
-					toInfoActivityIntent.putExtras(bundle);
-					toInfoActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					context.startActivity(toInfoActivityIntent);
-				}
-			});
-			Utils.addAlphaEffectOnClick(popupView);
+			updatePopupWithLinkedInfo(linkedInfo);
 		}
-		
-		label.setText(mapItemModel.getLabel());
+		label.setText(newLabel);
 		popupView.setVisibility(TextView.VISIBLE);
 		popupView.bringToFront();
+		
 		popupView.setX( clickedMapItem.getX() - (popupView.getWidth() / 2) + (clickedMapItem.getWidth() /2) );
 		popupView.setY( clickedMapItem.getY() - popupView.getHeight() );
+	}
+
+	private void updatePopupWithLinkedInfo(final InfoModel linkedInfo) {
+		String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_INFOS + "/" + linkedInfo.getName();
+		icon.setImageBitmap(Utils.decodeSampledBitmapFromFile(filePath,
+						context.getResources(), R.drawable.info_empty_icon,30, 30));
+		arrow.setVisibility(ImageView.VISIBLE);
+		
+		popupView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent toInfoActivityIntent = new Intent(context, InfoActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("infoId", String.valueOf(linkedInfo.getId()));
+				toInfoActivityIntent.putExtras(bundle);
+				toInfoActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(toInfoActivityIntent);
+			}
+		});
+		Utils.addAlphaEffectOnClick(popupView);
+	}
+
+	private void updatePopupForNoLinkedInfo() {
+		icon.setImageResource(R.drawable.info_empty_icon);
+		arrow.setVisibility(ImageView.INVISIBLE);
+		popupView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//Do nothing
+			}
+		});
+		popupView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				//Do nothing
+				return false;
+			}
+		});
 	}
 	
 	public void setInvisible(){
 		popupView.setVisibility(View.INVISIBLE);
-	}
-
-	public void setVisible(){
-		popupView.setVisibility(View.VISIBLE);
 	}
 	
 	public View getPopupView() {

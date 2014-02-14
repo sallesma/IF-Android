@@ -206,9 +206,9 @@ public class MapActivity extends Activity {
 		for (final MapItemModel mapItemModel : mapItemModels) {
 			MapItemView point = new MapItemView(this, mapItemModel, maxX, maxY);
 			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
-			point.initPosition();
-			
 			mapItems.add(point);
+			
+			point.initPosition();
 			
 			point.setOnClickListener(new OnClickListener() {
 				@Override
@@ -221,9 +221,9 @@ public class MapActivity extends Activity {
 						final InfoModel info = infoDatasource.getInfoFromId(mapItemModel.getInfoId());
 						infoDatasource.close();
 						
-						popup.changeMapItemModel(mapItemModel, info, clickedMapItem);
+						popup.changeMapItemModel(mapItemModel.getLabel(), info, clickedMapItem);
 					} else {
-						popup.changeMapItemModel(mapItemModel, null, clickedMapItem);
+						popup.changeMapItemModel(mapItemModel.getLabel(), null, clickedMapItem);
 					}
 				}
 			});

@@ -109,6 +109,7 @@
     <string name="map_title_1">INTERACTIVE</string>
     <string name="map_title_2">MAP</string>
     <string name="map">Map</string>
+    <string name="map_popup_arrow">Open info</string>
     <string name="action_type_filter">Filter</string>
     <string name="action_type_filter_food">Food</string>
     <string name="action_type_filter_bar">Bars</string>
