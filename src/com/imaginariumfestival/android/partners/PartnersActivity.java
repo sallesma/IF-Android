@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.Utils;
@@ -74,18 +75,27 @@ public class PartnersActivity extends Activity {
 			}
 		}
 		
-		view.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String url = partner.getWebsite();
-				if (!url.startsWith("https://") && !url.startsWith("http://")){
-					url = "http://" + url;
+		if ( partner.getWebsite().equals("") ) {
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(PartnersActivity.this, getResources().getString(R.string.partner_has_no_website_linked), Toast.LENGTH_SHORT).show();
 				}
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(url));
-				startActivity(intent);
-			}
-		});
+			});
+		} else {
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String url = partner.getWebsite();
+					if (!url.startsWith("https://") && !url.startsWith("http://")){
+						url = "http://" + url;
+					}
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					startActivity(intent);
+				}
+			});
+		}
 		linearLayout.addView(view);
 	}
 }

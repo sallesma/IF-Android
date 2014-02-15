@@ -137,5 +137,6 @@
     <string name="partners_title_2">PARTNERS</string>
     <string name="partner_icon">partner logo</string>
     <string name="partners_header_text">They help us to make this festival happen</string>
+    <string name="partner_has_no_website_linked">This partner has no linked website</string>
 
 </resources>
