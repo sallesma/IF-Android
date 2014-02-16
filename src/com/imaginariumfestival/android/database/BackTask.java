@@ -67,6 +67,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		super.onPreExecute();
 		toast = Toast.makeText(context, context.getResources().getString(R.string.update_beginning), Toast.LENGTH_LONG);
 		toast.show();
+		Log.i("Backstack", "Starting to update database");
 	}
 
 	@Override
@@ -99,6 +100,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				Toast.LENGTH_SHORT).show();
 		toast.setText( context.getResources().getString(R.string.update_ending));
 		toast.show();
+		Log.i("Backstack", "Database update finished");
 	}
 	
 	private void getArtistsFromWebService() {

@@ -1,12 +1,14 @@
 package com.imaginariumfestival.android.database;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
+    private Context context;
     
     public static final String TABLE_ARTIST = "artists";
     public static final String TABLE_INFOS = "infos";
@@ -41,6 +43,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
       }
 	
 	@Override
@@ -97,6 +100,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILTERS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_MAP_ITEMS +";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARTNERS +";");
+			SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+			pref.edit().clear().commit();
 			onCreate(db);
 		}
 	}

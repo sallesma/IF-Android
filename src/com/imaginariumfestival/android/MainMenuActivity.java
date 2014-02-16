@@ -171,7 +171,11 @@ public class MainMenuActivity extends Activity {
 
 	private void addNewsView() {
 		NewsDataSource newsDataSource = new NewsDataSource(this);
-		newsDataSource.open();
+		try {
+			newsDataSource.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		NewsModel news = newsDataSource.getLastNews();
 		newsDataSource.close();
 		
