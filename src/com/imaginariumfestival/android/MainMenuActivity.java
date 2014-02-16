@@ -38,7 +38,7 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		if (Utils.isNetworkConnected(MainMenuActivity.this)) {
-			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+			SharedPreferences pref = getApplicationContext().getSharedPreferences(BackTask.LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	        long lastUpdateMillis = pref.getLong(BackTask.LAST_UPDATE_FROM_DISTANT_DATABASE, 0L);
 	         
 	        Date now = new Date();

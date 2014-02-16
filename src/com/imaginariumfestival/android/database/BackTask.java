@@ -38,8 +38,8 @@ import com.imaginariumfestival.android.MainMenuActivity;
 import com.imaginariumfestival.android.R;
 
 public class BackTask extends AsyncTask<Void, Integer, Void> {
+	public final static String LAST_UPDATE_SHARED_PREFERENCES = "lastupdatesharedpreferences";
 	public final static String LAST_UPDATE_FROM_DISTANT_DATABASE = "lastUpdateFromDistantDatabase";
-	
 	public final static String LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE = "lastArtistUpdateFromDistantDatabase";
 	public final static String LAST_INFO_UPDATE_FROM_DISTANT_DATABASE = "lastInfoUpdateFromDistantDatabase";
 	public final static String LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE = "lastNewsUpdateFromDistantDatabase";
@@ -47,13 +47,13 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE = "lastMapItemUpdateFromDistantDatabase";
 	public final static String LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE = "lastPartnerUpdateFromDistantDatabase";
 	
-	private final String BASE_URL = "http://titouanrossier.com/if/";
-	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=artists";
-	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=infos";
-	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=news";
-	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=filters";
-	private final String MAP_ITEMS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=mapItems";
-	private final String PARTNERS_WEB_SERVICE_URL = BASE_URL + "api/api.php?request=partners";
+	private final String BASE_URL = "http://titouanrossier.com/ifT/";
+	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/artists";
+	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/infos";
+	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/news";
+	private final String FILTERS_WEB_SERVICE_URL = BASE_URL + "api/filters";
+	private final String MAP_ITEMS_WEB_SERVICE_URL = BASE_URL + "api/mapItems";
+	private final String PARTNERS_WEB_SERVICE_URL = BASE_URL + "api/partners";
 	
 	private Context context;
 	private Toast toast;
@@ -102,9 +102,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getArtistsFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_ARTIST_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = ARTISTS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+		String url;
+        if ( lastRetrieve.equals("") ) {
+			url = ARTISTS_WEB_SERVICE_URL;
+		} else {
+			url = ARTISTS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String artistsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -160,9 +165,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getInfosFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_INFO_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_INFO_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = INFOS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+        String url;
+        if ( lastRetrieve.equals("") ) {
+			url = INFOS_WEB_SERVICE_URL;
+		} else {
+			url = INFOS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String infosFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -210,9 +220,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getNewsFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_NEWS_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = NEWS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+        String url;
+        if ( lastRetrieve.equals("") ) {
+			url = NEWS_WEB_SERVICE_URL;
+		} else {
+			url = NEWS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String newsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -257,9 +272,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getFiltersFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_FILTERS_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = FILTERS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+        String url;
+        if ( lastRetrieve.equals("") ) {
+			url = FILTERS_WEB_SERVICE_URL;
+		} else {
+			url = FILTERS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String filtersFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -302,9 +322,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getMapItemsFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = MAP_ITEMS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+        String url;
+        if ( lastRetrieve.equals("") ) {
+			url = MAP_ITEMS_WEB_SERVICE_URL;
+		} else {
+			url = MAP_ITEMS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String mapItemsFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -350,9 +375,14 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	}
 	
 	private void getPartnersFromWebService() {
-		final SharedPreferences pref = context.getSharedPreferences(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, Context.MODE_PRIVATE);
+		final SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         final String lastRetrieve = pref.getString(BackTask.LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE, "");
-		final String url = PARTNERS_WEB_SERVICE_URL + "&lastRetrieve=" + lastRetrieve;
+        String url;
+        if ( lastRetrieve.equals("") ) {
+			url = PARTNERS_WEB_SERVICE_URL;
+		} else {
+			url = PARTNERS_WEB_SERVICE_URL + "/" + lastRetrieve;
+		}
 		String partnersFromDistantDatabase = getDataFromDistantDatabase(url);
 		
 		Boolean result = false;
@@ -430,7 +460,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd%20hh:mm:ss");
 		String formattedDate = dateFormat.format(currentDate);
 		
-		SharedPreferences pref = context.getSharedPreferences(prefToUpdate, Context.MODE_PRIVATE);
+		SharedPreferences pref = context.getSharedPreferences(LAST_UPDATE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
 		Editor editor = pref.edit();
 		editor.putString(prefToUpdate, formattedDate);
 		editor.commit();
