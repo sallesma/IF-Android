@@ -63,6 +63,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="center" />
+
+        <Button
+            android:id="@+id/show_filter_dialog"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/black_button"
+            android:text="@string/action_type_filter" />
     </RelativeLayout>
 
 </LinearLayout>

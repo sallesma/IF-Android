@@ -1,25 +1,25 @@
 package com.imaginariumfestival.android.map;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.imaginariumfestival.android.R;
 import com.imaginariumfestival.android.Utils;
@@ -27,12 +27,16 @@ import com.imaginariumfestival.android.database.InfosDataSource;
 import com.imaginariumfestival.android.database.MapItemsDataSource;
 import com.imaginariumfestival.android.infos.InfoModel;
 
-public class MapActivity extends Activity {
+public class MapActivity extends Activity implements FilteringDialog.FilteringDialogListener{
 	protected static final int NO_INFO_LINKED = -1;
+	protected static final int NO_PARENT = 0;
+	protected static final String NO_LINKED_INFO_CATEGORY = "Divers";
+	protected static final String LINKED_INFO_HAS_NO_PARENT = "Divers";
 	
 	private ImageView map;
-	private List<MapItemView> mapItems;
+	private TreeMap<MapItemView, String> mapItems;
 	private PopupView popup;
+	private FilteringDialog dialog;
 	
 	int maxX, maxY;
 	
@@ -60,17 +64,25 @@ public class MapActivity extends Activity {
 		datasource.open();
 		List<MapItemModel> mapItemModels = datasource.getAllMapItems();
 		datasource.close();
-
+		
 		addMapItemsOverMap(mapItemModels);
 		
 		String infoId = (String) getIntent().getSerializableExtra("infoId");
 	    if (infoId != null && !infoId.equals("")) { //We come from InfoActivity
 	    	int infoIdInt = Integer.parseInt(infoId);
-	    	for (int i = 0 ; i < mapItems.size(); i++) {
-	    		if ( mapItemModels.get(i).getInfoId() == infoIdInt )
-	    			mapItems.get(i).performClick();
-	    	}
+	    	for (MapItemView mapItem : mapItems.keySet()) {
+	    		if ( mapItem.getMapItemModel().getInfoId() == infoIdInt )
+	    			mapItem.performClick();
+			}
 	    }
+	    
+	    dialog = new FilteringDialog(this, mapItems);
+	    ((Button)findViewById(R.id.show_filter_dialog)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.show(getFragmentManager(), "FilteringDialog");
+			}
+		});
 	}
 
 	private void initializeMap() {
@@ -186,7 +198,7 @@ public class MapActivity extends Activity {
 						}
 					}
 					map.scrollBy(scrollByX, scrollByY);
-					for (MapItemView mapItem : mapItems) {
+					for (MapItemView mapItem : mapItems.keySet()) {
 						mapItem.updatePositionOnMapScrolled(scrollByX, scrollByY);
 					}
 					popup.updatePositionOnMapScrolled(scrollByX, scrollByY);
@@ -201,15 +213,16 @@ public class MapActivity extends Activity {
 	}
 	
 	private void addMapItemsOverMap(List<MapItemModel> mapItemModels) {
-		mapItems = new ArrayList<MapItemView>();
+		mapItems = new TreeMap<MapItemView, String>();
 		
 		for (final MapItemModel mapItemModel : mapItemModels) {
 			MapItemView point = new MapItemView(this, mapItemModel, maxX, maxY);
 			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
-			mapItems.add(point);
+			
+			String categoryName = getLinkedInfoCategoryName(mapItemModel);
+			mapItems.put(point, categoryName);
 			
 			point.initPosition();
-			
 			point.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View clickedMapItem) {
@@ -230,46 +243,32 @@ public class MapActivity extends Activity {
 		}
 	}
 	
-/*	public void showPopup() {
-		ImageView mainLayout = (ImageView)findViewById(R.id.map_anchor);
-	    PopupMenu popupMenu = new PopupMenu(this, mainLayout);
-	    
-	    popupMenu.getMenuInflater().inflate(R.menu.menu_map_advanced, popupMenu.getMenu());
-	    popupMenu.show();
-	}*/
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_map, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		switch (menuItem.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.action_type_filter:
-//			showPopup();
-			return true;
-		case R.id.action_type_filter_bar:
-			Toast.makeText(MapActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action_type_filter_food:
-			Toast.makeText(MapActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action_type_filter_stage:
-			Toast.makeText(MapActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action_type_filter_asso:
-			Toast.makeText(MapActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action_type_filter_security:
-			Toast.makeText(MapActivity.this, getResources().getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(menuItem);
+	private String getLinkedInfoCategoryName(MapItemModel mapItemModel) {
+		if (mapItemModel.getInfoId() == NO_INFO_LINKED) {
+			return NO_LINKED_INFO_CATEGORY;
+		} else {
+			InfosDataSource datasource = new InfosDataSource(MapActivity.this);
+			datasource.open();
+			InfoModel info = datasource.getInfoFromId( mapItemModel.getInfoId() );
+			if (info.getParentId() == NO_PARENT) {
+				datasource.close();
+				return LINKED_INFO_HAS_NO_PARENT;
+			} else {
+				InfoModel infoParent = datasource.getInfoFromId(info.getParentId());
+				datasource.close();
+				return infoParent.getName();
+			}
 		}
 	}
+
+	@Override
+    public void onDialogPositiveClick(DialogFragment dialog, List<String> selectedCategories) {
+		for (Entry<MapItemView, String> mapItem : mapItems.entrySet()) {
+			if (selectedCategories.contains(mapItem.getValue())) {
+				mapItem.getKey().setVisibility(View.VISIBLE);
+			} else {
+				mapItem.getKey().setVisibility(View.INVISIBLE);
+			}
+		}
+    }
 }

@@ -110,12 +110,9 @@
     <string name="map_title_2">INTERACTIF</string>
     <string name="map">Plan</string>
     <string name="map_popup_arrow">Ouvrir info</string>
-    <string name="action_type_filter">Filtrer</string>
-    <string name="action_type_filter_food">Restauration</string>
-    <string name="action_type_filter_bar">Bars</string>
-    <string name="action_type_filter_stage">Scènes</string>
-    <string name="action_type_filter_asso">Assos</string>
-    <string name="action_type_filter_security">Secours et sécurité</string>
+    <string name="action_type_filter">Filtrer les points</string>
+    <string name="filter">Filtrer</string>
+    <string name="cancel">Annuler</string>
 
     <!--  -->
     <!-- Photo Activity -->

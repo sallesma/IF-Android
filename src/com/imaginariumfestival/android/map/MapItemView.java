@@ -1,12 +1,12 @@
 package com.imaginariumfestival.android.map;
 
-import com.imaginariumfestival.android.R;
-
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class MapItemView extends ImageView {
+import com.imaginariumfestival.android.R;
+
+public class MapItemView extends ImageView implements Comparable<MapItemView> {
 	MapItemModel mapItemModel;
 	int maxX, maxY;
 
@@ -33,6 +33,11 @@ public class MapItemView extends ImageView {
 		pointLayoutParams.leftMargin -= scrollByX;
 		pointLayoutParams.topMargin -= scrollByY;
 		setLayoutParams(pointLayoutParams);
+	}
+	
+	@Override
+	public int compareTo(MapItemView another) {
+		return mapItemModel.getLabel().compareTo(another.getMapItemModel().getLabel());
 	}
 
 	public MapItemModel getMapItemModel() {

@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/action_type_filter"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_type_filter">
-    </item>
-
-</menu>

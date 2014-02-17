@@ -110,12 +110,9 @@
     <string name="map_title_2">MAP</string>
     <string name="map">Map</string>
     <string name="map_popup_arrow">Open info</string>
-    <string name="action_type_filter">Filter</string>
-    <string name="action_type_filter_food">Food</string>
-    <string name="action_type_filter_bar">Bars</string>
-    <string name="action_type_filter_stage">Stages</string>
-    <string name="action_type_filter_asso">Assos</string>
-    <string name="action_type_filter_security">Security</string>
+    <string name="action_type_filter">Filter the points</string>
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
 
     <!--  -->
     <!-- Photo Activity -->
