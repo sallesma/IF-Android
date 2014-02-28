@@ -6,5 +6,6 @@
     
     <dimen name="MainMenuTitleSize">20dp</dimen>
     
+    <dimen name="map_item_size">16dp</dimen>
 
 </resources>

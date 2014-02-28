@@ -29,8 +29,8 @@ public class MapItemView extends ImageView implements Comparable<MapItemView> {
 		RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) getLayoutParams();
 		pointLayoutParams.width = LayoutParams.WRAP_CONTENT;
 		pointLayoutParams.height = LayoutParams.WRAP_CONTENT;
-		pointLayoutParams.leftMargin = (int) (absoluteXPos - maxX - (pointLayoutParams.width / 2));
-		pointLayoutParams.topMargin = (int)  (absoluteYPos - maxY - (pointLayoutParams.height / 2));
+		pointLayoutParams.leftMargin = (int) (absoluteXPos - maxX - (getResources().getDimension(R.dimen.map_item_size) / 2));
+		pointLayoutParams.topMargin = (int)  (absoluteYPos - maxY - (getResources().getDimension(R.dimen.map_item_size) / 2));
 		setLayoutParams(pointLayoutParams);
 	}
 	
