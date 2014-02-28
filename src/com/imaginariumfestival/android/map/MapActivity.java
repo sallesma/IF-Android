@@ -35,10 +35,12 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 	
 	private ImageView map;
 	private TreeMap<MapItemView, String> mapItems;
+	private View selectedItem;
 	private PopupView popup;
 	private FilteringDialog dialog;
 	
 	int maxX, maxY;
+	int bitmapWidth, bitmapHeight;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 		
 		popup = new PopupView(getApplicationContext());
 		((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(popup.getPopupView());
+		selectedItem = map; //initializing selectedItem with dummy view so that the first onClick call works
 
 		MapItemsDataSource datasource = new MapItemsDataSource(getApplicationContext());
 		datasource.open();
@@ -92,8 +95,8 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 		
 		//get the size of the image and  the screen
 		BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-		int bitmapWidth = bitmapDrawable.getIntrinsicWidth();
-		int bitmapHeight = bitmapDrawable.getIntrinsicHeight();
+		bitmapWidth = bitmapDrawable.getIntrinsicWidth();
+		bitmapHeight = bitmapDrawable.getIntrinsicHeight();
 		
 		Point size = new Point();
 		getWindowManager().getDefaultDisplay().getSize(size);
@@ -115,6 +118,7 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 			@Override
 			public void onClick(View v) {
 				popup.setInvisible();
+				selectedItem.setSelected(false);
 			}
 		});
 		
@@ -216,7 +220,7 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 		mapItems = new TreeMap<MapItemView, String>();
 		
 		for (final MapItemModel mapItemModel : mapItemModels) {
-			MapItemView point = new MapItemView(this, mapItemModel, maxX, maxY);
+			MapItemView point = new MapItemView(this, mapItemModel, maxX, maxY, bitmapWidth, bitmapHeight);
 			((RelativeLayout)findViewById(R.id.map_relative_layout)).addView(point);
 			
 			String categoryName = getLinkedInfoCategoryName(mapItemModel);
@@ -226,6 +230,9 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 			point.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View clickedMapItem) {
+					selectedItem.setSelected(false);
+					selectedItem = clickedMapItem;
+					selectedItem.setSelected(true);
 					MapItemModel mapItemModel = ((MapItemView) clickedMapItem).getMapItemModel();
 					
 					if (mapItemModel.getInfoId() != MapActivity.NO_INFO_LINKED ) {
