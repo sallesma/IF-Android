@@ -75,7 +75,8 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 	    	int infoIdInt = Integer.parseInt(infoId);
 	    	for (MapItemView mapItem : mapItems.keySet()) {
 	    		if ( mapItem.getMapItemModel().getInfoId() == infoIdInt )
-	    			mapItem.performClick();
+		    		selectedItem = mapItem;
+					selectedItem.setSelected(true);
 			}
 	    }
 	    
