@@ -3,6 +3,7 @@ package com.imaginariumfestival.android.artists;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -83,12 +84,9 @@ public class ArtistActivity extends Activity {
 						if (!url.startsWith("https://") && !url.startsWith("http://")){
 							finalUrl = "http://" + url;
 						}
-						Intent toWebViewIntent = new Intent(ArtistActivity.this, ArtistWebView.class);
-						Bundle bundle = new Bundle();
-						bundle.putString("weblink", finalUrl);
-						bundle.putString("artistName", artist.getName());
-						toWebViewIntent.putExtras(bundle);
-						startActivity(toWebViewIntent);
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse( finalUrl ));
+						startActivity(intent);
 					} else {
 						Toast.makeText(ArtistActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
 					}

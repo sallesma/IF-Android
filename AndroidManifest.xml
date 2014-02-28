@@ -46,12 +46,6 @@
             android:parentActivityName="com.imaginariumfestival.android.artists.ArtistsActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name="com.imaginariumfestival.android.artists.ArtistWebView"
-            android:label="@string/artist_web_view_activity"
-            android:parentActivityName="com.imaginariumfestival.android.artists.ArtistActivity"
-            android:screenOrientation="portrait" >
-        </activity>
         
         <activity
             android:name="com.imaginariumfestival.android.infos.InfosActivity"
