@@ -7,7 +7,6 @@
     <string name="app_name">Imaginarium</string>
     <string name="artists_activity">Artistes</string>
     <string name="artist_activity">Artiste</string>
-    <string name="artist_web_view_activity">Artiste</string>
     <string name="infos_activity">Infos</string>
     <string name="info_activity">Info</string>
     <string name="programmation_activity">Programmation</string>

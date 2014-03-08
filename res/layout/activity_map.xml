@@ -62,7 +62,8 @@
             android:id="@+id/map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center" />
+            android:scaleType="center"
+            android:contentDescription="@string/map"/>
 
         <Button
             android:id="@+id/show_filter_dialog"
