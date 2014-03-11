@@ -60,7 +60,7 @@ public class PopupView {
 		popupView.setVisibility(TextView.VISIBLE);
 		popupView.bringToFront();
 		
-		popupView.setX( clickedMapItem.getX() - (popupView.getWidth() / 2) + (clickedMapItem.getWidth() /2) );
+		popupView.setX( clickedMapItem.getX() - (float)(popupView.getWidth() * 0.70) + (clickedMapItem.getWidth() /2) );
 		popupView.setY( clickedMapItem.getY() - popupView.getHeight() );
 	}
 
