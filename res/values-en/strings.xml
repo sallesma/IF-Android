@@ -110,7 +110,9 @@
     <string name="map_title_2">MAP</string>
     <string name="map">Map</string>
     <string name="map_popup_arrow">Open info</string>
-    <string name="action_type_filter">Filter the points</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_global_view">Global view</string>
+    <string name="action_detailed_view">Detailed view</string>
     <string name="filter">Filter</string>
     <string name="cancel">Cancel</string>
 

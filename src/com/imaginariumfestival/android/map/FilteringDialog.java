@@ -48,7 +48,7 @@ public class FilteringDialog extends DialogFragment {
 		String[] categoriesArray = categoriesSet.toArray(new String[categoriesSet.size()]);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(R.string.action_type_filter)
+		builder.setTitle(R.string.action_filter)
 				.setMultiChoiceItems(categoriesArray, null,
 						new DialogInterface.OnMultiChoiceClickListener() {
 							@Override

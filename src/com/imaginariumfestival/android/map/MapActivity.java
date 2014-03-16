@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 
 import com.imaginariumfestival.android.R;
@@ -38,6 +39,7 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 	private View selectedItem;
 	private PopupView popup;
 	private FilteringDialog dialog;
+	private boolean isGlobalMapView = false;
 	
 	int maxX, maxY;
 	int bitmapWidth, bitmapHeight;
@@ -85,6 +87,32 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 			@Override
 			public void onClick(View v) {
 				dialog.show(getFragmentManager(), "FilteringDialog");
+			}
+		});
+	    
+	    ((Button)findViewById(R.id.toggle_view)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (isGlobalMapView) {
+					isGlobalMapView = false;
+					((Button)findViewById(R.id.toggle_view)).setText(R.string.action_global_view);
+					map.setScaleType(ScaleType.CENTER);
+					((Button)findViewById(R.id.show_filter_dialog)).setVisibility(View.VISIBLE);
+					for (MapItemView mapItemView : mapItems.keySet()) {
+						mapItemView.setVisibility(View.VISIBLE);
+					}
+				} else {
+					isGlobalMapView = true;
+					((Button)findViewById(R.id.toggle_view)).setText(R.string.action_detailed_view);
+					map.setScaleType(ScaleType.CENTER_INSIDE);
+					map.setScrollX(0);
+					map.setScrollY(0);
+					((Button)findViewById(R.id.show_filter_dialog)).setVisibility(View.INVISIBLE);
+					for (MapItemView mapItemView : mapItems.keySet()) {
+						mapItemView.setVisibility(View.INVISIBLE);
+						mapItemView.initPosition();
+					}
+				}
 			}
 		});
 	}
