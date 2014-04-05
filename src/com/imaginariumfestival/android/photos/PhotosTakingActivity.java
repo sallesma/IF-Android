@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
@@ -60,8 +61,7 @@ public class PhotosTakingActivity extends Activity {
 		Utils.addAlphaEffectOnClick(backButton);
 
 		if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-			FiltersDataSource datasource = new FiltersDataSource(
-					PhotosTakingActivity.this);
+			FiltersDataSource datasource = new FiltersDataSource(PhotosTakingActivity.this);
 			datasource.open();
 			filters = datasource.getAllFilters();
 			datasource.close();
@@ -84,7 +84,8 @@ public class PhotosTakingActivity extends Activity {
 					ProgressDialog progress = new ProgressDialog(PhotosTakingActivity.this);
 					progress.setMessage(PhotosTakingActivity.this.getResources().getString(R.string.photo_taking_wait_message));
 					progress.show();
-					mCamera.takePicture(null, null, mPicture);
+					mCamera.takePicture(shutterCallback, null, mPicture);
+					progress.hide();
 				}
 			});
 			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
@@ -150,22 +151,28 @@ public class PhotosTakingActivity extends Activity {
 					PhotoManager.REQUIRED_PICTURE_HEIGHT);
 			params.setPreviewSize(PhotoManager.REQUIRED_PICTURE_WIDTH,
 					PhotoManager.REQUIRED_PICTURE_HEIGHT);
-			params.set("rotation", 90);
+			
 			camera.setParameters(params);
 		} catch (Exception e) {
 
 		}
 		return camera;
 	}
+	
+	private ShutterCallback shutterCallback = new ShutterCallback() {
+		public void onShutter() {
+			Camera.Parameters p = mCamera.getParameters();
+	                p.set("rotation", "90");	
+	                mCamera.setParameters(p);
+		}
+	};
+
 
 	private PictureCallback mPicture = new PictureCallback() {
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-
-			PhotoManager photoManager = new PhotoManager(
-					PhotosTakingActivity.this);
-			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,
-					chosenFilter);
+			PhotoManager photoManager = new PhotoManager(PhotosTakingActivity.this);
+			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,chosenFilter);
 
 			File pictureFile = getOutputMediaFile();
 			if (pictureFile == null) {
@@ -197,7 +204,7 @@ public class PhotosTakingActivity extends Activity {
 		if (mCamera != null) {
 			mCamera.setPreviewCallback(null);
 			mPreview.getHolder().removeCallback(mPreview);
-			mCamera.release(); // release the camera for other applications
+			mCamera.release();
 			mCamera = null;
 		}
 	}
