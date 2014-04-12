@@ -108,6 +108,8 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 					map.setScrollX(0);
 					map.setScrollY(0);
 					((Button)findViewById(R.id.show_filter_dialog)).setVisibility(View.INVISIBLE);
+					popup.setInvisible();
+					selectedItem.setSelected(false);
 					for (MapItemView mapItemView : mapItems.keySet()) {
 						mapItemView.setVisibility(View.INVISIBLE);
 						mapItemView.initPosition();
