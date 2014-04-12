@@ -47,7 +47,7 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 	public final static String LAST_MAP_ITEMS_UPDATE_FROM_DISTANT_DATABASE = "lastMapItemUpdateFromDistantDatabase";
 	public final static String LAST_PARTNERS_UPDATE_FROM_DISTANT_DATABASE = "lastPartnerUpdateFromDistantDatabase";
 	
-	private final String BASE_URL = "http://titouanrossier.com/ifT/";
+	private final String BASE_URL = "http://admin.app.imaginariumfestival.com/";
 	private final String ARTISTS_WEB_SERVICE_URL = BASE_URL + "api/artists";
 	private final String INFOS_WEB_SERVICE_URL = BASE_URL + "api/infos";
 	private final String NEWS_WEB_SERVICE_URL = BASE_URL + "api/news";
