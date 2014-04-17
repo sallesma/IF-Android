@@ -136,5 +136,13 @@
     <string name="partner_icon">logo partenaire</string>
     <string name="partners_header_text">Ils nous aident à faire vivre le festival</string>
     <string name="partner_has_no_website_linked">Ce partenaire n\'a pas de site web lié</string>
+    
+    
+    <!--  -->
+    <!-- Competition Fragment -->
+    <!--  -->
+    <string name="competition_title">Gagne ta place !</string>
+    <string name="competition_button">Gagne ta place !</string>
+    <string name="competition_text">Pour participer, envoie ton adresse mail. Un tirage au sort désignera le gagnant.</string>
 
 </resources>

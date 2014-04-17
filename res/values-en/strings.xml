@@ -137,5 +137,12 @@
     <string name="partner_icon">partner logo</string>
     <string name="partners_header_text">They help us to make this festival happen</string>
     <string name="partner_has_no_website_linked">This partner has no linked website</string>
-
+    
+    <!--  -->
+    <!-- Competition Fragment -->
+    <!--  -->
+    <string name="competition_title">Get your free ticket!</string>
+    <string name="competition_button">Get your free ticket!</string>
+    <string name="competition_text">Send your email adress and try to win a free ticket for the festival through a random draw.</string>
+    
 </resources>

@@ -3,6 +3,7 @@ package com.imaginariumfestival.android;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,16 +11,20 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imaginariumfestival.android.artists.ArtistsActivity;
+import com.imaginariumfestival.android.competition.CompetitionDialog;
+import com.imaginariumfestival.android.competition.CompetitionDialog.CompetitionDialogListener;
 import com.imaginariumfestival.android.database.BackTask;
 import com.imaginariumfestival.android.database.NewsDataSource;
 import com.imaginariumfestival.android.infos.InfosActivity;
@@ -29,7 +34,7 @@ import com.imaginariumfestival.android.partners.PartnersActivity;
 import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 import com.imaginariumfestival.android.programmation.ProgrammationActivity;
 
-public class MainMenuActivity extends Activity {
+public class MainMenuActivity extends Activity implements CompetitionDialogListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +65,42 @@ public class MainMenuActivity extends Activity {
 		initializeSocialNetworkButtonsLinks();
 		addNewsView();
 //		addTwitterView();
-		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
-		((TextView) findViewById(R.id.about)).setTypeface(euroFont);
+		competitionOrDefault();
+	}
+
+	private void competitionOrDefault() {
+		TextView aboutView = (TextView) findViewById(R.id.about);
+		Button competitionButton = (Button) findViewById(R.id.button_competition);
+		competitionButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FragmentManager fm = getFragmentManager();
+				CompetitionDialog competitionDialog = new CompetitionDialog();
+				competitionDialog.show(fm, "fragment_competition");
+			}
+		});
+		if (isCompetitionValid()) {
+			aboutView.setVisibility(View.GONE);
+			competitionButton.setVisibility(View.VISIBLE);
+		} else {
+			aboutView.setVisibility(View.VISIBLE);
+			competitionButton.setVisibility(View.GONE);
+			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
+			aboutView.setTypeface(euroFont);
+		}
+	}
+	
+	 @Override
+    public void onFinishCompetitionDialog(String inputEmail) {
+		 if (Utils.isNetworkConnected(MainMenuActivity.this)) {
+			 Toast.makeText(MainMenuActivity.this, "ok"+inputEmail, Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+			}
+    }
+	
+	private boolean isCompetitionValid() {
+		return true;
 	}
 	
 	private void initializeMenuButtonsLinks() {
@@ -187,6 +226,7 @@ public class MainMenuActivity extends Activity {
 		
 		Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
 		((TextView) findViewById(R.id.news_content)).setTypeface(euroFont);
+		((TextView) findViewById(R.id.news_content)).setMovementMethod(new ScrollingMovementMethod());
 		
 		RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) ((ImageButton)findViewById(R.id.show_news)).getLayoutParams();
 		RelativeLayout.LayoutParams contentLayoutParams = (RelativeLayout.LayoutParams) ((TextView)findViewById(R.id.news_content)).getLayoutParams();
