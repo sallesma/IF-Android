@@ -144,5 +144,8 @@
     <string name="competition_title">Get your free ticket!</string>
     <string name="competition_button">Get your free ticket!</string>
     <string name="competition_text">Send your email adress and try to win a free ticket for the festival through a random draw.</string>
+    <string name="competition_begin">Subscription...</string>
+    <string name="competition_end">Subscription done.</string>
+    <string name="competition_already_done">Subscription already done.</string>
     
 </resources>

@@ -144,5 +144,8 @@
     <string name="competition_title">Gagne ta place !</string>
     <string name="competition_button">Gagne ta place !</string>
     <string name="competition_text">Pour participer, envoie ton adresse mail. Un tirage au sort désignera le gagnant.</string>
+    <string name="competition_begin">Inscription...</string>
+    <string name="competition_end">Inscription effectuée.</string>
+    <string name="competition_already_done">Inscription déjà effectuée.</string>
 
 </resources>

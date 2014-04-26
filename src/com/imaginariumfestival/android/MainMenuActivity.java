@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.imaginariumfestival.android.artists.ArtistsActivity;
 import com.imaginariumfestival.android.competition.CompetitionDialog;
 import com.imaginariumfestival.android.competition.CompetitionDialog.CompetitionDialogListener;
+import com.imaginariumfestival.android.competition.CompetitionSending;
 import com.imaginariumfestival.android.database.BackTask;
 import com.imaginariumfestival.android.database.NewsDataSource;
 import com.imaginariumfestival.android.infos.InfosActivity;
@@ -74,9 +76,22 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 		competitionButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FragmentManager fm = getFragmentManager();
-				CompetitionDialog competitionDialog = new CompetitionDialog();
-				competitionDialog.show(fm, "fragment_competition");
+				SharedPreferences pref = getApplicationContext().getSharedPreferences(CompetitionSending.COMPETITION_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+		        boolean sent = pref.getBoolean(CompetitionSending.COMPETITION_SENT, false);
+				if (!sent) {
+					FragmentManager fm = getFragmentManager();
+					CompetitionDialog competitionDialog = new CompetitionDialog();
+					competitionDialog.show(fm, "fragment_competition");
+					
+					Editor globalEditor = pref.edit();
+		    		globalEditor.putBoolean(CompetitionSending.COMPETITION_SENT, true);
+		    		globalEditor.commit();
+				} else {
+					Toast.makeText(MainMenuActivity.this,
+							getResources().getString(R.string.competition_already_done),
+							Toast.LENGTH_SHORT).show();
+					Log.i("Competition", "Competition already done");
+				}
 			}
 		});
 		if (isCompetitionValid()) {
@@ -92,11 +107,12 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 	
 	 @Override
     public void onFinishCompetitionDialog(String inputEmail) {
-		 if (Utils.isNetworkConnected(MainMenuActivity.this)) {
-			 Toast.makeText(MainMenuActivity.this, "ok"+inputEmail, Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
-			}
+		if (Utils.isNetworkConnected(MainMenuActivity.this)) {
+			CompetitionSending competitionSending = new CompetitionSending(this);
+			competitionSending.execute(inputEmail);
+		} else {
+			Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+		}
     }
 	
 	private boolean isCompetitionValid() {
