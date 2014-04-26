@@ -11,6 +11,7 @@
     <string name="info_activity">Info</string>
     <string name="programmation_activity">Programmation</string>
     <string name="map_activity">Plan intéractif</string>
+    <string name="map_activity_deactivated">Le plan sera bientôt disponible</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
     <string name="partner_activity">Partenaires</string>

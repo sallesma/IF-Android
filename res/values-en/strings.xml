@@ -12,6 +12,7 @@
     <string name="info_activity">Info</string>
     <string name="programmation_activity">Line-up</string>
     <string name="map_activity">Interactive map</string>
+    <string name="map_activity_deactivated">The map will be available soon</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
     <string name="partner_activity">Partners</string>

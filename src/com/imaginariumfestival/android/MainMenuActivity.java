@@ -30,7 +30,6 @@ import com.imaginariumfestival.android.competition.CompetitionSending;
 import com.imaginariumfestival.android.database.BackTask;
 import com.imaginariumfestival.android.database.NewsDataSource;
 import com.imaginariumfestival.android.infos.InfosActivity;
-import com.imaginariumfestival.android.map.MapActivity;
 import com.imaginariumfestival.android.news.NewsModel;
 import com.imaginariumfestival.android.partners.PartnersActivity;
 import com.imaginariumfestival.android.photos.PhotosTakingActivity;
@@ -148,8 +147,10 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 		mapButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent toMapActivity = new Intent(MainMenuActivity.this, MapActivity.class);
-				startActivity(toMapActivity);
+//				Map has been deactivated
+//				Intent toMapActivity = new Intent(MainMenuActivity.this, MapActivity.class);
+//				startActivity(toMapActivity);
+				Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.map_activity_deactivated), Toast.LENGTH_SHORT).show();
 			}
 		});
 		ImageButton photosButton = (ImageButton) findViewById(R.id.photosButton);
