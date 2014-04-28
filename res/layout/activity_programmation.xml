@@ -113,7 +113,7 @@
 
         <RelativeLayout
             android:id="@+id/main_stage_layout"
-            android:layout_width="1560px"
+            android:layout_width="1680px"
             android:layout_height="150dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
@@ -138,7 +138,7 @@
 
         <RelativeLayout
             android:id="@+id/second_stage_layout"
-            android:layout_width="1560px"
+            android:layout_width="1680px"
             android:layout_height="150dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
