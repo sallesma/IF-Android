@@ -14,7 +14,7 @@ If you feel like improving the application, don't hesitate to try to add some of
  * Notification 15 minutes before a concert
  * Improve camera (hability to switch camera...)
  * Round edges for photos, programmation items...
- * There might something wrong with Info and MapItems
  * Get competition config from API
+ * Click on news button opens/closes it
 
 And feel free to contact us if you have any new ideas :)
