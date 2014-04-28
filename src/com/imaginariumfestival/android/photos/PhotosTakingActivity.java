@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -166,14 +167,21 @@ public class PhotosTakingActivity extends Activity {
 	                mCamera.setParameters(p);
 		}
 	};
-
-
+	
 	private PictureCallback mPicture = new PictureCallback() {
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
 			PhotoManager photoManager = new PhotoManager(PhotosTakingActivity.this);
 			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,chosenFilter);
-
+			
+			//QuickFix : Wrong Orientation
+			if (filteredPicture.getWidth() > filteredPicture.getHeight()) {
+		        Matrix matrix = new Matrix();
+		        matrix.postRotate(90);
+		        filteredPicture = Bitmap.createBitmap(filteredPicture , 0, 0, filteredPicture.getWidth(), filteredPicture.getHeight(), matrix, true);
+		    }
+			//QuickFix
+			
 			File pictureFile = getOutputMediaFile();
 			if (pictureFile == null) {
 				Log.d("DEBUG",
