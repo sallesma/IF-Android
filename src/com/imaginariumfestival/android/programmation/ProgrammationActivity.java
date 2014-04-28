@@ -38,7 +38,7 @@ public class ProgrammationActivity extends Activity {
 	private static final String SEPARATION_BETWEEN_DAYS = "31/05/2014 05:00";
 
 	public static final int HOURS_IN_DAY = 24;
-	private static final int STARTING_HOUR = 15;
+	private static final int STARTING_HOUR = 14;
 	private static final int ENDING_HOUR = 28; //04 AM late in the night
 	private static final int MINUTES_IN_HOUR = 60;
 	private static final int SIZE_COEFFICIENT = 2;
