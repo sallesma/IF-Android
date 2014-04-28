@@ -7,10 +7,11 @@
 
     <ImageView
         android:id="@+id/programmation_icon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:contentDescription="@string/programmation_icon"
+		android:layout_marginTop="5dp"
         android:padding="5dp" />
 
     <TextView
@@ -22,6 +23,6 @@
         android:gravity="center"
         android:singleLine="true"
         android:textAlignment="center"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
