@@ -81,10 +81,6 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 					FragmentManager fm = getFragmentManager();
 					CompetitionDialog competitionDialog = new CompetitionDialog();
 					competitionDialog.show(fm, "fragment_competition");
-					
-					Editor globalEditor = pref.edit();
-		    		globalEditor.putBoolean(CompetitionSending.COMPETITION_SENT, true);
-		    		globalEditor.commit();
 				} else {
 					Toast.makeText(MainMenuActivity.this,
 							getResources().getString(R.string.competition_already_done),

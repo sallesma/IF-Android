@@ -15,6 +15,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -50,14 +52,16 @@ public class CompetitionSending extends AsyncTask<String, Integer, Void> {
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("device", "Android"));
 		urlParameters.add(new BasicNameValuePair("email", params[0]));
-		Log.i(MainMenuActivity.class.toString(), urlParameters.toString());
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
 			HttpResponse response = client.execute(httpPost);
-			Log.i(MainMenuActivity.class.toString(), response.getStatusLine().toString());
 
 			if (response.getStatusLine().getStatusCode() == 200) {
 				Log.i(MainMenuActivity.class.toString(), "Competition subscription done to " + url);
+				SharedPreferences pref = context.getApplicationContext().getSharedPreferences(CompetitionSending.COMPETITION_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+				Editor globalEditor = pref.edit();
+	    		globalEditor.putBoolean(CompetitionSending.COMPETITION_SENT, true);
+	    		globalEditor.commit();
 			} else {
 				Log.e(MainMenuActivity.class.toString(), "Failed to send data to " + url);
 			}
