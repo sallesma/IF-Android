@@ -19,7 +19,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -92,12 +91,13 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 		});
 	    
 	    ((Button)findViewById(R.id.toggle_view)).setOnClickListener(new OnClickListener() {
-			@Override
+	    	@Override
 			public void onClick(View v) {
 				if (isGlobalMapView) {
 					isGlobalMapView = false;
 					((Button)findViewById(R.id.toggle_view)).setText(R.string.action_global_view);
-					map.setScaleType(ScaleType.CENTER);
+					map.setVisibility(View.VISIBLE);
+					((ImageView)findViewById(R.id.map_global)).setVisibility(View.GONE);
 					((Button)findViewById(R.id.show_filter_dialog)).setVisibility(View.VISIBLE);
 					for (MapItemView mapItemView : mapItems.keySet()) {
 						mapItemView.setVisibility(View.VISIBLE);
@@ -105,15 +105,13 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 				} else {
 					isGlobalMapView = true;
 					((Button)findViewById(R.id.toggle_view)).setText(R.string.action_detailed_view);
-					map.setScaleType(ScaleType.CENTER_INSIDE);
-					map.setScrollX(0);
-					map.setScrollY(0);
 					((Button)findViewById(R.id.show_filter_dialog)).setVisibility(View.INVISIBLE);
+					map.setVisibility(View.GONE);
+					((ImageView)findViewById(R.id.map_global)).setVisibility(View.VISIBLE);
 					popup.setInvisible();
 					selectedItem.setSelected(false);
 					for (MapItemView mapItemView : mapItems.keySet()) {
 						mapItemView.setVisibility(View.INVISIBLE);
-						mapItemView.initPosition();
 					}
 				}
 			}
@@ -122,7 +120,7 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 
 	private void initializeMap() {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map);		
-		map = (ImageView)findViewById(R.id.map);
+		map = (ImageView)findViewById(R.id.map_detailed);
 		map.setImageBitmap(bitmap);
 		
 		//get the size of the image and  the screen
