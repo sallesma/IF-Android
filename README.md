@@ -16,5 +16,6 @@ If you feel like improving the application, don't hesitate to try to add some of
  * Round edges for photos, programmation items...
  * Get competition config from API
  * Click on news button opens/closes it
+ * Allow to sort the partners from the backoffice
 
 And feel free to contact us if you have any new ideas :)

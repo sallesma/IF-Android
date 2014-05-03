@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.imaginariumfestival.android.R;
@@ -134,10 +135,11 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 		int screenWidth = size.x;
 		int screenHeight = (int) (size.y);
 		int headerHeight = ((ImageView)findViewById(R.id.header_icon)).getDrawable().getIntrinsicHeight();
+		int footerHeight = ((LinearLayout.LayoutParams) ((LinearLayout)findViewById(R.id.map_footer_layout)).getLayoutParams()).height;
 		
 		// set maximum scroll amount (based on center of image)
 		maxX = (int)((bitmapWidth / 2) - (screenWidth / 2));
-		maxY = (int)((bitmapHeight / 2) - ((screenHeight - headerHeight) / 2));
+		maxY = (int)((bitmapHeight / 2) - ((screenHeight - headerHeight - footerHeight) / 2));
 		
 		// set scroll limits
 		final int maxLeft = (maxX * -1);

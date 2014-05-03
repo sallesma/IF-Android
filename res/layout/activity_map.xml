@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/DefaultDarkBackground"
+    style="@style/LightBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -56,7 +56,8 @@
     <RelativeLayout
         android:id="@+id/map_relative_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <ImageView
             android:id="@+id/map"
@@ -64,32 +65,34 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/map"
             android:scaleType="center" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp" >
-
-            <Button
-                android:id="@+id/toggle_view"
-                style="@style/WhiteText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/black_button"
-                android:text="@string/action_global_view" />
-
-            <Button
-                android:id="@+id/show_filter_dialog"
-                style="@style/WhiteText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/black_button"
-                android:text="@string/action_filter" />
-        </LinearLayout>
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/map_footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/toggle_view"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_button"
+            android:text="@string/action_global_view" />
+
+        <Button
+            android:id="@+id/show_filter_dialog"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_button"
+            android:text="@string/action_filter" />
+    </LinearLayout>
 
 </LinearLayout>
