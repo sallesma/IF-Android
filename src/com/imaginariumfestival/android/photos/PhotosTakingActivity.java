@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +43,7 @@ public class PhotosTakingActivity extends Activity {
 	private List<FilterModel> filters;
 	private FilterModel chosenFilter = null;
 	private ImageView activePreviewFilter = null;
+	private Uri imageUri;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +82,15 @@ public class PhotosTakingActivity extends Activity {
 			captureButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ProgressDialog progress = new ProgressDialog(PhotosTakingActivity.this);
-					progress.setMessage(PhotosTakingActivity.this.getResources().getString(R.string.photo_taking_wait_message));
-					progress.show();
-					mCamera.takePicture(null, null, mPicture);
+					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					File photo = new File(Environment.getExternalStorageDirectory(), "test.jpg");
+					imageUri = Uri.fromFile(photo);
+					intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+					startActivityForResult(intent, 0);
+//					ProgressDialog progress = new ProgressDialog(PhotosTakingActivity.this);
+//					progress.setMessage(PhotosTakingActivity.this.getResources().getString(R.string.photo_taking_wait_message));
+//					progress.show();
+//					mCamera.takePicture(null, null, mPicture);
 				}
 			});
 			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
@@ -93,6 +99,43 @@ public class PhotosTakingActivity extends Activity {
 			Toast.makeText(this, getResources().getString(R.string.unavailable_camera),
 					Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+	    switch (requestCode) {
+	    case 0:
+	        if (resultCode == Activity.RESULT_OK) {
+				PhotoManager photoManager = new PhotoManager(
+						PhotosTakingActivity.this);
+				Bitmap filteredPicture = photoManager.computePhotoWithfilter(imageUri, chosenFilter);
+				File pictureFile = getOutputMediaFile();
+				if (pictureFile == null) {
+					Log.d("DEBUG",
+							"Error creating media file, check storage permissions: ");
+					return;
+				}
+				try {
+					FileOutputStream fos = new FileOutputStream(pictureFile);
+					if (fos != null) {
+						filteredPicture.compress(Bitmap.CompressFormat.PNG, 100,
+								fos);
+					}
+					fos.close();
+				} catch (FileNotFoundException e) {
+					Log.d("DEBUG", "File not found: " + e.getMessage());
+				} catch (IOException e) {
+					Log.d("DEBUG", "Error accessing file: " + e.getMessage());
+				}
+				goToValidationActivity(pictureFile.getAbsolutePath());
+
+//				Intent intent = new Intent();
+//	        	intent.setAction(Intent.ACTION_VIEW);
+//	        	intent.setDataAndType(imageUri, "image/*");
+//	        	startActivity(intent);
+	        }
+	    }
 	}
 
 	private void addFilterToFilterBarLayout(LinearLayout filtersLayout, FilterModel filter) {
@@ -158,38 +201,38 @@ public class PhotosTakingActivity extends Activity {
 		return camera;
 	}
 
-	private PictureCallback mPicture = new PictureCallback() {
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-
-			PhotoManager photoManager = new PhotoManager(
-					PhotosTakingActivity.this);
-			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,
-					chosenFilter);
-
-			File pictureFile = getOutputMediaFile();
-			if (pictureFile == null) {
-				Log.d("DEBUG",
-						"Error creating media file, check storage permissions: ");
-				return;
-			}
-
-			try {
-				FileOutputStream fos = new FileOutputStream(pictureFile);
-				if (fos != null) {
-					filteredPicture.compress(Bitmap.CompressFormat.PNG, 100,
-							fos);
-				}
-				fos.close();
-			} catch (FileNotFoundException e) {
-				Log.d("DEBUG", "File not found: " + e.getMessage());
-			} catch (IOException e) {
-				Log.d("DEBUG", "Error accessing file: " + e.getMessage());
-			}
-
-			goToValidationActivity(pictureFile.getAbsolutePath());
-		}
-	};
+//	private PictureCallback mPicture = new PictureCallback() {
+//		@Override
+//		public void onPictureTaken(byte[] data, Camera camera) {
+//
+//			PhotoManager photoManager = new PhotoManager(
+//					PhotosTakingActivity.this);
+//			Bitmap filteredPicture = photoManager.computePhotoWithfilter(data,
+//					chosenFilter);
+//
+//			File pictureFile = getOutputMediaFile();
+//			if (pictureFile == null) {
+//				Log.d("DEBUG",
+//						"Error creating media file, check storage permissions: ");
+//				return;
+//			}
+//
+//			try {
+//				FileOutputStream fos = new FileOutputStream(pictureFile);
+//				if (fos != null) {
+//					filteredPicture.compress(Bitmap.CompressFormat.PNG, 100,
+//							fos);
+//				}
+//				fos.close();
+//			} catch (FileNotFoundException e) {
+//				Log.d("DEBUG", "File not found: " + e.getMessage());
+//			} catch (IOException e) {
+//				Log.d("DEBUG", "Error accessing file: " + e.getMessage());
+//			}
+//
+//			goToValidationActivity(pictureFile.getAbsolutePath());
+//		}
+//	};
 
 	@Override
 	protected void onPause() {
