@@ -14,6 +14,7 @@
     <string name="map_activity_deactivated">Le plan sera bientôt disponible</string>
     <string name="photos_taking_activity">Photos</string>
     <string name="photos_validating_activity">Photos</string>
+    <string name="photo_activity_deactivated">Bientôt disponible</string>
     <string name="partner_activity">Partenaires</string>
     <string name="back_button">Retour arrière</string>
     <string name="header_icon">Icone header</string>
