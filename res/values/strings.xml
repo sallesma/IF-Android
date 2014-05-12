@@ -100,8 +100,8 @@
     <string name="programmation_title_2">TIMELINE</string>
     <string name="button_first_day">Vendredi 30</string>
     <string name="button_second_day">Samedi 31</string>
-    <string name="main_stage">Scène principale</string>
-    <string name="second_stage">Scène secondaire</string>
+    <string name="main_stage">Main Stage</string>
+    <string name="second_stage">SG Music Arena</string>
     <string name="programmation_icon">Programmation</string>
 
     <!--  -->

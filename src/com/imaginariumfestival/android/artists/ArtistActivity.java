@@ -20,6 +20,8 @@ import com.imaginariumfestival.android.database.ArtistDataSource;
 import com.imaginariumfestival.android.database.MySQLiteHelper;
 
 public class ArtistActivity extends Activity {
+	private static final String BACKOFFICE_MAIN_STAGE = "principale";
+	private static final String BACKOFFICE_SECOND_STAGE = "chapiteau";
 	private ArtistModel artist;
 
 	@Override
@@ -54,7 +56,17 @@ public class ArtistActivity extends Activity {
 		
 		((TextView)findViewById(R.id.artistProgrammationDay)).setText(artist.getDay());
 		((TextView)findViewById(R.id.artistProgrammationHour)).setText(artist.getBeginHour().substring(0, 5));
-		((TextView)findViewById(R.id.artistProgrammationStage)).setText(artist.getStage());
+		
+		if (artist.getStage().equals(BACKOFFICE_MAIN_STAGE)) {
+			((TextView)findViewById(R.id.artistProgrammationStage))
+				.setText(getResources().getString(R.string.main_stage));
+		} else if (artist.getStage().equals(BACKOFFICE_SECOND_STAGE)) {
+			((TextView)findViewById(R.id.artistProgrammationStage))
+				.setText(getResources().getString(R.string.second_stage));
+		} else {
+			((TextView)findViewById(R.id.artistProgrammationStage))
+				.setText("");
+		}
 		
 		TextView artistDescription = (TextView)findViewById(R.id.artistDescription);
 		artistDescription.setText(artist.getDescription());
