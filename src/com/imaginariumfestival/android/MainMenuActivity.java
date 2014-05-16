@@ -70,33 +70,23 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 	}
 
 	private void competitionOrDefault() {
-		TextView aboutView = (TextView) findViewById(R.id.about);
 		Button competitionButton = (Button) findViewById(R.id.button_competition);
-		competitionButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SharedPreferences pref = getApplicationContext().getSharedPreferences(CompetitionSending.COMPETITION_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		        boolean sent = pref.getBoolean(CompetitionSending.COMPETITION_SENT, false);
-				if (!sent) {
-					FragmentManager fm = getFragmentManager();
-					CompetitionDialog competitionDialog = new CompetitionDialog();
-					competitionDialog.show(fm, "fragment_competition");
-				} else {
-					Toast.makeText(MainMenuActivity.this,
-							getResources().getString(R.string.competition_already_done),
-							Toast.LENGTH_SHORT).show();
-					Log.i("Competition", "Competition already done");
-				}
-			}
-		});
-		if (isCompetitionValid()) {
-			aboutView.setVisibility(View.GONE);
+		SharedPreferences pref = getApplicationContext().getSharedPreferences(CompetitionSending.COMPETITION_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        boolean sent = pref.getBoolean(CompetitionSending.COMPETITION_SENT, false);
+		if (!sent) {
 			competitionButton.setVisibility(View.VISIBLE);
+			competitionButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+						FragmentManager fm = getFragmentManager();
+						CompetitionDialog competitionDialog = new CompetitionDialog();
+						competitionDialog.show(fm, "fragment_competition");
+				}
+			});
 		} else {
-			aboutView.setVisibility(View.VISIBLE);
-			competitionButton.setVisibility(View.GONE);
-			Typeface euroFont = Typeface.createFromAsset(getAssets(), "eurof55.ttf");
-			aboutView.setTypeface(euroFont);
+			competitionButton.setVisibility(Button.GONE);
+			Log.i("Competition", "Competition already done");
 		}
 	}
 	
@@ -109,10 +99,6 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 			Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
 		}
     }
-	
-	private boolean isCompetitionValid() {
-		return true;
-	}
 	
 	private void initializeMenuButtonsLinks() {
 		ImageButton artistsButton = (ImageButton) findViewById(R.id.artistsButton);

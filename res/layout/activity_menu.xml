@@ -166,19 +166,6 @@
             android:text="@string/competition_button"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/about"
-            style="@style/WhiteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="@string/about"
-            android:textColor="#aaaaaa"
-            android:textSize="18sp" />
-
         <ImageButton
             android:id="@+id/show_news"
             android:layout_width="wrap_content"
