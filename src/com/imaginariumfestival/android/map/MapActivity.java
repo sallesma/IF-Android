@@ -171,8 +171,8 @@ public class MapActivity extends Activity implements FilteringDialog.FilteringDi
 					currentX = event.getX();
 					currentY = event.getY();
 					// If it is a click on the map, hide map item popup
-					if (Math.abs(currentX - originX) < 10
-							&& Math.abs(currentY - originY) < 10 )
+					if (Math.abs(currentX - originX) < 15
+							&& Math.abs(currentY - originY) < 15 )
 						map.performClick();
 					break;
 				case MotionEvent.ACTION_MOVE:
