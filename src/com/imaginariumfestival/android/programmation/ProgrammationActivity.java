@@ -167,9 +167,9 @@ public class ProgrammationActivity extends Activity {
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
 
 		final String stage = artist.getStage();
-		if ( stage.equals(ArtistModel.MAIN_STAGE) ) {
+		if ( stage.equals(ArtistModel.BACKOFFICE_MAIN_STAGE) ) {
 			mainStageLayout.addView(view, params);
-		} else if ( stage.equals(ArtistModel.SECOND_STAGE) ) {
+		} else if ( stage.equals(ArtistModel.BACKOFFICE_SECOND_STAGE) ) {
 			secondStageLayout.addView(view, params);
 		}
 

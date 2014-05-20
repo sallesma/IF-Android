@@ -9,13 +9,16 @@ import java.util.TimeZone;
 
 import com.imaginariumfestival.android.programmation.ProgrammationActivity;
 
+
 public class ArtistModel {
 	private static final int DAY_OF_MONTH = 30;
 	private static final int MONTH = Calendar.MAY;
 	private static final int YEAR = 2014;
 
-	public static final String MAIN_STAGE = "principale";
-	public static final String SECOND_STAGE = "chapiteau";
+	public static final String BACKOFFICE_MAIN_STAGE = "principale";
+	public static final String BACKOFFICE_SECOND_STAGE = "chapiteau";
+	public static final String MAIN_STAGE_NAME = "Main Stage";
+	public static final String SECOND_STAGE_NAME = "SG Music Arena";
 	
 	private long id;
 	private String name;
@@ -68,7 +71,7 @@ public class ArtistModel {
 	}
 
 	public String getProgrammation(){
-		return  stage + " - " + day + " " + beginHour.substring(0, 5);
+		return  getStageName() + " - " + day + " " + beginHour.substring(0, 5);
 	}
 	
 	public Date getAbsoluteDate() {
@@ -94,6 +97,16 @@ public class ArtistModel {
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		return calendar.getTime();
+	}
+	
+	public String getStageName(){
+		if (getStage().equals(BACKOFFICE_MAIN_STAGE)) {
+			return MAIN_STAGE_NAME;
+		} else if (getStage().equals(BACKOFFICE_SECOND_STAGE)) {
+			return SECOND_STAGE_NAME;
+		} else {
+			return "";
+		}
 	}
 	
 	public long getId() {
