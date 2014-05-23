@@ -91,9 +91,9 @@ public class ArtistActivity extends Activity {
 						Toast.makeText(ArtistActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
 					}
 				}
-			});	
+			});
 		} else {
-			button.setImageAlpha(50);
+			button.setVisibility(ImageButton.INVISIBLE);
 		}
 		Utils.addAlphaEffectOnClick(button);
 	}
