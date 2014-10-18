@@ -208,9 +208,8 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				String isCategory = c.getString(MySQLiteHelper.COLUMN_IS_CATEGORY);
 				String content = c.getString(MySQLiteHelper.COLUMN_CONTENT);
 				Long parent = Long.valueOf( c.getString(MySQLiteHelper.COLUMN_PARENT_ID) );
-				String isDisplayedOnMap = c.getString(MySQLiteHelper.COLUMN_IS_DISPLAYED_ON_MAP);
 				
-				datasource.insertInfo(id, name, picture, isCategory, content, parent, isDisplayedOnMap);
+				datasource.insertInfo(id, name, picture, isCategory, content, parent);
 			}
 			datasource.close();
 			return true;
@@ -445,8 +444,11 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				while ((line = reader.readLine()) != null) {
 					builder.append(line + "\n");
 				}
-			} else {
-				Log.e(MainMenuActivity.class.toString(), "Failed to download file from " + URL);
+			} else if (statusCode == 304) {
+				Log.i(MainMenuActivity.class.toString(), "No data to update from " + URL);
+			}
+			else {
+				Log.e(MainMenuActivity.class.toString(), "Failed to download file from " + URL + " Status code: " + statusCode);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

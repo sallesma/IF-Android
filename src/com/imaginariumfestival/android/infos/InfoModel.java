@@ -1,5 +1,12 @@
 package com.imaginariumfestival.android.infos;
 
+import java.util.List;
+
+import android.content.Context;
+
+import com.imaginariumfestival.android.database.MapItemsDataSource;
+import com.imaginariumfestival.android.map.MapItemModel;
+
 public class InfoModel {
 	private long id;
 	private String name;
@@ -7,7 +14,6 @@ public class InfoModel {
 	private Boolean isCategory;
 	private String content;
 	private long parentId;
-	private Boolean isDisplayedOnMap;
 	
 	public InfoModel() {
 		super();
@@ -17,11 +23,10 @@ public class InfoModel {
 		this.isCategory = false;
 		this.content = "";
 		this.parentId = 0;
-		this.isDisplayedOnMap = false;
 	}
 
 	public InfoModel(long id, String name, String picture, String isCategory,
-			String content, long parentId, String isDisplayedOnMap) {
+			String content, long parentId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,10 +37,6 @@ public class InfoModel {
 			this.isCategory = false;
 		this.content = content;
 		this.parentId = parentId;
-		if (Boolean.valueOf(isDisplayedOnMap) || isDisplayedOnMap.equals("1"))
-			this.isDisplayedOnMap = true;
-		else
-			this.isDisplayedOnMap = false;
 	}
 
 	public long getId() {
@@ -86,16 +87,20 @@ public class InfoModel {
 		this.parentId = parentId;
 	}
 	
-	public Boolean getIsDisplayedOnMap() {
-		return isDisplayedOnMap;
+	public Boolean getIsDisplayedOnMap(Context context) {
+		MapItemsDataSource datasource = new MapItemsDataSource(context);
+		datasource.open();
+		List<MapItemModel> mapItemModels = datasource.getAllMapItems();
+		datasource.close();
+		for (MapItemModel mapItemModel : mapItemModels) {
+			if (mapItemModel.getInfoId() == this.getId())
+				return true;
+		}
+		return false;
 	}
-
-	public void setIsDisplayedOnMap(Boolean isDisplayedOnMap) {
-		this.isDisplayedOnMap = isDisplayedOnMap;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "InfoModel [name=" + name + " - isCategory=" + isCategory + " - isDisplayedOnMap=" + isDisplayedOnMap + "]";
+		return "InfoModel [name=" + name + " - isCategory=" + isCategory + "]";
 	}
 }

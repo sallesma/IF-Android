@@ -52,7 +52,7 @@ public class InfoActivity extends Activity {
 			
 			fillViewWithInfoData();
 			
-			if (info.getIsDisplayedOnMap()) {
+			if (info.getIsDisplayedOnMap(this.getApplicationContext())) {
 				((Button) findViewById(R.id.action_type_see_on_map)).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

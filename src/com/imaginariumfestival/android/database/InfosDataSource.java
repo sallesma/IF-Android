@@ -23,8 +23,7 @@ public class InfosDataSource {
 			MySQLiteHelper.COLUMN_PICTURE,
 			MySQLiteHelper.COLUMN_IS_CATEGORY, 
 			MySQLiteHelper.COLUMN_CONTENT,
-			MySQLiteHelper.COLUMN_PARENT_ID,
-			MySQLiteHelper.COLUMN_IS_DISPLAYED_ON_MAP };
+			MySQLiteHelper.COLUMN_PARENT_ID };
  
     public InfosDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -39,7 +38,7 @@ public class InfosDataSource {
     }
     
 	public InfoModel insertInfo(long id, String name, String picture,
-			String isCategory, String content, long parentId, String isDisplayedOnMap) {
+			String isCategory, String content, long parentId) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_ID, id);
@@ -48,7 +47,6 @@ public class InfosDataSource {
 		values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, isCategory);
 		values.put(MySQLiteHelper.COLUMN_CONTENT, content);
 		values.put(MySQLiteHelper.COLUMN_PARENT_ID, parentId);
-		values.put(MySQLiteHelper.COLUMN_IS_DISPLAYED_ON_MAP, isDisplayedOnMap);
 		long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_INFOS,
 				null, values);
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_INFOS, allColumns,
@@ -68,7 +66,6 @@ public class InfosDataSource {
         values.put(MySQLiteHelper.COLUMN_IS_CATEGORY, info.getIsCategory());
         values.put(MySQLiteHelper.COLUMN_CONTENT, info.getContent());
         values.put(MySQLiteHelper.COLUMN_PARENT_ID, info.getParentId());
-        values.put(MySQLiteHelper.COLUMN_PARENT_ID, info.getIsDisplayedOnMap());
  
         database.update(MySQLiteHelper.TABLE_INFOS, values, MySQLiteHelper.COLUMN_ID + " = " +info.getId(), null);
  
@@ -144,11 +141,6 @@ public class InfosDataSource {
 	        }
 	        info.setContent(cursor.getString(4));
 	        info.setParentId(cursor.getLong(5));
-	        if (cursor.getString(6).equals("1")) {
-	        	info.setIsDisplayedOnMap( true );
-	        } else {
-	        	info.setIsDisplayedOnMap( false );
-	        }
 	        return info;
         } else {
         	return null;

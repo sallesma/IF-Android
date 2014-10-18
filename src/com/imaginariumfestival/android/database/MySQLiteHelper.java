@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private Context context;
     
     public static final String TABLE_ARTIST = "artists";
@@ -33,7 +33,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_IS_CATEGORY = "isCategory";
 	public static final String COLUMN_CONTENT = "content";
 	public static final String COLUMN_PARENT_ID = "parent";
-	public static final String COLUMN_IS_DISPLAYED_ON_MAP = "isDisplayedOnMap";
 	public static final String COLUMN_TITLE = "title";
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_LABEL = "label";
@@ -68,8 +67,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				COLUMN_PICTURE + " text not null, " +
 				COLUMN_IS_CATEGORY + " INTEGER not null, " +
 				COLUMN_CONTENT + " text not null, " +
-				COLUMN_PARENT_ID + " INTEGER not null, " +
-				COLUMN_IS_DISPLAYED_ON_MAP + " INTEGER not null)");
+				COLUMN_PARENT_ID + " INTEGER not null)");
 		db.execSQL("CREATE TABLE " + TABLE_NEWS + "(" +
 				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				COLUMN_TITLE + " text not null, " +
