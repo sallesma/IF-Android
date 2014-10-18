@@ -415,8 +415,9 @@ public class BackTask extends AsyncTask<Void, Integer, Void> {
 				String name = c.getString(MySQLiteHelper.COLUMN_NAME);
 				String picture = c.getString(MySQLiteHelper.COLUMN_PICTURE);
 				String website = c.getString(MySQLiteHelper.COLUMN_WEBSITE);
+				int priority = c.getInt(MySQLiteHelper.COLUMN_PRIORITY);
 
-				datasource.insertPartner(id, name, picture, website);
+				datasource.insertPartner(id, name, picture, website, priority);
 			}
 			datasource.close();
 			return true;

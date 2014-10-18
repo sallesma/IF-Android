@@ -21,7 +21,8 @@ public class PartnersDataSource {
 			MySQLiteHelper.COLUMN_ID,
 			MySQLiteHelper.COLUMN_NAME, 
 			MySQLiteHelper.COLUMN_PICTURE,
-			MySQLiteHelper.COLUMN_WEBSITE };
+			MySQLiteHelper.COLUMN_WEBSITE,
+			MySQLiteHelper.COLUMN_PRIORITY };
  
     public PartnersDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -36,13 +37,14 @@ public class PartnersDataSource {
     }
     
 	public PartnerModel insertPartner(long id, String name, String picture,
-			String website) {
+			String website, int priority) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_ID, id);
 		values.put(MySQLiteHelper.COLUMN_NAME, name);
 		values.put(MySQLiteHelper.COLUMN_PICTURE, picture);
 		values.put(MySQLiteHelper.COLUMN_WEBSITE, website);
+		values.put(MySQLiteHelper.COLUMN_PRIORITY, priority);
 		long insertId = database.insertOrThrow(MySQLiteHelper.TABLE_PARTNERS,
 				null, values);
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_PARTNERS, allColumns,
@@ -60,6 +62,7 @@ public class PartnersDataSource {
         values.put(MySQLiteHelper.COLUMN_NAME, partner.getName());
         values.put(MySQLiteHelper.COLUMN_PICTURE, partner.getPicture());
         values.put(MySQLiteHelper.COLUMN_WEBSITE, partner.getWebsite());
+        values.put(MySQLiteHelper.COLUMN_PRIORITY, partner.getPriority());
  
         database.update(MySQLiteHelper.TABLE_PARTNERS, values, MySQLiteHelper.COLUMN_ID + " = " + partner.getId(), null);
  
@@ -80,7 +83,8 @@ public class PartnersDataSource {
 		List<PartnerModel> partners = new ArrayList<PartnerModel>();
 
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_PARTNERS,
-				allColumns, null, null, null, null, null);
+				allColumns, null, null, null, null,
+				MySQLiteHelper.COLUMN_PRIORITY + " DESC, " + MySQLiteHelper.COLUMN_NAME);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -129,6 +133,7 @@ public class PartnersDataSource {
 	        partner.setName(cursor.getString(1));
 	        partner.setPicture(cursor.getString(2));
 	        partner.setWebsite(cursor.getString(3));
+	        partner.setPriority(cursor.getInt(4));
 	        return partner;
         } else {
         	return null;

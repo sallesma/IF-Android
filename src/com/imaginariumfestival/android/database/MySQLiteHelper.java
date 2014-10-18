@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "imaginarium.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private Context context;
     
     public static final String TABLE_ARTIST = "artists";
@@ -39,6 +39,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_X = "x";
 	public static final String COLUMN_Y = "y";
 	public static final String COLUMN_INFO_ID = "infoId";
+	public static final String COLUMN_PRIORITY = "priority";
 
 	public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -86,7 +87,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 				COLUMN_NAME + " text not null, " +
 				COLUMN_WEBSITE + " text not null, " +
-				COLUMN_PICTURE + " text not null)");
+				COLUMN_PICTURE + " text not null, " +
+				COLUMN_PRIORITY + " INTEGER not null)");
 	}
 
 	@Override
