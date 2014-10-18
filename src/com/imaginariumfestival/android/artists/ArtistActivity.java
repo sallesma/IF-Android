@@ -2,6 +2,7 @@ package com.imaginariumfestival.android.artists;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -68,9 +69,10 @@ public class ArtistActivity extends Activity {
 		updateLink(artist.getYoutube(), R.id.youtubeIcon);
 
 		String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
-		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(Utils
-				.decodeSampledBitmapFromFile(filePath, getResources(),
-						R.drawable.artist_empty_icon, 200, 200));
+		Bitmap icon = Utils.decodeSampledBitmapFromFile(filePath, getResources(),
+						R.drawable.artist_empty_icon, 200, 200);
+		icon = Utils.getRoundedCornerBitmap(icon, 30);
+		((ImageView) findViewById(R.id.artist_icon)).setImageBitmap(icon);
 	}
 
 	private void updateLink(final String url, final int viewId) {

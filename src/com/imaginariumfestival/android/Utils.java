@@ -3,7 +3,13 @@ package com.imaginariumfestival.android;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.net.ConnectivityManager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +46,29 @@ public class Utils {
 				return false;
 			}
 		});
+	}
+	
+	/*
+	 * Add round corners to bitmap
+	 */
+	public static Bitmap getRoundedCornerBitmap(final Bitmap source, final int radius) {
+	    final Bitmap output = Bitmap.createBitmap(source.getWidth(), source
+	            .getHeight(), Config.ARGB_8888);
+	    final Canvas canvas = new Canvas(output);
+	    final BitmapShader shader = new BitmapShader(source, Shader.TileMode.CLAMP,
+	            Shader.TileMode.CLAMP);
+
+	    final Paint paint = new Paint();
+	    paint.setAntiAlias(true);
+	    paint.setShader(shader);
+
+	    // rect contains the bounds of the shape
+	    // radius is the radius in pixels of the rounded corners
+	    // paint contains the shader that will texture the shape
+	    final RectF rect = new RectF(0.0f, 0.0f, source.getWidth(), source.getHeight());
+	    canvas.drawRoundRect(rect, radius, radius, paint);
+
+	    return output;
 	}
 	
 	/*

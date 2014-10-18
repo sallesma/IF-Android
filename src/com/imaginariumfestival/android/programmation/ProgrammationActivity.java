@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -205,10 +206,11 @@ public class ProgrammationActivity extends Activity {
 				((TextView) child).setTypeface(euroFont);
 			} else if (child.getId() == R.id.programmation_icon ) {
 				String filePath = getApplicationContext().getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
-				((ImageView) child).setImageBitmap(Utils
-						.decodeSampledBitmapFromFile(filePath,
-								getResources(),
-								R.drawable.artist_empty_icon, 70, 70));
+				
+				Bitmap icon = Utils.decodeSampledBitmapFromFile(filePath, getResources(),
+						R.drawable.artist_empty_icon, 70, 70);
+				icon = Utils.getRoundedCornerBitmap(icon, 20);
+				((ImageView) child).setImageBitmap(icon);
 			}
 		}
 	}

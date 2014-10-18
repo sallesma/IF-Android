@@ -54,6 +54,7 @@ public class ArtistsStyleAdapter extends BaseAdapter implements SectionIndexer {
         	String filePath = context.getFilesDir() + "/" + MySQLiteHelper.TABLE_ARTIST + "/" + artist.getName();
     		Bitmap artistIcon = Utils.decodeSampledBitmapFromFile(filePath,context.getResources(),
     				R.drawable.artist_empty_icon, 80, 80);
+    		artistIcon = Utils.getRoundedCornerBitmap(artistIcon, 20);
     		artistsIcons.put(artist.getId(), artistIcon);
 		}
     }
