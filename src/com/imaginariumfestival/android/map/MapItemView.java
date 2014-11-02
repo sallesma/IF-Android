@@ -24,8 +24,8 @@ public class MapItemView extends ImageView implements Comparable<MapItemView> {
 	}
 	
 	public void initPosition() {
-		int absoluteXPos = mapItemModel.getX() * mapBitmapWidth / 1000;
-		int absoluteYPos = mapItemModel.getY() * mapBitmapHeigt / 1000;
+		int absoluteXPos = mapItemModel.getX() * mapBitmapWidth / 100;
+		int absoluteYPos = mapItemModel.getY() * mapBitmapHeigt / 100;
 		RelativeLayout.LayoutParams pointLayoutParams = (RelativeLayout.LayoutParams) getLayoutParams();
 		pointLayoutParams.width = LayoutParams.WRAP_CONTENT;
 		pointLayoutParams.height = LayoutParams.WRAP_CONTENT;
