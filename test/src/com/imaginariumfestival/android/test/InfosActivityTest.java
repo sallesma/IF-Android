@@ -38,36 +38,41 @@ public class InfosActivityTest extends
 
 	public void testListItemIsNotEmpty() {
 		assertNotSame(0, mListView.getAdapter().getCount());
-	}	
-	
-	@UiThreadTest
-	public void testOnInfoClickStartsActivity() {
-	    //Given
-		ActivityMonitor monitor = getInstrumentation().addMonitor(InfoActivity.class.getName(), null, true);
-		assertEquals(0, monitor.getHits());
-		monitor.waitForActivityWithTimeout(1);
-		
-		//when
-		mListView.getAdapter().getView(0, null, null).performClick();
-		
-		//then
-		if ( !((InfoModel) mListView.getAdapter().getItem(0)).getIsCategory() )
-			assertTrue(1 == monitor.getHits());
 	}
 	
 	@UiThreadTest
-	public void testOnCategoryClickUpdateList() {
+	public void testOnItemClick() {
 	    //Given
 		ActivityMonitor monitor = getInstrumentation().addMonitor(InfoActivity.class.getName(), null, true);
 		assertEquals(0, monitor.getHits());
 		monitor.waitForActivityWithTimeout(1);
 		
-		//when
-		mListView.getAdapter().getView(0, null, null).performClick();
-		
-		//then
-		if ( ((InfoModel)mListView.getAdapter().getItem(0)).getIsCategory() )
-			assertTrue(0 == monitor.getHits());
+		//Test click on category
+		for (int i = 0; i < mListView.getAdapter().getCount(); i++) {
+			InfoModel info = (InfoModel)mListView.getAdapter().getItem(i);
+			if (info.getIsCategory())
+			{
+				//when
+				mListView.getAdapter().getView(i, null, null).performClick();
+			
+				//then
+				assertTrue(0 == monitor.getHits());
+				break;
+			}
+		}
+		//Test click on info
+		for (int i = 0; i < mListView.getAdapter().getCount(); i++) {
+			InfoModel info = (InfoModel)mListView.getAdapter().getItem(i);
+			if (!info.getIsCategory())
+			{
+				//when
+				mListView.getAdapter().getView(i, null, null).performClick();
+			
+				//then
+				assertTrue(1 == monitor.getHits());
+				break;
+			}
+		}
 	}
 	
 	@UiThreadTest
