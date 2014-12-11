@@ -60,7 +60,6 @@ public class MainMenuActivityTest extends
 		assertTrue(facebookButton.hasOnClickListeners());
 		assertTrue(twitterButton.hasOnClickListeners());
 		assertTrue(googlePlusButton.hasOnClickListeners());
-		assertTrue(showNewsButton.dispatchTouchEvent(MotionEvent.obtain(1, 5, MotionEvent.ACTION_MOVE, 2, 3, 0)));
 		assertTrue(mActivity.findViewById(android.R.id.content) != null);
 	}
 	
