@@ -2,6 +2,7 @@ package com.imaginariumfestival.android.test;
 
 import android.app.Instrumentation.ActivityMonitor;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 
 import com.imaginariumfestival.android.MainMenuActivity;
@@ -21,6 +22,10 @@ public class MainMenuActivityTest extends
 	private ImageButton mapButton;
 	private ImageButton photosButton;
 	private ImageButton partnersButton;
+	private ImageButton facebookButton;
+	private ImageButton twitterButton;
+	private ImageButton googlePlusButton;
+	private ImageButton showNewsButton;
 
 	public MainMenuActivityTest() {
 		super(MainMenuActivity.class);
@@ -37,6 +42,12 @@ public class MainMenuActivityTest extends
 		mapButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.mapButton);
 		photosButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.photosButton);
 		partnersButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.partnersButton);
+		
+		facebookButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.facebook_home_icon);
+		twitterButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.twitter_home_icon);
+		googlePlusButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.google_plus_home_icon);
+		
+		showNewsButton = (ImageButton) mActivity.findViewById(com.imaginariumfestival.android.R.id.show_news);
 	}
 	
 	public void testPreConditions() {
@@ -46,6 +57,10 @@ public class MainMenuActivityTest extends
 		assertTrue(mapButton.hasOnClickListeners());
 		assertTrue(photosButton.hasOnClickListeners());
 		assertTrue(partnersButton.hasOnClickListeners());
+		assertTrue(facebookButton.hasOnClickListeners());
+		assertTrue(twitterButton.hasOnClickListeners());
+		assertTrue(googlePlusButton.hasOnClickListeners());
+		assertTrue(showNewsButton.dispatchTouchEvent(MotionEvent.obtain(1, 5, MotionEvent.ACTION_MOVE, 2, 3, 0)));
 		assertTrue(mActivity.findViewById(android.R.id.content) != null);
 	}
 	
