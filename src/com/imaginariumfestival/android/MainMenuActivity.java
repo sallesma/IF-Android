@@ -33,6 +33,7 @@ import com.imaginariumfestival.android.infos.InfosActivity;
 import com.imaginariumfestival.android.map.MapActivity;
 import com.imaginariumfestival.android.news.NewsModel;
 import com.imaginariumfestival.android.partners.PartnersActivity;
+import com.imaginariumfestival.android.photos.PhotosTakingActivity;
 import com.imaginariumfestival.android.programmation.ProgrammationActivity;
 
 public class MainMenuActivity extends Activity implements CompetitionDialogListener {
@@ -137,9 +138,8 @@ public class MainMenuActivity extends Activity implements CompetitionDialogListe
 		photosButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
-//				startActivity(toPhotosActivity);
-				Toast.makeText(MainMenuActivity.this, getResources().getString(R.string.photo_activity_deactivated), Toast.LENGTH_SHORT).show();
+				Intent toPhotosActivity = new Intent(MainMenuActivity.this, PhotosTakingActivity.class);
+				startActivity(toPhotosActivity);
 			}
 		});
 		ImageButton partnersButton = (ImageButton) findViewById(R.id.partnersButton);
